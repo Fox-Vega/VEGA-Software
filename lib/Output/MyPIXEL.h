@@ -3,10 +3,12 @@
 
 
 //ajustments
-#define PIXEL_Brightness 255 // Set to 0 for darkest and 255 for brightest
+const bool USEPIXELS = true; // Set to true to use NeoPixels, false to disable
+const int PIXEL_Brightness = 255; // Set to 0 for darkest and 255 for brightest
 
 class MyPIXEL {
     public:
+        void MyPIXEL_Setup();
         void MyPIXEL_Start(int NumPIXEL, int Color[3]);
         void MyPIXEL_Clear();
 
