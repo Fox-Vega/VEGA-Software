@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 
-
 //ajustments
 const bool USEPIXELS = true; // Set to true to use NeoPixels, false to disable
 const int PIXEL_Brightness = 255; // Set to 0 for darkest and 255 for brightest
@@ -9,7 +8,7 @@ const int PIXEL_Brightness = 255; // Set to 0 for darkest and 255 for brightest
 class MyPIXEL {
     public:
         void MyPIXEL_Setup();
-        void MyPIXEL_Start(int NumPIXEL, int Color[3]);
+        void MyPIXEL_Start(int PIXELNum, int Color[3]);
         void MyPIXEL_Clear();
 
         // Color presets
@@ -23,7 +22,7 @@ class MyPIXEL {
 
     private:
         // NeoPixel setup
-        #define PIXEL_PIN 0 // Pin where the NeoPixel ring is connected
-        #define NUMPIXELS 16 // Number of pixels in the strip
+        const int PIXEL_PIN = 0; // Pin where the NeoPixel ring is connected
+        const int NUMPIXELS = 16; // Number of pixels in the strip
         Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
 };
