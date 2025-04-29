@@ -1,4 +1,5 @@
 #include <Output.h>
 
-MyLINE myline;
+
+MyPIXEL mypixel;
 MyBUZZER mybuzzer;

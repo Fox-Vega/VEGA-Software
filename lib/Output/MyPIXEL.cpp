@@ -1,13 +1,23 @@
 #include <MyPIXEL.h>
 
+
 void MyPIXEL::MyPIXEL_Setup() {
         pixels.begin();
         pixels.setBrightness(PIXEL_Brightness);
 }
 
-void MyPIXEL::MyPIXEL_Start(int PIXELNum, int Color[3]) {
+void MyPIXEL::MyPIXEL_Uni(int PIXELNum, int Red, int Green, int Blue) {
     if (USEPIXELS == true) {
-        pixels.setPixelColor(PIXELNum, pixels.Color(Color[0], Color[1], Color[2]));
+        pixels.setPixelColor(PIXELNum, pixels.Color(Red, Green, Blue));
+        pixels.show();
+    }
+}
+
+void MyPIXEL::MyPIXEL_Multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int Blue) {
+    if (USEPIXELS == true) {
+        for (int i = PIXELNumStart; i <= PIXELNumEnd; i++) {
+            pixels.setPixelColor(i, pixels.Color(Red, Green, Blue));
+        }
         pixels.show();
     }
 }

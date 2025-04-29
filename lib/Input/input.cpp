@@ -1,3 +1,3 @@
 #include <Input.h>
 
-MyPIXEL mypixel;
+MyLINE myline;
