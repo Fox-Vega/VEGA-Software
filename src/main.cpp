@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <stdio.h>
 #include <MyPIXEL.h>
 #include "Output.h"
 
