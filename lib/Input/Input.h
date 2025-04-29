@@ -1,5 +1,5 @@
 #pragma once
 
-#include<MyPIXEL.h>
+#include<MyLINE.h>
 
-extern MyPIXEL mypixel;
+extern MyLINE myline;

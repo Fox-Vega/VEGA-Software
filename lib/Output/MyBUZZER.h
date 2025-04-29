@@ -1,4 +1,8 @@
+#pragma once
+
+
 #include <Arduino.h>
+
 
 class MyBUZZER {
     public:
@@ -6,5 +10,5 @@ class MyBUZZER {
         void MyBUZZER_Preset(int BUZZERPresetNum);
 
     private:
-        const int BUZZER_PIN = 45; // Pin where the Buzzer is connected
+        const int BUZZER_PIN = 47; // Pin where the Buzzer is connected
 };

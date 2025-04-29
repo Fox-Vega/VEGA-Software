@@ -1,7 +1,9 @@
 #pragma once
 
-#include<MyLINE.h>
+
+#include<MyPIXEL.h>
 #include<MyBUZZER.h>
 
-extern MyLINE myline;
+
+extern MyPIXEL mypixel;
 extern MyBUZZER mybuzzer;
