@@ -5,6 +5,15 @@
 #include <Adafruit_NeoPixel.h>
 
 
+// Color samples
+// int Red[3] = {255, 0, 0};
+// int Yellow[3] = {255, 255, 0};
+// int Green[3] = {0, 255, 0};
+// int Blue[3] = {0, 0, 255};
+// int Purple[3] = {255, 0, 255};
+// int White[3] = {255, 255, 255};
+
+
 class MyPIXEL {
     public:
         void MyPIXEL_Setup();
@@ -21,10 +30,12 @@ class MyPIXEL {
         Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
 };
 
-// Color presets
-// int Red[3] = {255, 0, 0};
-// int Yellow[3] = {255, 255, 0};
-// int Green[3] = {0, 255, 0};
-// int Blue[3] = {0, 0, 255};
-// int Purple[3] = {255, 0, 255};
-// int White[3] = {255, 255, 255};
+
+class MyBUZZER {
+    public:
+        void MyBUZZER_Start(int BUZZERNote, int BUZZERDuration);
+        void MyBUZZER_Preset(int BUZZERPresetNum);
+
+    private:
+        const int BUZZER_PIN = 47; // Pin where the Buzzer is connected
+};

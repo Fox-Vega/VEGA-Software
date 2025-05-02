@@ -1,8 +1,7 @@
 #pragma once
 
 
-#include<MyPIXEL.h>
-#include<MyBUZZER.h>
+#include<Others.h>
 
 
 extern MyPIXEL mypixel;
