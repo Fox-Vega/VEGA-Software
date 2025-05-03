@@ -24,6 +24,7 @@ class MyPIXEL {
         //ajustments
         const bool USEPIXELS = true; // Set to true to use NeoPixels, false to disable
         const int PIXEL_Brightness = 255; // Set to 0 for darkest and 255 for brightest
+        
         // NeoPixel setup
         const int PIXEL_PIN = 45; // Pin where the NeoPixel ring is connected
         const int NUMPIXELS = 16; // Number of pixels in the strip
