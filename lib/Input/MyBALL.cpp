@@ -1,5 +1,5 @@
 #include <MyBALL.h>
-#include <API.h>
+#include <Input.h>
 
 void MyBALL::MyBALL_Setup() {
     for (int i = 0; i < NUMBALLS; i++) {
@@ -30,4 +30,19 @@ int MyBALL::MyBALL_Read() {
 int MyBALL::Get_BALLDistance() {
     BALL_Distance = Max_BALLValue * BALLDistance_offset;
     return BALL_Distance; // Return the distance of the ball
+}
+
+int MyBALL::Get_BALLDirection() {
+    BALLNumStart = Max_BALLNum - 3;
+    Total_X = 0;
+    Total_Y = 0;
+    if (BALLNumStart < 0) {
+        BALLNumStart += 16;
+    }
+    for (int i = BALLNumStart; i < BALLNumStart + 6; i++) {
+        myvector.GetCordinate(BALL_Directions[i], myball.Get_BALLDistance());
+        Total_X += myvector.GetX();
+        Total_Y += myvector.GetY();
+    }
+    myvector.GetAzimuth(Total_X, Total_Y);
 }
