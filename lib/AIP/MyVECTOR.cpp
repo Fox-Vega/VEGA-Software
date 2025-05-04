@@ -7,13 +7,13 @@ void MyVECTOR::GetCordinate(float Azimuth, float Magnitude) {
     } else if (Theta > 180) {
         Theta -= 360;
     }
-    X = cos(Theta) * Magnitude;
-    Y = sin(Theta) * Magnitude;
+    X = cos(radians(Theta)) * Magnitude;
+    Y = sin(radians(Theta)) * Magnitude;
 }
 
 int MyVECTOR::GetAzimuth(float X, float Y) {
-    Theta =  atan2(Y, X);
-    Azimuth = 90 - Theta;
+    Theta = atan2(Y, X);
+    Azimuth = 90 - degrees(Theta);
     if (Azimuth < 0) { 
         Azimuth += 360;
     } else if (Azimuth > 360) {

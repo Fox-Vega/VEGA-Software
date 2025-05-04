@@ -1,5 +1,5 @@
 #include <MyBALL.h>
-
+#include <API.h>
 
 void MyBALL::MyBALL_Setup() {
     for (int i = 0; i < NUMBALLS; i++) {
@@ -20,7 +20,6 @@ int MyBALL::MyBALL_Read() {
         }
     }
     for (int i = 0; i < NUMBALLS; i++) {
-        BALL_Values_[i] = BALL_Values[i]; // Store the final ball values
         if (BALL_Values[i] > Max_BALLValue) {
             Max_BALLValue = BALL_Values[i]; // Update the maximum ball value
             Max_BALLNum = i; // Update the maximum ball pin number
