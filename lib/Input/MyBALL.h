@@ -3,10 +3,10 @@
 class MyBALL {
     public:
         void MyBALL_Setup();
-        int MyBALL_Check();
+        int MyBALL_Read();
         int Get_BALLDistance();
-        int BALL_Values[16];
-        bool BALL_Finished = false;
+        int BALL_Values_[16];
+        int BALL_Values[16]; //Final ball values
 
     private:
         // Adjustments

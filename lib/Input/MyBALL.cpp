@@ -7,7 +7,7 @@ void MyBALL::MyBALL_Setup() {
     }
 }
 
-int MyBALL::MyBALL_Check() {
+int MyBALL::MyBALL_Read() {
     Max_BALLValue = 0; // Reset the maximum ball value
     for (int i = 0; i < 16; i++) {
         BALL_Values[i] = 0; // Reset the ball values
@@ -20,12 +20,12 @@ int MyBALL::MyBALL_Check() {
         }
     }
     for (int i = 0; i < NUMBALLS; i++) {
+        BALL_Values_[i] = BALL_Values[i]; // Store the final ball values
         if (BALL_Values[i] > Max_BALLValue) {
             Max_BALLValue = BALL_Values[i]; // Update the maximum ball value
             Max_BALLNum = i; // Update the maximum ball pin number
         }
     }
-    BALL_Finished = true;
 }
 
 int MyBALL::Get_BALLDistance() {

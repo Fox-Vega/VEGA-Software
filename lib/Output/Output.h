@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include<Others.h>
+#include<OtherOutputs.h>
 
 
 extern MyPIXEL mypixel;
