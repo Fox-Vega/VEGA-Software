@@ -12,7 +12,6 @@ void Gyro::GyroSetup() {
 void Gyro::GyroRead() {
     sensors_event_t event;
     bno.getEvent(&event);
-
     heading = event.orientation.x;
     roll = event.orientation.y;
     pitch = event.orientation.z;
