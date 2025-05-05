@@ -22,6 +22,17 @@ void MyPIXEL::MyPIXEL_Multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Gre
     }
 }
 
+void MyPIXEL::MyPIXEL_Closest(int Azimuth, int Red, int Green, int Blue) {
+    if (USEPIXELS == true) {
+        int ClosestPIXEL = NUMPIXELS + (Azimuth / 360.0 * NUMPIXELS);
+        if (ClosestPIXEL >= 16) {
+            ClosestPIXEL = 0;
+        }
+        pixels.setPixelColor(ClosestPIXEL, pixels.Color(Red, Green, Blue));
+        pixels.show();
+    }
+}
+
 void MyPIXEL::MyPIXEL_Clear() {
     for (int i = 0; i < NUMPIXELS; i++) {
         pixels.setPixelColor(i, pixels.Color(0, 0, 0)); // Set all pixels to off

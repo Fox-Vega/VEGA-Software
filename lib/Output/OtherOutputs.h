@@ -19,6 +19,7 @@ class MyPIXEL {
         void MyPIXEL_Setup();
         void MyPIXEL_Uni(int PIXELNum, int Red, int Green, int Blue);
         void MyPIXEL_Multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int Blue);
+        void MyPIXEL_Closest(int Azimuth, int Red, int Green, int Blue);
         void MyPIXEL_Clear();
         
     private:
