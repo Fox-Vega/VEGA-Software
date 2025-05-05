@@ -20,12 +20,12 @@ class MyPIXEL {
         void MyPIXEL_Uni(int PIXELNum, int Red, int Green, int Blue);
         void MyPIXEL_Multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int Blue);
         void MyPIXEL_Clear();
+        
     private:
-        //ajustments
+        //調整用
         const bool USEPIXELS = true; // Set to true to use NeoPixels, false to disable
         const int PIXEL_Brightness = 255; // Set to 0 for darkest and 255 for brightest
         
-        // NeoPixel setup
         const int PIXEL_PIN = 45; // Pin where the NeoPixel ring is connected
         const int NUMPIXELS = 16; // Number of pixels in the strip
         Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIXEL_PIN, NEO_GRB + NEO_KHZ800);

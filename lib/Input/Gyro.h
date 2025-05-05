@@ -11,6 +11,7 @@ class Gyro {
         void GetPosition();
         void TweakKalman();
         void GyroReset();
+
         float Accelcm_X;
         float Accelcm_Y;
         float heading;
@@ -30,6 +31,7 @@ class Gyro {
         float accelX_rot;
         float accelY_rot;
         float accelMagnitude;
+        
     private:
         Adafruit_BNO055 bno = Adafruit_BNO055(55);
 };

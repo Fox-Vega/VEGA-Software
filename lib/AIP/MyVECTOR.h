@@ -7,7 +7,9 @@ class MyVECTOR {
         int GetMagnitude(float X, float Y);
         int GetX();
         int GetY();
+        
         int GetCordinate_flag;
+
     private:
         float X;
         float Y;
