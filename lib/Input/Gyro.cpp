@@ -14,8 +14,8 @@ void Gyro::GyroRead() {
     bno.getEvent(&event);
 
     heading = event.orientation.x;
-    roll    = event.orientation.y;
-    pitch   = event.orientation.z;
+    roll = event.orientation.y;
+    pitch = event.orientation.z;
 }
 
 int Gyro::GetAzimuth() {
