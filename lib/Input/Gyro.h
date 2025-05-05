@@ -8,6 +8,7 @@ class Gyro {
     public:
         void GyroSetup();
         void GyroRead();
+        int GetAzimuth();
         void GetPosition();
         void TweakKalman();
         void GyroReset();

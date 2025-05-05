@@ -1,4 +1,5 @@
 #include <Gyro.h>
+#include <Input.h>
 
 void Gyro::GyroSetup() {
     Serial.begin(9600);
@@ -15,6 +16,12 @@ void Gyro::GyroRead() {
     heading = event.orientation.x;
     roll    = event.orientation.y;
     pitch   = event.orientation.z;
+}
+
+int Gyro::GetAzimuth() {
+    gyro.GyroRead();
+    int int_heading = (int)heading;
+    return int_heading;
 }
 
 void Gyro::GetPosition() {
