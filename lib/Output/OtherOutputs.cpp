@@ -35,16 +35,16 @@ void MyPIXEL::MyPIXEL_Closest(int Azimuth, int Red, int Green, int Blue) {
 
 void MyPIXEL::MyPIXEL_Clear() {
     for (int i = 0; i < NUMPIXELS; i++) {
-        pixels.setPixelColor(i, pixels.Color(0, 0, 0)); // Set all pixels to off
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
     }
     pixels.show();
 }
 
 void MyBUZZER::MyBUZZER_Start(int BUZZERNote, int BUZZERDuration) {
     int NoteDuration = 1000 / BUZZERDuration;
-    tone(BUZZER_PIN, BUZZERNote, NoteDuration); // Play the note for the specified duration
+    tone(BUZZER_PIN, BUZZERNote, NoteDuration);
     delay(BUZZERDuration * 1.4);
-    noTone(BUZZER_PIN); // Stop the tone after the duration
+    noTone(BUZZER_PIN);
     delay(100);
 }
 
