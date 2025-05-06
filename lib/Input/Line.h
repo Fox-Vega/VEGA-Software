@@ -6,12 +6,13 @@ class LINE {
         void end(); // 終了処理用の関数（未実装、用途未定)
         int get_line(); // ラインセンサの値を取得する関数
         int read(); // ラインセンサの値を取得する関数
-        void buble_sort(); // ラインセンサの値をバブルソートで並び替える関数
+        void bubble_sort(); // ラインセンサの値をバブルソートで並び替える関数
 
     private:
         #define true 1
         #define false 0
-        #define NUMLINES 24
+        #define NUMLines 24
+        int temp[2]; // バブルソートの一時保存用変数
 
         // マルチプレクサのアナログ入力ピン
         #define readPin1 A13
