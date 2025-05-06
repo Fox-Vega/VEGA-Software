@@ -1,5 +1,5 @@
 #include <Input.h>
 
 MyLINE myline;
-MyBALL myball;
+BALL ball;
 Gyro gyro;
