@@ -2,16 +2,11 @@
 
 class LINE {
     public:
-        void Line_Setup(); // ピン設定を行うセットアップ関数
-        void Line_End(); // 終了処理用の関数（未実装、用途未定）
-        int Read_Line(char mode); // メインで呼び出すための関数
-        int Line_Read(); // ラインセンサの値を取得する関数
-        void Line_buble_sort(); // ラインセンサの値をバブルソートで並び替える関数
-        
-        int case1(); // ラインセンサの角度と距離を算出する関数
-        int case2(); // ディフェンス用の処理を行う関数
-        int case3(); // 未使用関数
-        int case4(); // 未使用関数
+        void setup(); // ピン設定を行うセットアップ関数
+        void end(); // 終了処理用の関数（未実装、用途未定）
+        int get_line(char mode); // メインで呼び出すための関数
+        int read(); // ラインセンサの値を取得する関数
+        void buble_sort(); // ラインセンサの値をバブルソートで並び替える関数
 
     private:
         #define true 1
