@@ -28,7 +28,7 @@ class Gyro {
         float measurementNoise = 0.1;
         unsigned long lastUpdateTime = 0;
         unsigned long currentTime;
-        float dt;
+        float dt; //時間間隔
         float accelX_rot;
         float accelY_rot;
         float accelMagnitude;
