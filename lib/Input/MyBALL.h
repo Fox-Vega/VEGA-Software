@@ -4,8 +4,8 @@
 class MyBALL {
     public:
         void MyBALL_Setup();
-        int MyBALL_Read();
-        int Get_BALLDistance();
+        void MyBALL_Read();
+        int Get_BALLDistance(short BallNum);
         int Get_BALLDirection();
 
         int BALL_Values[16];
