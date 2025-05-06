@@ -3,8 +3,8 @@
 class LINE {
     public:
         void setup(); // ピン設定を行うセットアップ関数
-        void end(); // 終了処理用の関数（未実装、用途未定）
-        int get_line(char mode); // メインで呼び出すための関数
+        void end(); // 終了処理用の関数（未実装、用途未定)
+        int get_line(); // ラインセンサの値を取得する関数
         int read(); // ラインセンサの値を取得する関数
         void buble_sort(); // ラインセンサの値をバブルソートで並び替える関数
 

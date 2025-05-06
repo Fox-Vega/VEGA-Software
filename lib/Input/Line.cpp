@@ -18,20 +18,10 @@ void LINE::setup() {
     pinMode(readPin3, INPUT);
 }
 
-int LINE::get_line(char mode) {
-    switch(mode)
-    {
-        case 'a':
-            line.read();
-            line.buble_sort();
-            int line_two[2] = {0, 0}; // 反応が強いラインセンサの番号を格納
-            break;
-
-        case 'b':
-            line.read();
-            line.buble_sort();
-            break;
-    }
+int LINE::get_line() {
+    line.read();
+    line.buble_sort();
+    int line_strong[2] = {0, 0};
 }
 
 int LINE::read() {
