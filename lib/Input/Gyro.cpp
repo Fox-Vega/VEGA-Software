@@ -1,7 +1,7 @@
 #include <Gyro.h>
 #include <Input.h>
 
-void Gyro::GyroSetup() {
+void Gyro::setup() {
     Serial.begin(9600);
     bno.setExtCrystalUse(true);
     bno.setMode(OPERATION_MODE_IMUPLUS);
@@ -9,7 +9,7 @@ void Gyro::GyroSetup() {
     lastUpdateTime = millis();
 }
 
-void Gyro::GyroRead() {
+void Gyro::read() {
     sensors_event_t event;
     bno.getEvent(&event);
     heading = event.orientation.x;
@@ -17,13 +17,13 @@ void Gyro::GyroRead() {
     pitch = event.orientation.z;
 }
 
-int Gyro::GetAzimuth() {
-    gyro.GyroRead();
+int Gyro::get_azimuth() {
+    gyro.read();
     int int_heading = (int)heading;
     return int_heading;
 }
 
-void Gyro::GetPosition() {
+void Gyro::get_position() {
     currentTime = millis();
     dt = (currentTime - lastUpdateTime) / 1000.0;
     lastUpdateTime = currentTime;
@@ -39,7 +39,7 @@ void Gyro::GetPosition() {
     accelX_rot = accelX * cos(theta) - accelY * sin(theta);
     accelY_rot = accelX * sin(theta) + accelY * cos(theta);
 
-    TweakKalman(); // カルマンフィルタを調整
+    tweak_kalman(); // カルマンフィルタを調整
 
     //UKF予測
     velX += accelX_rot * dt + processNoise;
@@ -52,7 +52,7 @@ void Gyro::GetPosition() {
     posY += measurementNoise;
 }
 
-void Gyro::TweakKalman() {
+void Gyro::tweak_kalman() {
     accelMagnitude = sqrt(accelX * accelX + accelY * accelY);
     if (accelMagnitude > 2.0) {  
         processNoise = 0.05;
@@ -63,7 +63,7 @@ void Gyro::TweakKalman() {
     }
 }
 
-void Gyro::GyroReset() {
+void Gyro::reset() {
     bno.setMode(OPERATION_MODE_CONFIG);
     delay(25);
     bno.setMode(OPERATION_MODE_IMUPLUS);

@@ -1,18 +1,18 @@
 #include <MyVECTOR.h>
 
-void MyVECTOR::GetCordinate(float Azimuth, float Magnitude) {
+void MyVECTOR::get_cordinate(float Azimuth, float Magnitude) {
     Theta = 90 - Azimuth;
     if (Theta < -180) {
         Theta += 360;
     } else if (Theta > 180) {
         Theta -= 360;
     }
-    X = cos(radians(Theta)) * Magnitude;
-    Y = sin(radians(Theta)) * Magnitude;
+    x = cos(radians(Theta)) * Magnitude;
+    y = sin(radians(Theta)) * Magnitude;
 }
 
-int MyVECTOR::GetAzimuth(float X, float Y) {
-    Theta = atan2(Y, X);
+int MyVECTOR::get_azimuth(float x, float y) {
+    Theta = atan2(y, x);
     Azimuth = 90 - degrees(Theta);
     if (Azimuth < 0) { 
         Azimuth += 360;
@@ -22,14 +22,14 @@ int MyVECTOR::GetAzimuth(float X, float Y) {
     return Azimuth;
 }
 
-int MyVECTOR::GetMagnitude(float X, float Y) {
-    return sqrt(X * X + Y * Y);
+int MyVECTOR::get_magnitude(float x, float y) {
+    return sqrt(x * x + y * y);
 }
 
-int MyVECTOR::GetX() {
-    return X;
+int MyVECTOR::get_x() {
+    return x;
 }
 
-int MyVECTOR::GetY() {
-    return Y;
+int MyVECTOR::get_y() {
+    return y;
 }

@@ -2,17 +2,15 @@
 
 class MyVECTOR {
     public:
-        void GetCordinate(float Azimuth, float Magnitude);
-        int GetAzimuth(float X, float Y);
-        int GetMagnitude(float X, float Y);
-        int GetX();
-        int GetY();
-        
-        int GetCordinate_flag;
+        void get_cordinate(float Azimuth, float Magnitude);//座標を取得する関数
+        int get_azimuth(float X, float Y);//方位角を取得する関数
+        int get_magnitude(float X, float Y);//距離を取得する関数
+        int get_x();//取得したX座標を返す関数
+        int get_y();//取得したY座標を返す関数
 
     private:
-        float X;
-        float Y;
+        float x;
+        float y;
         float Theta;
         float Azimuth;
         float Magnitude;

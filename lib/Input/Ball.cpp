@@ -41,9 +41,9 @@ int BALL::get_direction() {
     }
     ball.read();
     for (int i = BallNumStart; i < BallNumStart + 6; i++) {
-        myvector.GetCordinate(Ball_Directions[i], ball.get_distance(i));
-        Total_X += myvector.GetX();
-        Total_Y += myvector.GetY();
+        myvector.get_cordinate(Ball_Directions[i], ball.get_distance(i));
+        Total_X += myvector.get_x();
+        Total_Y += myvector.get_y();
     }
-    return myvector.GetAzimuth(Total_X, Total_Y);
+    return myvector.get_azimuth(Total_X, Total_Y);
 }

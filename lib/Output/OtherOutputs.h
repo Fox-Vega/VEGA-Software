@@ -16,11 +16,11 @@
 
 class MyPIXEL {
     public:
-        void MyPIXEL_Setup();
-        void MyPIXEL_Uni(int PIXELNum, int Red, int Green, int Blue);
-        void MyPIXEL_Multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int Blue);
-        void MyPIXEL_Closest(int Azimuth, int Red, int Green, int Blue);
-        void MyPIXEL_Clear();
+        void setup();//初期設定
+        void uni(int PIXELNum, int Red, int Green, int Blue);//単ピクセル点灯
+        void multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int Blue);//連続ピクセル点灯
+        void closest(int Azimuth, int Red, int Green, int Blue);//入力角度に最も近いピクセル点灯
+        void clear();//全消灯
         
     private:
         //調整用
@@ -35,8 +35,8 @@ class MyPIXEL {
 
 class MyBUZZER {
     public:
-        void MyBUZZER_Start(int BUZZERNote, int BUZZERDuration);
-        void MyBUZZER_Preset(int BUZZERPresetNum);
+        void start(int BUZZERNote, int BUZZERDuration);//トーン、音の長さを指定して音を鳴らす
+        void preset(int BUZZERPresetNum);//あらかじめ設定された音を鳴らす
 
     private:
         const int BUZZER_PIN = 47;

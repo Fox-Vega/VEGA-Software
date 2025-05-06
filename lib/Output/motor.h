@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-class MyMOTOR {
+class motor {
     public:
     private:
 };

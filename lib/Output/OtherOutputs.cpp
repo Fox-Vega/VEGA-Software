@@ -1,46 +1,46 @@
 #include <OtherOutputs.h>
+#include <Output.h>
 
 
-void MyPIXEL::MyPIXEL_Setup() {
+void MyPIXEL::setup() {
         pixels.begin();
         pixels.setBrightness(PIXEL_Brightness);
 }
 
-void MyPIXEL::MyPIXEL_Uni(int PIXELNum, int Red, int Green, int Blue) {
+void MyPIXEL::uni(int PIXELNum, int Red, int Green, int Blue) {
     if (USEPIXELS == true) {
         pixels.setPixelColor(PIXELNum, pixels.Color(Red, Green, Blue));
         pixels.show();
     }
 }
 
-void MyPIXEL::MyPIXEL_Multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int Blue) {
+void MyPIXEL::multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int Blue) {
     if (USEPIXELS == true) {
         for (int i = PIXELNumStart; i <= PIXELNumEnd; i++) {
-            pixels.setPixelColor(i, pixels.Color(Red, Green, Blue));
+            mypixel.uni(i, Red, Green, Blue);
         }
-        pixels.show();
     }
 }
 
-void MyPIXEL::MyPIXEL_Closest(int Azimuth, int Red, int Green, int Blue) {
+void MyPIXEL::closest(int Azimuth, int Red, int Green, int Blue) {
     if (USEPIXELS == true) {
         int ClosestPIXEL = NUMPIXELS + (Azimuth / 360.0 * NUMPIXELS);
         if (ClosestPIXEL >= 16) {
             ClosestPIXEL = 0;
         }
-        pixels.setPixelColor(ClosestPIXEL, pixels.Color(Red, Green, Blue));
-        pixels.show();
+        mypixel.uni(ClosestPIXEL, Red, Green, Blue);
     }
 }
 
-void MyPIXEL::MyPIXEL_Clear() {
+void MyPIXEL::clear() {
     for (int i = 0; i < NUMPIXELS; i++) {
         pixels.setPixelColor(i, pixels.Color(0, 0, 0));
     }
     pixels.show();
 }
 
-void MyBUZZER::MyBUZZER_Start(int BUZZERNote, int BUZZERDuration) {
+
+void MyBUZZER::start(int BUZZERNote, int BUZZERDuration) {
     int NoteDuration = 1000 / BUZZERDuration;
     tone(BUZZER_PIN, BUZZERNote, NoteDuration);
     delay(BUZZERDuration * 1.4);
@@ -48,7 +48,7 @@ void MyBUZZER::MyBUZZER_Start(int BUZZERNote, int BUZZERDuration) {
     delay(100);
 }
 
-void MyBUZZER::MyBUZZER_Preset(int BUZZERPresetNum) {
+void MyBUZZER::preset(int BUZZERPresetNum) {
     switch (BUZZERPresetNum) {
         case '1':
             int Melody_Preset1[] = {260, 260, 260, 255, 0, 300, 250, 330};

@@ -7,12 +7,12 @@
 
 class Gyro {
     public:
-        void GyroSetup();
-        void GyroRead();
-        int GetAzimuth();
-        void GetPosition();
-        void TweakKalman();
-        void GyroReset();
+        void setup();//初期設定
+        void read();//センサーデータ取得
+        int get_azimuth();//方位角取得
+        void get_position();//自己位置取得
+        void tweak_kalman();//カルマンフィルタ調整
+        void reset();//初期化
 
         float Accelcm_X;
         float Accelcm_Y;
