@@ -7,30 +7,41 @@ class LINE {
         int Read_Line(char mode); // メインで呼び出すための関数
         int Line_Read(); // ラインセンサの値を取得する関数
         void Line_buble_sort(); // ラインセンサの値をバブルソートで並び替える関数
+        
         int case1(); // ラインセンサの角度と距離を算出する関数
         int case2(); // ディフェンス用の処理を行う関数
-        int case3(); // 未使用の関数
-        int case4(); // 未使用の関数
+        int case3(); // 未使用関数
+        int case4(); // 未使用関数
+
     private:
-        #define true 1 // 真（true）
-        #define false 0 // 偽（false）
-        #define NUMLINES 24 // ラインセンサの数
-        #define readPin1 A13 // マルチプレクサのアナログ入力ピン1
-        #define readPin2 A11 // マルチプレクサのアナログ入力ピン2
-        #define readPin3 A9 // マルチプレクサのアナログ入力ピン3
+        #define true 1
+        #define false 0
+        #define NUMLINES 24
+
+        // マルチプレクサのアナログ入力ピン
+        #define readPin1 A13
+        #define readPin2 A11
+        #define readPin3 A9
         
-        const int selectA = 22; // マルチプレクサのセレクトピン1
-        const int selectB = 24; // マルチプレクサのセレクトピン2
-        const int selectC = 26; // マルチプレクサのセレクトピン3
+        // マルチプレクサのセレクトピン
+        const int selectA = 22;
+        const int selectB = 24;
+        const int selectC = 26;
+
         int line_deg; // ラインセンサの角度（戻り値用に使用する可能性あり）
         int line_dis; // ラインセンサの距離（戻り値用に使用する可能性あり）
+
+        // ラインセンサの角度（センサ番号と角度の対応）
         int line_deg_list_24[24] = {0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345};
-        // ラインセンサの初期角度（センサ番号と角度の対応）
-        int line_memory[24][2] = { // ラインセンサの値を格納する2次元配列（センサ番号と値を保持）
+
+        // ラインセンサの値を格納する2次元配列（センサ番号と値を保持）
+        int line_memory[24][2] = {
             {0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 10}, {5, 20}, {6, 30}, {7, 50},
             {8, 30}, {9, 20}, {10, 10}, {11, 0}, {12, 0}, {13, 0}, {14, 0}, {15, 0},
             {16, 0}, {17, 0}, {18, 0}, {19, 0}, {20, 0}, {21, 0}, {22, 0}, {23, 0}};
-        int binaryNum[8][3] = { // マルチプレクサの設定値（二進数のリスト）
+
+        // マルチプレクサの設定値（二進数のリスト）
+        int binaryNum[8][3] = {
             {0, 0, 0},
             {0, 0, 1},
             {0, 1, 0},
