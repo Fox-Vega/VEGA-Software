@@ -3,10 +3,10 @@
 
 class BALL {
     public:
-        void Ball_Setup();
-        void Ball_Read();
-        int Get_BallDistance(short BallNum);//ボールの距離を取得する関数
-        int Get_BallDirection();//ボールの方向を取得する関数
+        void ball_Setup();
+        void ball_Read();
+        int Get_ballDistance(short BallNum);//ボールの距離を取得する関数
+        int Get_ballDirection();//ボールの方向を取得する関数
 
         int Ball_Values[16];//ボールの値を格納する配列
 

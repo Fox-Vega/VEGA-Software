@@ -1,10 +1,12 @@
 #include <Arduino.h>
+#include <stdio.h>
+#include <stdbool.h>
 
 class MyLINE {
     public:
         void MyLINE_Setup();
         void MyLINE_End();
-        int Read_LINE();
+        int Read_Line();
         int Line_Read();
 
     private:
