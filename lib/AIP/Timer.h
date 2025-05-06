@@ -2,7 +2,7 @@
 
 #include "Arduino.h"
 
-class timer {
+class Timer {
     public:
         void reset();
         unsigned long read_milli();
