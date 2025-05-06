@@ -1,49 +1,19 @@
 #include <Line.h>
 #include <Input.h>
 
-
-
-// 草塩からの伝言
+// TODOリスト
 // 
-// コメントはほとんどAIをに書かせてます（意味の修正はちゃんとしてるからね）
-// 最初にふざけて書いたせいでこの有り様です
+// 2つの反応が強いラインセンサの位置関係から角度と距離を計算し、
+// 戻り値として返す（ベクトル使うかも）
 // 
-// 
-// 
-// 
-// 
-// 
-// 
+// ディフェンス用にライントレースの状態をchar型で返す
 // 
 
-
-// めも
-// （消すなよ？）
-// 
-// ２つの反応が強いラインの位置関係から角度と距離を計算し
-// 戻り値として返す(ベクトル使うかも？)
-// 
-// ディフェンス用にライントレースの状態をcharで返す
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-
-
-int line_deg_list_24[24] = {0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345};
-//ラインセンサのもともとの角度だぁ（何番が何度　みたいなやつ）
-int line_memory[24][2] = {//ラインセンサの値を格納するよぉ　（ラインの値の格納　２次元配列で番号を保持）
+int line_memory[24][2] = { // ラインセンサの値を格納する2次元配列（センサ番号と値を保持）
     {0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 10}, {5, 20}, {6, 30}, {7, 50},
     {8, 30}, {9, 20}, {10, 10}, {11, 0}, {12, 0}, {13, 0}, {14, 0}, {15, 0},
     {16, 0}, {17, 0}, {18, 0}, {19, 0}, {20, 0}, {21, 0}, {22, 0}, {23, 0}};
-int binaryNum[8][3] = {//マルチプレクサぁ（二進数の数のリスト　後で呼び出す）
+int binaryNum[8][3] = { // マルチプレクサの設定値（二進数のリスト）
     {0, 0, 0},
     {0, 0, 1},
     {0, 1, 0},
@@ -54,7 +24,7 @@ int binaryNum[8][3] = {//マルチプレクサぁ（二進数の数のリスト�
     {1, 1, 1},
 };
 
-void LINE::Line_Setup()//ピン設定とかぁ（ピンを設定）
+void LINE::Line_Setup() // ピンの設定を行う
 {
     pinMode(selectA, OUTPUT);
     pinMode(selectB, OUTPUT);
@@ -64,7 +34,7 @@ void LINE::Line_Setup()//ピン設定とかぁ（ピンを設定）
     pinMode(readPin3, INPUT);
 }
 
-int LINE::Read_Line(char mode)//呼び出しぃ(メインでの呼び出しで使う)
+int LINE::Read_Line(char mode) // ラインセンサの読み取りモードを選択
 {
     switch(mode)
     {
@@ -77,23 +47,20 @@ int LINE::Read_Line(char mode)//呼び出しぃ(メインでの呼び出しで�
     }
 }
 
+int LINE::case1() // けーす１ラインセンサの角度と距離を計算
+{
+    Line_Read();
+    Line_buble_sort();
+    int line_two[2] = {0, 0}; // 反応が強いラインセンサの番号を格納
+}
 
-int LINE::case1()//ケースわん！（ラインの角度と距離を算出）
+int LINE::case2() // けーす２ディフェンス用の処理
 {
     Line_Read();
     Line_buble_sort();
 }
 
-int LINE::case2()//ケースつー！（ディフェンス用）
-{
-    Line_Read();
-    Line_buble_sort();
-}
-
-
-
-
-int LINE::Line_Read()//マルチプレクサぁ　使って　ラインセンサの値を取得するよぉ（マルチプレクサ）
+int LINE::Line_Read() // マルチプレクサを使用してラインセンサの値を取得
 {
     for (int i = 0; i < 8; i++)
     {
@@ -104,17 +71,16 @@ int LINE::Line_Read()//マルチプレクサぁ　使って　ラインセンサ
         digitalWrite(selectB, binaryNum[i][1]);
         digitalWrite(selectC, binaryNum[i][2]);
         delay(1);
-        line_memory[i][1] = analogRead(readPin1)*(100/1024);
-        line_memory[i + 8][1] = analogRead(readPin2)*(100/1024);
-        line_memory[i + 16][1] = analogRead(readPin3)*(100/1024);
+        line_memory[i][1] = analogRead(readPin1) * (100 / 1024);
+        line_memory[i + 8][1] = analogRead(readPin2) * (100 / 1024);
+        line_memory[i + 16][1] = analogRead(readPin3) * (100 / 1024);
     }
     return 0; 
 }
 
-void LINE::Line_buble_sort()//バブルソートでラインセンサの値をソートするよぉ（昇順に並び替える）
-// これでラインセンサの値が大きい順に並ぶよぉ（←そうだね～）
+void LINE::Line_buble_sort() // バブルソートでラインセンサの値を昇順に並び替える
 {
-    int temp[2];//一時保存用の変数だぁ（バブルソートのやつ）
+    int temp[2]; // バブルソートの一時保存用の変数
     for (int i = 0; i < 24 - 1; i++)
     {
         for (int j = 0; j < 24 - i - 1; j++)
