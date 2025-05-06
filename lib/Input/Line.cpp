@@ -4,14 +4,13 @@
 
 // TODO
 // 
-// 2つの反応が強いラインセンサの位置関係から角度と距離を計算し、
-// 戻り値として返す（ベクトル使うかも）
-//3つの場合もあるらしいよ
-//ベクトルは使いやすいように作ったからね
-//ボールセンサーのコードを見てね
-//get_lineのline_strongって何？
-//0に更新してるだけやん
+//2つの反応が強いラインセンサの位置関係から角度と距離を計算し、戻り値として返す（ベクトル使うかも）
 // ディフェンス用にライントレースの状態をchar型で返す
+//3つの場合もあるらしいよ
+//ベクトルは使いやすいように作ったから有効活用してね
+//ボールセンサーのコードを見てね（絶対）
+//get_lineのline_strongって何？0に更新してるだけやん
+//readのdelay(1)って千分の１秒だよ？あってる？
 
 void LINE::setup() {
     pinMode(selectA, OUTPUT);
@@ -25,21 +24,21 @@ void LINE::setup() {
 int LINE::get_line() {
     line.read();
     line.bubble_sort();
-    int line_strong[2] = {0, 0};
+    int Line_strong[2] = {0, 0};
 }
 
 int LINE::read() {
     for (int i = 0; i < 8; i++) {
-        line_memory[i][0] = i;
-        line_memory[i + 8][0] = i + 8;
-        line_memory[i + 16][0] = i + 16;
-        digitalWrite(selectA, binaryNum[i][0]);
-        digitalWrite(selectB, binaryNum[i][1]);
-        digitalWrite(selectC, binaryNum[i][2]);
+        Line_memory[i][0] = i;
+        Line_memory[i + 8][0] = i + 8;
+        Line_memory[i + 16][0] = i + 16;
+        digitalWrite(selectA, BinaryNum[i][0]);
+        digitalWrite(selectB, BinaryNum[i][1]);
+        digitalWrite(selectC, BinaryNum[i][2]);
         delay(1);
-        line_memory[i][1] = analogRead(readPin1) * (100 / 1024);
-        line_memory[i + 8][1] = analogRead(readPin2) * (100 / 1024);
-        line_memory[i + 16][1] = analogRead(readPin3) * (100 / 1024);
+        Line_memory[i][1] = analogRead(readPin1) * (100 / 1024);
+        Line_memory[i + 8][1] = analogRead(readPin2) * (100 / 1024);
+        Line_memory[i + 16][1] = analogRead(readPin3) * (100 / 1024);
     }
     return 0; 
 }
@@ -47,11 +46,11 @@ int LINE::read() {
 void LINE::bubble_sort() {
     for (int i = 0; i < NUMLines - 1; i++) {
         for (int j = 0; j < NUMLines - i - 1; j++) {
-            if (line_memory[j][1] > line_memory[j + 1][1]) {
+            if (Line_memory[j][1] > Line_memory[j + 1][1]) {
                 for (int k = 0; k < 2; k++) {
-                    temp[k] = line_memory[j][k];
-                    line_memory[j][k] = line_memory[j + 1][k];
-                    line_memory[j + 1][k] = temp[k];
+                    temp[k] = Line_memory[j][k];
+                    Line_memory[j][k] = Line_memory[j + 1][k];
+                    Line_memory[j + 1][k] = temp[k];
                 }
             }
         }
