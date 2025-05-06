@@ -2,12 +2,15 @@
 
 class LINE {
     public:
-        void Line_Setup();
-        void Line_End();
-        int Read_Line();
+        void Line_Setup();//セットアップ関数ぅ
+        void Line_End();//終了関数ぅ
+        int Read_Line(char mode);//呼び出し関数ぅ
         int Line_Read();
-        void Line_buble_sort();
-
+        void Line_buble_sort(); //バブルソートするぞぉ
+        int case1();//ケースわん！（ラインの角度と距離を算出）
+        int case2();//ケースつー！（ディフェンス用）
+        int case3();//ケースすりぃ！（まだ使ってない）
+        int case4();//ケースふぉぉ！（まだ使ってない）
     private:
         #define true 1 //true
         #define false 0 //false
