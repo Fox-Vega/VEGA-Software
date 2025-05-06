@@ -1,22 +1,5 @@
 #include <Line.h>
-
-#define true 1 //true
-#define false 0 //false
-#define NUMLINES 24 // Number of line sensors
-#define readPin1 A13 // Pin for reading the first line sensor
-#define readPin2 A11 // Pin for reading the second line sensor
-#define readPin3 A9 // Pin for reading the third line sensor
-// メモ
-
-// 12個に区分
-// 
-// 
-
-
-const int selectA=22;
-const int selectB=24;
-const int selectC=26;
-int line_deg;
+#include <Input.h>
 
 int line_deg_list_24[24]={0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345};
 int line_memory[24][2]={
@@ -35,14 +18,7 @@ int binaryNum[8][3]={
     {1,1,1},
 };
 
-int main()
-{
-    MyLINE myline;
-    myline.MyLINE_Setup();
-    myline.Read_Line();
-    return 0;
-}
-void MyLINE::MyLINE_Setup()
+void LINE::Line_Setup()
 {
     pinMode(selectA,OUTPUT);
     pinMode(selectB,OUTPUT);
@@ -52,15 +28,15 @@ void MyLINE::MyLINE_Setup()
     pinMode(readPin3,INPUT);
 };
 
-int MyLINE::Read_Line()
+int LINE::Read_Line()
 {
     //Line_Read();
-    Line_buble_sort();
+    line.Line_buble_sort();
     line_deg=line_deg_list_24[line_memory[0][0]];
     printf("%d",line_deg);
 };
 
-int Line_Read()
+int LINE::Line_Read()
 {
     //マルチプレクサわからん 追記：理解した
     for(int i=0;i<8;i++){
@@ -77,7 +53,7 @@ int Line_Read()
     }
 };
 
-void Line_buble_sort()
+void LINE::Line_buble_sort()
 {
     int temp[3];
     for (int i = 0; i < 24 - 1; i++) {
@@ -92,9 +68,3 @@ void Line_buble_sort()
         }
     }
 }
-
-int Read_LINE(){
-};
-
-int Line_Read(){
-};

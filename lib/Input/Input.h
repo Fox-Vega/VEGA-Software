@@ -1,9 +1,9 @@
 #pragma once
 
-#include<MyLINE.h>
+#include<Line.h>
 #include <Ball.h>
 #include <Gyro.h>
 
-extern MyLINE myline;
+extern LINE line;
 extern BALL ball;
 extern Gyro gyro;
