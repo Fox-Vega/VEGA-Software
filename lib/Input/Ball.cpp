@@ -1,13 +1,13 @@
 #include <Ball.h>
 #include <Input.h>
 
-void BALL::ball_Setup() {
+void BALL::setup() {
     for (int i = 0; i < NUMBalls; i++) {
         pinMode(Ball_PIN[i], INPUT);
     }
 }
 
-void BALL::ball_Read() {
+void BALL::read() {
     Max_BallValue = 0;
     for (int i = 0; i < 16; i++) {
         Ball_Values[i] = 0;
@@ -27,21 +27,21 @@ void BALL::ball_Read() {
     }
 }
 
-int BALL::Get_ballDistance(short BallNum) { 
+int BALL::get_distance(short BallNum) { 
     Ball_Distance =  Ball_Values[BallNum] * BallDistance_offset;
     return Ball_Distance;
 }
 
-int BALL::Get_ballDirection() {
+int BALL::get_direction() {
     Total_X = 0;
     Total_Y = 0;
     BallNumStart = Max_BallNum - 3;
     if (BallNumStart < 0) {
         BallNumStart += 16;
     }
-    ball.ball_Read();
+    ball.read();
     for (int i = BallNumStart; i < BallNumStart + 6; i++) {
-        myvector.GetCordinate(Ball_Directions[i], ball.Get_ballDistance(i));
+        myvector.GetCordinate(Ball_Directions[i], ball.get_distance(i));
         Total_X += myvector.GetX();
         Total_Y += myvector.GetY();
     }
