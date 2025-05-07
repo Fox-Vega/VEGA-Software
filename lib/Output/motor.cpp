@@ -1,12 +1,9 @@
 #include <motor.h>
 #include <API.h>
 
-void MOTOR::move(int Azimuth, int Distance, int Power_) {
+void MOTOR::move(int Azimuth, int Power_) {
     for (int i = 0; i < 4; i++) {
-        AzimuthM = Azimuth - motor_degrees[i];
-        myvector.get_cordinate(AzimuthM, Distance);
-        motor_x[i] = myvector.get_x();
-        motor_y[i] = myvector.get_y();
+        AzimuthM = Azimuth - motor_degrees[i];//オムニの軸がy軸になるようにする
         myvector.get_cordinate(AzimuthM, Power_);
         Power = myvector.get_x();
         if (Power < 0) {

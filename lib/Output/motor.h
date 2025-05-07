@@ -2,7 +2,7 @@
 
 class MOTOR {
     public:
-        void move(int Azimuth, int Distance, int Power_);
+        void move(int Azimuth, int Power_);
         void turn(int Power_);//マイナスの値を入れても大丈夫
         void brake();
 
@@ -11,7 +11,7 @@ class MOTOR {
         short speed = 100;
 
         int Power;//モーター用出力
-        bool PoMi;//positive/minusの略
+        bool PoMi;//positiveはtrue、minusはfalse
         short motor_PIN1[4] = {8, 7, 5, 3};
         short motor_PIN2[4] = {9, 6, 4, 2};
         int motor_x[4];
