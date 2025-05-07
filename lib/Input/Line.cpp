@@ -6,11 +6,11 @@
 // 
 //2つの反応が強いラインセンサの位置関係から角度と距離を計算し、戻り値として返す（ベクトル使うかも）
 // ディフェンス用にライントレースの状態をchar型で返す
-//3つの場合もあるらしいよ
-//ベクトルは使いやすいように作ったから有効活用してね
-//ボールセンサーのコードを見てね（絶対）
-//get_lineのline_strongって何？0に更新してるだけやん
-//readのdelay(1)って千分の１秒だよ？あってる？
+//iPadでプッシュ
+//
+//
+//
+//りくは書くな　紛らわしい
 
 void LINE::setup() {
     pinMode(selectA, OUTPUT);
@@ -24,7 +24,6 @@ void LINE::setup() {
 int LINE::get_line() {
     line.read();
     line.bubble_sort();
-    int Line_strong[2] = {0, 0};
 }
 
 int LINE::read() {
