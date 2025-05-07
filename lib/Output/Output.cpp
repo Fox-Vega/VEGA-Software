@@ -3,3 +3,4 @@
 
 MyPIXEL mypixel;
 MyBUZZER mybuzzer;
+MOTOR motor;

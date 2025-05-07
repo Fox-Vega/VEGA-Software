@@ -2,20 +2,32 @@
 
 class MOTOR {
     public:
-        void move(int Azimuth, int Power_);
-        void turn(int Power_);//マイナスの値を入れても大丈夫
+        void move(int Movement_Azimuth, int Power_, int Direction_Azimuth);//進む方向、力（最大Powerは255）、向く方向を引数にいれる
+        double difix(double setpoint);//setpointに目標角度を入力
+        int difix_getPoMi();
         void brake();
 
     private:
         //調整用
-        short speed = 100;
+        double kp = 2.0;//比例 を大きくすると応答が速くなるが、振動しやすくなる
+        double ki = 0.5;//積分 を大きくすると誤差が蓄積されにくくなるが、過剰補正のリスク
+        double kd = 1.0;//微分 を大きくすると急激な変化を抑えられるが、ノイズの影響を受けやすい
+        int pwmScale = 0.71;//補正速度
 
+        int difix_PWM;
+        int motorPWM;
         int Power;//モーター用出力
         bool PoMi;//positiveはtrue、minusはfalse
-        short motor_PIN1[4] = {8, 7, 5, 3};
-        short motor_PIN2[4] = {9, 6, 4, 2};
+        bool difix_PoMi;
+        const short motor_PIN1[4] = {8, 7, 5, 3};
+        const short motor_PIN2[4] = {9, 6, 4, 2};
+        short motor_PWM1[4];
+        short motor_PWM2[4];
         int motor_x[4];
         int motor_y[4];
-        short AzimuthM;//モーターから見た方位角（一時保存用）
+        short Azimuth_motor;//モーターから見た進行方向の方位角（一時保存用）
         short motor_degrees[4] = {45, 135, 225, 315};
+        double integral;
+        double prev_error;
+        double derivative;
 };
