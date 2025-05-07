@@ -3,7 +3,16 @@
 #include <Input.h>
 #include <Output.h>
 
+
  //TODO もし姿勢制御が反対向きになっていた場合、motor.move の中の　+　-　を変更すること。
+
+
+void MOTOR::setup() {
+    for (int i = 0; i < 4; i++) {
+        pinMode(motor_PIN1[i], OUTPUT);
+        pinMode(motor_PIN2[i], OUTPUT);
+    }
+}
 
 void MOTOR::move(int Movement_Azimuth, int Power_, int Direction_Azimuth) {
     difix_PWM = motor.difix(Direction_Azimuth) / 2; //PWM値に変換された補正値を取得

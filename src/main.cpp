@@ -1,10 +1,11 @@
 #include <Arduino.h>
-#include "Output.h"
+#include <API.h>
 
 
 void setup() {
-    Serial.begin(9600);
+    MySetup();
+    mybuzzer.preset(1);
 }
-    
+
 void loop() {
 }

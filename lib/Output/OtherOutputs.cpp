@@ -40,6 +40,10 @@ void MyPIXEL::clear() {
 }
 
 
+void MyBUZZER::setup() {
+    pinMode(BUZZER_PIN, OUTPUT);
+}
+
 void MyBUZZER::start(int BUZZERNote, int BUZZERDuration) {
     int NoteDuration = 1000 / BUZZERDuration;
     tone(BUZZER_PIN, BUZZERNote, NoteDuration);

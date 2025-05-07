@@ -2,6 +2,7 @@
 
 class MOTOR {
     public:
+        void setup();
         void move(int Movement_Azimuth, int Power_, int Direction_Azimuth);//進む方向、力（最大Powerは255）、向く方向を引数にいれる
         double difix(double setpoint);//setpointに目標角度を入力
         void free();//自由回転

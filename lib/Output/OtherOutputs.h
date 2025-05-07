@@ -35,6 +35,7 @@ class MyPIXEL {
 
 class MyBUZZER {
     public:
+        void setup();
         void start(int BUZZERNote, int BUZZERDuration);//トーン、音の長さを指定して音を鳴らす
         void preset(int BUZZERPresetNum);//あらかじめ設定された音を鳴らす
 
