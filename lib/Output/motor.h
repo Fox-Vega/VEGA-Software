@@ -3,8 +3,8 @@
 class MOTOR {
     public:
         void setup();
-        void move(int Movement_Azimuth, int Power_, int Direction_Azimuth);//進む方向、力（最大Powerは255）、向く方向を引数にいれる
-        double difix(double setpoint);//setpointに目標角度を入力
+        void move(int Movement_Azimuth, int Power_, int Direction_Azimuth);//進む方向、力（最大Powerは255）、向く方向（姿勢制御用）を引数にいれる
+        double difix(double setpoint);//PID姿勢制御用
         void free();//自由回転
         void brake();//ブレーキ
 
@@ -17,8 +17,8 @@ class MOTOR {
 
         int difix_PWM;
         int motorPWM;
-        int Power;//モーター用出力
-        bool PoMi;//positiveはtrue、minusはfalse
+        int Power;//進行方向参考した場合のモーター出力
+        bool PoMi;//正・負を判断するため
         bool difix_PoMi;
         const short motor_PIN1[4] = {8, 7, 5, 3};
         const short motor_PIN2[4] = {9, 6, 4, 2};

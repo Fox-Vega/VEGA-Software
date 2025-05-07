@@ -25,12 +25,13 @@ void MOTOR::move(int Movement_Azimuth, int Power_, int Direction_Azimuth) {
         } else {
             PoMi = false;
         }
+        Power -= (Power * 2);
         if (PoMi == true) {
-            motor_PWM1[i] = Power += difix_PWM;
-            motor_PWM2[i] = 0;
+            analogWrite(motor_PIN1[i], Power += difix_PWM);
+            analogWrite(motor_PIN2[i], 0);
         } else {
-            motor_PWM1[i] = 0;
-            motor_PWM2[i] = Power -= difix_PWM;
+            analogWrite(motor_PIN1[i], 0);
+            analogWrite(motor_PIN2[i], Power -= difix_PWM);
         }
     }
 }
