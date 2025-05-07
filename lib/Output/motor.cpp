@@ -40,8 +40,11 @@ double MOTOR::difix(double setpoint){
     return motorPWM = int(constrain(abs(angularVelocity) * pwmScale, 0, 255));
 }
 
-int MOTOR::difix_getPoMi() {
-    return difix_PoMi;
+void MOTOR::free() {
+    for (int i = 0; i < 4; i++) {
+        analogWrite(motor_PIN1[i], 0);
+        analogWrite(motor_PIN2[i], 0);
+    }
 }
 
 void MOTOR::brake() {
