@@ -70,3 +70,10 @@ void Gyro::pos_reset() {
     posX = 0;
     posY = 0; 
 ｝
+
+void Gyro::restart() {
+    bno.setMode(OPERATION_MODE_CONFIG);
+    delay(25);
+    bno.setMode(OPERATION_MODE_IMUPLUS);
+    delay(25);
+}
