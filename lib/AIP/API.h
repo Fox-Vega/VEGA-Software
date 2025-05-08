@@ -2,9 +2,9 @@
 
 
 #include "Timer.h"
-#include "Startup.h"
+#include "General.h"
 #include "MyVECTOR.h"
 
 extern Timer timer;
-extern Startup startup;
+extern General general;
 extern MyVECTOR myvector;

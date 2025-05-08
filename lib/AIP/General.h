@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-class Startup {
+class General {
     public:
         void setup();
         int startup();

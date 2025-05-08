@@ -1,5 +1,5 @@
 #include <API.h>
 
 Timer timer;
-Startup startup;
+General general;
 MyVECTOR myvector;

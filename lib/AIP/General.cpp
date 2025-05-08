@@ -1,8 +1,8 @@
-#include <Startup.h>
+#include <General.h>
 #include <Input.h>
 #include <Output.h>
 
-void Startup::setup() {
+void General::setup() {
     ball.setup();
     gyro.setup();
     line.setup();
@@ -12,7 +12,7 @@ void Startup::setup() {
     Serial.begin(9600);
 }
 
-int Startup::startup() {
+int General::startup() {
     phase = 1;
     while(phase != 4){
         switch_pressed = myswitch.check_tact();
@@ -61,7 +61,7 @@ int Startup::startup() {
     return Run_p;
 }
 
-int Startup::check_run() {
+int General::check_run() {
     if (myswitch.check_toggle() == 0) {
         Run_p = false;
     }
