@@ -41,6 +41,9 @@ class Gyro {
         float accelMagnitude;
         
     private:
+        //調整用
+        const float postweak = 1;//自己位置推定の値調整
+        
         Adafruit_BNO055 bno = Adafruit_BNO055(55);
         float dir_offset;
 };

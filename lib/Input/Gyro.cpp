@@ -46,8 +46,8 @@ void Gyro::get_position() {
     posY += velY * dt;
 
     //EKF校正
-    posX += measurementNoise;
-    posY += measurementNoise;
+    posX = (posX + measurementNoise) * postweak ;
+    posY = (posY + measurementNoise) * postweak ;
 }
 
 void Gyro::tweak_kalman() {

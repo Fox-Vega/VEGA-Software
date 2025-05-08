@@ -9,6 +9,7 @@ void General::setup() {
     motor.setup();
     mypixel.setup();
     mybuzzer.setup();
+    myswitch.setup();
     Serial.begin(9600);
 }
 
@@ -66,6 +67,10 @@ int General::check_run() {
         Run_p = false;
     }
     return Run_p;
+}
+
+int General::check_mode() {
+    return mode;
 }
 
 void General::update() {

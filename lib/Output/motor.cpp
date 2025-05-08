@@ -19,7 +19,7 @@ void MOTOR::move(int Movement_Azimuth, int Power_, int Direction_Azimuth) {
     difix_PWM = motor.difix(Direction_Azimuth) / 2; //PWM値に変換された補正値を取得
     for (int i = 0; i < 4; i++) {
         Azimuth_motor = Movement_Azimuth - motor_degrees[i];//オムニの軸がy軸になるようにする
-        myvector.get_cordinate(Azimuth_motor, Power_ - difix_PWM);
+        myvector.get_cordinate(Azimuth_motor, Power_ - abs(difix_PWM));
         Power = myvector.get_x();
         if (Power >= 0) {
             PoMi = true;
