@@ -2,11 +2,14 @@
 
 #include <Arduino.h>
 
+
 class General {
     public:
         void setup();
         int startup();
         int check_run();
+        void update();
+
         short mode = 0;
 
     private:

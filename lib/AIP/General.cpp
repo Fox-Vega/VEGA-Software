@@ -67,3 +67,7 @@ int General::check_run() {
     }
     return Run_p;
 }
+
+void General::update() {
+    gyro.get_position();
+}
