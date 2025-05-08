@@ -6,7 +6,7 @@ class BALL {
         void setup();
         void read();
         int get_value(short BallNum);//ボールの値を取得する関
-        int distance();//ボールの距離を計算する関数
+        int get_distance();//ボールの距離を計算する関数
         int get_direction();//ボールの方向を取得する関数
 
         int Ball_Values[16];//ボールの値を格納する配列
