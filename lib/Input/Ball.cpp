@@ -31,21 +31,20 @@ void BALL::read() {
     if (BallNumStart < 0) {
         BallNumStart += 16;
     }
-    ball.read();
     for (int i = BallNumStart; i < BallNumStart + 6; i++) {
-        myvector.get_cordinate(Ball_Directions[i], ball.get_distance(i));
+        myvector.get_cordinate(Ball_Directions[i], ball.get_value(i));
         Total_X += myvector.get_x();
         Total_Y += myvector.get_y();
     }
 }
 
-int BALL::get_distance() {
-    return myvector.get_magnitude(Total_X, Total_Y);
-}
-
 int BALL::get_value(short BallNum) { 
     Ball_Distance =  Ball_Values[BallNum] * BallDistance_offset;
     return Ball_Distance;
+}
+
+int BALL::get_distance() {
+    return myvector.get_magnitude(Total_X, Total_Y);
 }
 
 int BALL::get_direction() {
