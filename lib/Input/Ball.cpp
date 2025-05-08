@@ -27,6 +27,10 @@ void BALL::read() {
     }
 }
 
+int BALL::get_maxdistance() {
+    return Max_BallValue;
+}
+
 int BALL::get_distance(short BallNum) { 
     Ball_Distance =  Ball_Values[BallNum] * BallDistance_offset;
     return Ball_Distance;
