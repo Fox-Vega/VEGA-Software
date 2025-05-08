@@ -32,7 +32,7 @@ void BALL::read() {
         BallNumStart += 16;
     }
     for (int i = BallNumStart; i < BallNumStart + 6; i++) {
-        if (i > 15) {
+        if (i >= NUMBalls) {
             i -= 16;
         }
         myvector.get_cordinate(Ball_Directions[i], ball.get_value(i));
