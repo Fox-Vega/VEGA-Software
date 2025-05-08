@@ -2,7 +2,8 @@
 
 #include <MyVECTOR.h>
 #include <Timer.h>
-#include <MySetup.cpp>
+#include <MyStartup.h>
 
 extern MyVECTOR myvector;
 extern Timer timer;
+extern Startup startup;
