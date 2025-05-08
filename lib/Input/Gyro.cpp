@@ -2,7 +2,6 @@
 #include <Input.h>
 
 void Gyro::setup() {
-    Serial.begin(9600);
     bno.setExtCrystalUse(true);
     bno.setMode(OPERATION_MODE_IMUPLUS);
     delay(25);
