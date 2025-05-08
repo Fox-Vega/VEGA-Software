@@ -12,7 +12,7 @@ void Startup::setup() {
     Serial.begin(9600);
 }
 
-void Startup::startup() {
+int Startup::startup() {
     phase = 1;
     while(phase != 4){
         switch_pressed = myswitch.check_tact();
@@ -54,9 +54,16 @@ void Startup::startup() {
                     gyro.pos_reset();
                     break;
                 } else if (toggle_stat == 1) {
-                    Run = true;
+                    Run_p = true;
                 }
         }
     }
-        
+    return Run_p;
+}
+
+int Startup::check_run() {
+    if (myswitch.check_toggle() == 0) {
+        Run_p = false;
+    }
+    return Run_p;
 }
