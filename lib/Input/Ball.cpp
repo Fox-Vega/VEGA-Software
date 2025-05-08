@@ -9,6 +9,8 @@ void BALL::setup() {
 
 void BALL::read() {
     Max_BallValue = 0;
+    Total_X = 0;
+    Total_Y = 0;
     for (int i = 0; i < 16; i++) {
         Ball_Values[i] = 0;
     }
@@ -25,20 +27,6 @@ void BALL::read() {
             Max_BallNum = i;
         }
     }
-}
-
-int BALL::get_maxdistance() {
-    return Max_BallValue;
-}
-
-int BALL::get_distance(short BallNum) { 
-    Ball_Distance =  Ball_Values[BallNum] * BallDistance_offset;
-    return Ball_Distance;
-}
-
-int BALL::get_direction() {
-    Total_X = 0;
-    Total_Y = 0;
     BallNumStart = Max_BallNum - 3;
     if (BallNumStart < 0) {
         BallNumStart += 16;
@@ -49,5 +37,17 @@ int BALL::get_direction() {
         Total_X += myvector.get_x();
         Total_Y += myvector.get_y();
     }
+}
+
+int BALL::get_distance() {
+    return myvector.get_magnitude(Total_X, Total_Y);
+}
+
+int BALL::get_value(short BallNum) { 
+    Ball_Distance =  Ball_Values[BallNum] * BallDistance_offset;
+    return Ball_Distance;
+}
+
+int BALL::get_direction() {
     return myvector.get_azimuth(Total_X, Total_Y);
 }
