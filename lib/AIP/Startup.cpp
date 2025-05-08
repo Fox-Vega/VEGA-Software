@@ -13,16 +13,49 @@ void Startup::setup() {
 }
 
 void Start::startup() {
-    mode = 1;
     phase = 1;
     while(phase != 4){
+        switch_pressed = switch.check_tact();
+        toggle_stat = switch.check_toggle();
         switch (phase) {
             case 1:
-                switch_pressed = switch.check_tact();
                 if (switch_pressed == 1){
-                } else if () {
+                    mode = 1;
+                    phase = 2;
+                    break;
+                } else if (switch_pressed == 2) {
+                    mode = 2;
+                    phase = 2;
+                    break;
+                } else if (switch_pressed == 3) {
+                    mode = 3;
+                    phase = 2;
+                    break;
                 }
-                
+            
+            case 2:
+                if (switch_pressed == 1){
+                    phase = 1;
+                    break;
+                } else if (switch_pressed == 2) {
+                    break;
+                } else if (switch_pressed == 3) {
+                    phase = 3;
+                    break;
+                }
+            case 3:
+                if (switch_pressed == 1){
+                    phase = 2;
+                    break;
+                } else if (switch_pressed == 2) {
+                    gyro.dir_reset();
+                    break;
+                } else if (switch_pressed == 3) {
+                    gyro.pos_reset();
+                    break;
+                } else if (toggle_stat == 1) {
+                    return 1;
+                }
         }
     }
         
