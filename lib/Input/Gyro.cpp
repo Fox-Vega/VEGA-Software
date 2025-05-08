@@ -11,9 +11,9 @@ void Gyro::setup() {
 void Gyro::read() {
     sensors_event_t event;
     bno.getEvent(&event);
-    heading = event.orientation.x;
-    roll = event.orientation.y;
-    pitch = event.orientation.z;
+    heading = event.orientation.x + dir_offset;
+    //roll = event.orientation.y;
+    //pitch = event.orientation.z;
 }
 
 int Gyro::get_azimuth() {
@@ -62,6 +62,14 @@ void Gyro::tweak_kalman() {
     }
 }
 
+void Gyro::dir_reset() {
+    dir_offset = event.orientation.x;
+}
+
+void Gyro::pos_reset() {
+    posX = 0;
+    posY = 0; 
+｝
 void Gyro::reset() {
     bno.setMode(OPERATION_MODE_CONFIG);
     delay(25);
