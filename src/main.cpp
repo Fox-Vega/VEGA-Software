@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include <API.h>
-
+#include <Output.h>
 
 void setup() {
-    MySetup();
+    startup.setup();
     mybuzzer.preset(1);
 }
 

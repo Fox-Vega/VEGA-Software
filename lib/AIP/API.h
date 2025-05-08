@@ -1,9 +1,10 @@
 #pragma once
 
-#include <MyVECTOR.h>
-#include <Timer.h>
-#include <MyStartup.h>
 
-extern MyVECTOR myvector;
+#include "Timer.h"
+#include "Startup.h"
+#include "MyVECTOR.h"
+
 extern Timer timer;
 extern Startup startup;
+extern MyVECTOR myvector;

@@ -24,6 +24,7 @@ void LINE::setup() {
 int LINE::get_line() {
     line.read();
     line.bubble_sort();
+    return 0;
 }
 
 int LINE::read() {

@@ -1,10 +1,15 @@
-#include <Arduino>
+#pragma once
 
-class Startup() {
+#include <Arduino.h>
+
+class Startup {
     public:
-        void setup():
+        void setup();
         void startup();
     private:
-        mode = 0;
-        phase = 0;
-}
+        bool Run = false;
+        short mode = 0;
+        short phase = 0;
+        short switch_pressed;
+        bool toggle_stat;
+};

@@ -1,4 +1,3 @@
-#include <Gyro.h>
 #include <Input.h>
 
 void Gyro::setup() {
@@ -11,9 +10,9 @@ void Gyro::setup() {
 void Gyro::read() {
     sensors_event_t event;
     bno.getEvent(&event);
-    heading = event.orientation.x + dir_offset;
-    //roll = event.orientation.y;
-    //pitch = event.orientation.z;
+    heading = int(event.orientation.x + dir_offset);
+    //roll = int(event.orientation.y);
+    //pitch = int(event.orientation.z);
 }
 
 int Gyro::get_azimuth() {
@@ -29,8 +28,8 @@ void Gyro::get_position() {
     sensors_event_t accelEvent, gyroEvent;
     bno.getEvent(&accelEvent, Adafruit_BNO055::VECTOR_ACCELEROMETER);
     bno.getEvent(&gyroEvent, Adafruit_BNO055::VECTOR_GYROSCOPE);
-    accelX = accelEvent.acceleration.x;
-    accelY = accelEvent.acceleration.y;
+    accelX = float(accelEvent.acceleration.x);
+    accelY = float(accelEvent.acceleration.y);
     gyroZ = gyroEvent.gyro.z;
     theta += gyroZ * dt; //角度更新
 
@@ -63,13 +62,14 @@ void Gyro::tweak_kalman() {
 }
 
 void Gyro::dir_reset() {
-    dir_offset = event.orientation.x;
+    gyro.read();
+    dir_offset = gyro.get_azimuth();
 }
 
 void Gyro::pos_reset() {
     posX = 0;
     posY = 0; 
-｝
+}
 
 void Gyro::restart() {
     bno.setMode(OPERATION_MODE_CONFIG);
