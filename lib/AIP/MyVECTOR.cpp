@@ -44,10 +44,10 @@ int MyVECTOR::get_y() {
     return y;
 }
 
-int MyVECTOR::get_psX() {
+int MyVECTOR::get_psx() {
     return Ps_X;
 }
 
-int MyVECTOR::get_psY() {
+int MyVECTOR::get_psy() {
     return Ps_Y;
 }
