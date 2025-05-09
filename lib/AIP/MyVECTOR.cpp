@@ -1,6 +1,6 @@
 #include <MyVECTOR.h>
 
-void MyVECTOR::get_cordinate(float Azimuth, float Magnitude) {
+void MyVECTOR::get_cor(float Azimuth, float Magnitude) {
     Theta = 90 - Azimuth;
     if (Theta < -180) {
         Theta += 360;
@@ -11,13 +11,13 @@ void MyVECTOR::get_cordinate(float Azimuth, float Magnitude) {
     y = float(sin(radians(Theta)) * Magnitude);
 }
 
-void MyVECTOR::get_ppcordinate(Pl_X, Pl_Y, Po_X, Po_Y) {
-    Ps_X = float(abs(Po_X - Pl_X));
-    Ps_Y = float(abs(Po_Y - Po_Y));
-    if (Po_X < Pl_X) {
-        Ps_X = Ps_X - (Ps_X * 2);
-    } else if (Po_Y < Pl_Y) {
-        Ps_Y = Ps_Y - (Ps_Y * 2);
+void MyVECTOR::get_ppcord(Pl_x, Pl_y, Po_x, Po_y) {
+    Ps_x = float(abs(Po_x - Pl_x));
+    Ps_y = float(abs(Po_y - Po_y));
+    if (Po_x < Pl_x) {
+        Ps_x = Ps_x - (Ps_x * 2);
+    } else if (Po_y < Pl_y) {
+        Ps_y = Ps_y - (Ps_y * 2);
     }
 }
 
@@ -45,9 +45,9 @@ int MyVECTOR::get_y() {
 }
 
 int MyVECTOR::get_psx() {
-    return Ps_X;
+    return Ps_x;
 }
 
 int MyVECTOR::get_psy() {
-    return Ps_Y;
+    return Ps_y;
 }
