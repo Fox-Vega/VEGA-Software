@@ -7,7 +7,7 @@ class BALL {
     public:
         void setup();
         void read();
-        int get_value(short BallNum);//ボールの値を取得する関
+        int get_value(short ballNUM);//ボールの値を取得する関
         int get_magnitude();//ボールの距離を計算する関数
         int get_azimuth();//ボールの方向を取得する関数
 

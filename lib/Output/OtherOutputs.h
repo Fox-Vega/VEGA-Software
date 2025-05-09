@@ -24,20 +24,20 @@ class MyPIXEL {
         
     private:
         //調整用
-        const bool USEPIXELS = true; //ネオピクセルの使用有無
+        const bool usePIXEL = true; //ネオピクセルの使用有無
         const int PIXEL_Brightness = 255; //最大で255
         
-        const int PIXEL_PIN = 45; // Pin where the NeoPixel ring is connected
-        const int NUMPIXELS = 16; // Number of pixels in the strip
-        Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
+        const int PIXELPIN = 45; // Pin where the NeoPixel ring is connected
+        const int NUMPIXEL = 16; // Number of pixels in the strip
+        Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXEL, PIXELPIN, NEO_GRB + NEO_KHZ800);
 };
 
 
 class MyBUZZER {
     public:
         void setup();
-        void start(int BUZZERNote, int BUZZERDuration);//トーン、音の長さを指定して音を鳴らす
-        void preset(int BUZZERPresetNum);//あらかじめ設定された音を鳴らす
+        void start(int BUZZERnote, int BUZZERduration);//トーン、音の長さを指定して音を鳴らす
+        void preset(int BUZZERpresetNUM);//あらかじめ設定された音を鳴らす
 
     private:
         const int BUZZER_PIN = 47;

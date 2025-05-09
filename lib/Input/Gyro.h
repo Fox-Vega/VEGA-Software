@@ -18,27 +18,27 @@ class Gyro {
         void cord_reset();//位置情報を初期化
         void restart();//BNO055自体を初期化
 
-        float Accelcm_X;
-        float Accelcm_Y;
+        float accelcm_x;
+        float accelcm_y;
         int heading;
         int offset;
         int roll;
         float pitch;
 
         //自己位置推定用
-        float posX = 0.0, posY = 0.0;
-        float velX = 0.0, velY = 0.0;
+        float pos_x = 0.0, pos_y = 0.0;
+        float vel_x = 0.0, vel_y = 0.0;
         float theta = 0.0;
-        float accelX = 0.0, accelY = 0.0; 
-        float gyroZ = 0.0;
-        float processNoise = 0.01; 
-        float measurementNoise = 0.1;
-        unsigned long lastUpdateTime = 0;
-        unsigned long currentTime;
+        float accel_x = 0.0, accel_y = 0.0; 
+        float gyro_z = 0.0;
+        float process_noise = 0.01; 
+        float measurement_noise = 0.1;
+        unsigned long lastupdatetime = 0;
+        unsigned long current_time;
         unsigned long dt; //時間間隔
-        float accelX_rot;
-        float accelY_rot;
-        float accelMagnitude;
+        float accel_x_rot;
+        float accel_y_rot;
+        float accelmagnitude;
         
     private:
         //調整用

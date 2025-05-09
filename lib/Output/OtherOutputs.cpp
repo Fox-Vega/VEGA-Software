@@ -8,14 +8,14 @@ void MyPIXEL::setup() {
 }
 
 void MyPIXEL::uni(int PIXELNum, int Red, int Green, int Blue) {
-    if (USEPIXELS == true) {
+    if (usePIXEL == true) {
         pixels.setPixelColor(PIXELNum, pixels.Color(Red, Green, Blue));
         pixels.show();
     }
 }
 
 void MyPIXEL::multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int Blue) {
-    if (USEPIXELS == true) {
+    if (usePIXEL == true) {
         for (int i = PIXELNumStart; i <= PIXELNumEnd; i++) {
             mypixel.uni(i, Red, Green, Blue);
         }
@@ -23,8 +23,8 @@ void MyPIXEL::multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int 
 }
 
 void MyPIXEL::closest(int Azimuth, int Red, int Green, int Blue) {
-    if (USEPIXELS == true) {
-        int ClosestPIXEL = NUMPIXELS + (Azimuth / 360.0 * NUMPIXELS);
+    if (usePIXEL == true) {
+        int ClosestPIXEL = NUMPIXEL + (Azimuth / 360.0 * NUMPIXEL);
         if (ClosestPIXEL >= 16) {
             ClosestPIXEL = 0;
         }
@@ -33,7 +33,7 @@ void MyPIXEL::closest(int Azimuth, int Red, int Green, int Blue) {
 }
 
 void MyPIXEL::clear() {
-    for (int i = 0; i < NUMPIXELS; i++) {
+    for (int i = 0; i < NUMPIXEL; i++) {
         pixels.setPixelColor(i, pixels.Color(0, 0, 0));
     }
     pixels.show();
@@ -44,16 +44,16 @@ void MyBUZZER::setup() {
     pinMode(BUZZER_PIN, OUTPUT);
 }
 
-void MyBUZZER::start(int BUZZERNote, int BUZZERDuration) {
-    int NoteDuration = 1000 / BUZZERDuration;
-    tone(BUZZER_PIN, BUZZERNote, NoteDuration);
-    delay(BUZZERDuration * 1.4);
+void MyBUZZER::start(int BUZZERnote, int BUZZERduration) {
+    int NoteDuration = 1000 / BUZZERduration;
+    tone(BUZZER_PIN, BUZZERnote, NoteDuration);
+    delay(BUZZERduration * 1.4);
     noTone(BUZZER_PIN);
     delay(100);
 }
 
-void MyBUZZER::preset(int BUZZERPresetNum) {
-    switch (BUZZERPresetNum) {
+void MyBUZZER::preset(int BUZZERpresetNUM) {
+    switch (BUZZERpresetNUM) {
         case '1':
             int Melody_Preset1[] = {260, 260, 260, 255, 0, 300, 250, 330};
             int NoteDurs[] = {7, 7, 7, 7, 14, 4, 5, 3};

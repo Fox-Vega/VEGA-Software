@@ -4,7 +4,7 @@ void Gyro::setup() {
     bno.setExtCrystalUse(true);
     bno.setMode(OPERATION_MODE_IMUPLUS);
     delay(25);
-    lastUpdateTime = millis();
+    lastupdatetime = millis();
 }
 
 void Gyro::read() {
@@ -22,42 +22,42 @@ int Gyro::get_azimuth() {
 }
 
 void Gyro::get_cord() {
-    currentTime = millis();
-    dt = (currentTime - lastUpdateTime) / 1000.0;
-    lastUpdateTime = currentTime;
+    current_time = millis();
+    dt = (current_time - lastupdatetime) / 1000.0;
+    lastupdatetime = current_time;
     sensors_event_t accelEvent, gyroEvent;
     bno.getEvent(&accelEvent, Adafruit_BNO055::VECTOR_ACCELEROMETER);
     bno.getEvent(&gyroEvent, Adafruit_BNO055::VECTOR_GYROSCOPE);
-    accelX = float(accelEvent.acceleration.x);
-    accelY = float(accelEvent.acceleration.y);
-    gyroZ = gyroEvent.gyro.z;
-    theta += gyroZ * dt; //角度更新
+    accel_x = float(accelEvent.acceleration.x);
+    accel_y = float(accelEvent.acceleration.y);
+    gyro_z = gyroEvent.gyro.z;
+    theta += gyro_z * dt; //角度更新
 
     //回転座標に変換してコート視点の座標に調整
-    accelX_rot = accelX * cos(theta) - accelY * sin(theta);
-    accelY_rot = accelX * sin(theta) + accelY * cos(theta);
+    accel_x_rot = accel_x * cos(theta) - accel_y * sin(theta);
+    accel_y_rot = accel_x * sin(theta) + accel_y * cos(theta);
 
     tweak_kalman(); // カルマンフィルタを調整
 
     //UKF予測
-    velX += accelX_rot * dt + processNoise;
-    velY += accelY_rot * dt + processNoise;
-    posX += velX * dt;
-    posY += velY * dt;
+    vel_x += accel_x_rot * dt + process_noise;
+    vel_y += accel_y_rot * dt + process_noise;
+    pos_x += vel_x * dt;
+    pos_y += vel_y * dt;
 
     //EKF校正
-    posX = (posX + measurementNoise) * postweak ;
-    posY = (posY + measurementNoise) * postweak ;
+    pos_x = (pos_x + measurement_noise) * postweak ;
+    pos_y = (pos_x + measurement_noise) * postweak ;
 }
 
 void Gyro::tweak_kalman() {
-    accelMagnitude = sqrt(accelX * accelX + accelY * accelY);
-    if (accelMagnitude > 2.0) {  
-        processNoise = 0.05;
-        measurementNoise = 0.2;
+    accelmagnitude = sqrt(accel_x * accel_x + accel_y * accel_y);
+    if (accelmagnitude > 2.0) {  
+        process_noise = 0.05;
+        measurement_noise = 0.2;
     } else {
-        processNoise = 0.01;
-        measurementNoise = 0.1;
+        process_noise = 0.01;
+        measurement_noise = 0.1;
     }
 }
 
@@ -67,8 +67,8 @@ void Gyro::dir_reset() {
 }
 
 void Gyro::cord_reset() {
-    posX = 0;
-    posY = 0; 
+    pos_x = 0;
+    pos_y = 0; 
 }
 
 void Gyro::restart() {

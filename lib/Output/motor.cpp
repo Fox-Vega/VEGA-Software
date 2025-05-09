@@ -15,11 +15,11 @@ void MyMOTOR::setup() {
     }
 }
 
-void MyMOTOR::run(float Movement_Azimuth, int Power_, int Dir_Azimuth) {
-    difix_PWM = mymotor.difix(Dir_Azimuth) / 2;
+void MyMOTOR::run(float movement_azimuth, int power_, int dir_azimuth) {
+    difix_PWM = mymotor.difix(dir_azimuth) / 2;
     for (int i = 0; i < 4; i++) {
-        Azimuth_motor = Movement_Azimuth - motor_degrees[i];//オムニの軸がy軸になるようにする
-        myvector.get_cord(Azimuth_motor, Power_ - abs(difix_PWM));
+        azimuth_motor = movement_azimuth - motor_degrees[i];//オムニの軸がy軸になるようにする
+        myvector.get_cord(azimuth_motor, power_ - abs(difix_PWM));
         Power = myvector.get_x();
         if (Power >= 0) {
             PoMi = true;
@@ -48,7 +48,7 @@ int MyMOTOR::difix(int setpoint) {
     } else {
         difix_PoMi = false;
     }
-    return motorPWM = int(constrain(abs(angularVelocity) * pwmScale, 0, 255));
+    return motorPWM = int(constrain(abs(angularVelocity) * pwmscale, 0, 255));
 }
 
 void MyMOTOR::free() {
