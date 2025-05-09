@@ -26,6 +26,7 @@ class Gyro {
         int heading;
         int offset;
         int roll;
+        int azimuth;
         float dir_offset;
         float accelcm_x;
         float accelcm_y;
@@ -33,8 +34,8 @@ class Gyro {
         Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);
 
         //自己位置推定用
-        int dt; //時間間隔
         bool collision_stat;
+        float dt; //時間間隔
         float pos_x = 0.0, pos_y = 0.0;
         float vel_x = 0.0, vel_y = 0.0;
         float theta = 0.0;

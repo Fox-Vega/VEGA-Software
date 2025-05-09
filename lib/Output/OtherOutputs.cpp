@@ -3,40 +3,40 @@
 
 
 void MyPIXEL::setup() {
-        pixels.begin();
-        pixels.setBrightness(PIXEL_Brightness);
+        PIXEL.begin();
+        PIXEL.setBrightness(PIXELbrightness);
 }
 
-void MyPIXEL::uni(int PIXELNum, int Red, int Green, int Blue) {
+void MyPIXEL::uni(int PIXELNUM, int red, int green, int blue) {
     if (usePIXEL == true) {
-        pixels.setPixelColor(PIXELNum, pixels.Color(Red, Green, Blue));
-        pixels.show();
+        PIXEL.setPixelColor(PIXELNUM, PIXEL.Color(red, green, blue));
+        PIXEL.show();
     }
 }
 
-void MyPIXEL::multi(int PIXELNumStart, int PIXELNumEnd, int Red, int Green, int Blue) {
+void MyPIXEL::multi(int PIXELNUMstart, int PIXELNUMend, int red, int green, int blue) {
     if (usePIXEL == true) {
-        for (int i = PIXELNumStart; i <= PIXELNumEnd; i++) {
-            mypixel.uni(i, Red, Green, Blue);
+        for (int i = PIXELNUMstart; i <= PIXELNUMend; i++) {
+            mypixel.uni(i, red, green, blue);
         }
     }
 }
 
-void MyPIXEL::closest(int Azimuth, int Red, int Green, int Blue) {
+void MyPIXEL::closest(int azimuth, int red, int green, int blue) {
     if (usePIXEL == true) {
-        int ClosestPIXEL = NUMPIXEL + (Azimuth / 360.0 * NUMPIXEL);
+        int ClosestPIXEL = NUMPIXEL + (azimuth / 360.0 * NUMPIXEL);
         if (ClosestPIXEL >= 16) {
             ClosestPIXEL = 0;
         }
-        mypixel.uni(ClosestPIXEL, Red, Green, Blue);
+        mypixel.uni(ClosestPIXEL, red, green, blue);
     }
 }
 
 void MyPIXEL::clear() {
     for (int i = 0; i < NUMPIXEL; i++) {
-        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        PIXEL.setPixelColor(i, PIXEL.Color(0, 0, 0));
     }
-    pixels.show();
+    PIXEL.show();
 }
 
 

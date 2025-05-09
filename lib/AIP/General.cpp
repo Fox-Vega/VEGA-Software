@@ -56,20 +56,20 @@ int General::startup() {
                     gyro.cord_reset();
                     break;
                 } else if (toggle_stat == 1) {
-                    Run_p = true;
+                    Run = true;
                 }
         }
     }
-    return Run_p;
+    return Run;
 }
 
 int General::check_run() {
     if (myswitch.check_toggle() == 0) {
-        Run_p = false;
+        Run = false;
     } else {
-       Run_p = true; 
+        Run = true; 
     }
-    return Run_p;
+    return Run;
 }
 
 int General::check_mode() {

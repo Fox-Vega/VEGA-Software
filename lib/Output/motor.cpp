@@ -7,7 +7,6 @@
  //TODO もし姿勢制御が反対向きになっていた場合、motor.move の中の　+　-　を変更すること。
  //TODO もしモーターが逆回転していた場合、PIN1とPIN2の内容を反転させること。
 
-
 void MyMOTOR::setup() {
     for (int i = 0; i < 4; i++) {
         pinMode(motor_PIN1[i], OUTPUT);
@@ -15,23 +14,23 @@ void MyMOTOR::setup() {
     }
 }
 
-void MyMOTOR::run(float movement_azimuth, int power_, int dir_azimuth) {
-    difix_PWM = mymotor.difix(dir_azimuth) / 2;
+void MyMOTOR::run(int movement_azimuth, int power_, int dir_azimuth) {
+    difixPWM = mymotor.difix(dir_azimuth) / 2;
     for (int i = 0; i < 4; i++) {
         azimuth_motor = movement_azimuth - motor_degrees[i];//オムニの軸がy軸になるようにする
-        myvector.get_cord(azimuth_motor, power_ - abs(difix_PWM));
-        Power = myvector.get_x();
-        if (Power >= 0) {
+        myvector.get_cord(azimuth_motor, power_ - abs(difixPWM));
+        power = myvector.get_x();
+        if (power >= 0) {   
             PoMi = true;
         } else {
             PoMi = false;
-            Power -= (Power * 2);
+            power -= (power * 2);
         }
         if (PoMi == true) {
             analogWrite(motor_PIN1[i], 0);
-            analogWrite(motor_PIN2[i], Power -= difix_PWM);
+            analogWrite(motor_PIN2[i], int(power -= difixPWM));
         } else {
-            analogWrite(motor_PIN1[i], Power += difix_PWM);
+            analogWrite(motor_PIN1[i], int(power += difixPWM));
             analogWrite(motor_PIN2[i], 0);
         }
     }

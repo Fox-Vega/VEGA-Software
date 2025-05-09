@@ -12,7 +12,7 @@ void setup() {
 void loop() {
     // int mode = general.check_mode();
     gyro.get_cord();
-    if (general.check_run() == true) {
+    if (general.check_run()) {
         // switch (mode) {
         //     case 1:
 

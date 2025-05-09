@@ -17,19 +17,30 @@ void Gyro::read() {
 
 int Gyro::get_azimuth() {
     gyro.read();
-    return heading;
+    azimuth = heading + 180;
+    if (azimuth > 360) {
+        azimuth -= 360;
+    } else if (azimuth < 0) {
+        azimuth += 360;
+    }
+    return azimuth;
 }
 
 void Gyro::get_cord() {
     current_time = millis();
-    dt = (current_time - lastupdatetime) / 1000; //単位を1/1000秒に変更
+    dt = (current_time - lastupdatetime) / 1000;
     lastupdatetime = current_time;
     sensors_event_t accelEvent, gyroEvent;
     bno.getEvent(&accelEvent, Adafruit_BNO055::VECTOR_ACCELEROMETER);
     bno.getEvent(&gyroEvent, Adafruit_BNO055::VECTOR_GYROSCOPE);
     accel_x = float(accelEvent.acceleration.x);
     accel_y = float(accelEvent.acceleration.y);
-    gyro_z = gyroEvent.gyro.z;
+    gyro_z = gyroEvent.gyro.z + dir_offset;
+    if (gyro_z < -180) {
+        gyro_z += 360;
+    } else if (gyro_z > 180) {
+        gyro_z -= 360;
+    }
     theta += gyro_z * dt; //角度更新
 
     bool collision_stat = (abs(accel_x) > collision_border); //衝突検知
@@ -66,7 +77,7 @@ void Gyro::tweak_kalman() {
 
 void Gyro::dir_reset() { //方向キャリブレーション
     gyro.read();
-    dir_offset = gyro.get_azimuth();
+    dir_offset = float(gyro.get_azimuth());
 }
 
 void Gyro::cord_reset() { //座標リセット

@@ -8,9 +8,9 @@ void BALL::setup() {
 }
 
 void BALL::read() {
-    max_ballvalue = 0;
     total_x = 0;
     total_y = 0;
+    max_ballvalue = 0;
     for (int i = 0; i < 16; i++) {
         ballvalues[i] = 0;
     }
@@ -42,8 +42,7 @@ void BALL::read() {
 }
 
 int BALL::get_value(short ballNUM) { 
-    ballvalue =  ballvalues[ballNUM] * ballvalue_offset;
-    return ballvalue;
+    return ballvalues[ballNUM] * ballvalue_offset;
 }
 
 int BALL::get_magnitude() {

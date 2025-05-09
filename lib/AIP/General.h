@@ -16,5 +16,5 @@ class General {
         short phase = 0;
         short switch_pressed;
         bool toggle_stat;
-        bool Run_p = false;//実行するかどうか
+        bool Run = false;//実行するかどうか
 };

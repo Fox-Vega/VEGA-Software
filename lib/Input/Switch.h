@@ -7,8 +7,8 @@ class MySWITCH {
         int check_toggle();//トグルスイッチの状態を確認
 
     private:
-        const short tactswitchPIN[3] = {12, 35, 33};
-        const short toggleswitchPIN = 10;
-        short pushed_tact;
-        short toggle_stat = 0;
+        byte pushed_tact;
+        byte toggle_stat = 0;
+        const byte tactswitchPIN[3] = {12, 35, 33};
+        const byte toggleswitchPIN = 10;
 };
