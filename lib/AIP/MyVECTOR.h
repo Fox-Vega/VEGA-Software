@@ -18,6 +18,7 @@ class MyVECTOR {
         float y;
         float Pl_X, Pl_Y;
         float Po_X, Po_Y;
+        float Ps_X, Ps_Y;
         float Theta;
         float Azimuth;
         float Magnitude;
