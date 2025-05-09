@@ -13,6 +13,7 @@ class Attack {
         const int b_p1_deg = 10 //ボールの回り込みパターン１を行う範囲(片側)
         float appraoch_value = 1.5;//ボールの回り込みパターン１の際の角度増加値
         int b_p1approach_speed = 255;//ボールの回り込みパターン１の速度
+        const short goal_cordinate[2] = {0, 3000};
 
         float approachdir;
 };
