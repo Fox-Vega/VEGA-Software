@@ -12,10 +12,10 @@ class Gyro {
         void setup();//初期設定
         void read();//センサーデータ取得
         int get_azimuth();//方位角取得
-        void get_position();//自己位置取得
+        void get_cord();//自己位置取得
         void tweak_kalman();//カルマンフィルタ調整
         void dir_reset();//方向を初期化
-        void pos_reset();//位置情報を初期化
+        void cord_reset();//位置情報を初期化
         void restart();//BNO055自体を初期化
 
         float Accelcm_X;

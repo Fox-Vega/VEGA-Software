@@ -7,4 +7,4 @@
 
 extern MyPIXEL mypixel;
 extern MyBUZZER mybuzzer;
-extern MOTOR motor;
+extern MyMOTOR mymotor;

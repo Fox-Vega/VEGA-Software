@@ -11,7 +11,7 @@ void MyVECTOR::get_cord(float Azimuth, float Magnitude) {
     y = float(sin(radians(Theta)) * Magnitude);
 }
 
-void MyVECTOR::get_ppcord(Pl_x, Pl_y, Po_x, Po_y) {
+void MyVECTOR::get_ppcord(float Pl_x, float Pl_y, float Po_x, float Po_y) {
     Ps_x = float(abs(Po_x - Pl_x));
     Ps_y = float(abs(Po_y - Po_y));
     if (Po_x < Pl_x) {

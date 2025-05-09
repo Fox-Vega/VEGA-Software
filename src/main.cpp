@@ -10,16 +10,14 @@ void setup() {
 }
 
 void loop() {
-    int mode = general.check_mode();
-    gyro.get_cordinate();
+    // int mode = general.check_mode();
+    gyro.get_cord();
     if (general.check_run() == true) {
-        switch (mode) {
-            case 1:
-                
+        // switch (mode) {
+        //     case 1:
 
-        }
+        // }
     } else {
-        motor.brake();
-        return 0;
+        mymotor.brake();
     }
 }

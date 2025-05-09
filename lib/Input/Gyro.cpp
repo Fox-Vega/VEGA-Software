@@ -21,7 +21,7 @@ int Gyro::get_azimuth() {
     return int_heading;
 }
 
-void Gyro::get_position() {
+void Gyro::get_cord() {
     currentTime = millis();
     dt = (currentTime - lastUpdateTime) / 1000.0;
     lastUpdateTime = currentTime;
@@ -66,7 +66,7 @@ void Gyro::dir_reset() {
     dir_offset = gyro.get_azimuth();
 }
 
-void Gyro::pos_reset() {
+void Gyro::cord_reset() {
     posX = 0;
     posY = 0; 
 }

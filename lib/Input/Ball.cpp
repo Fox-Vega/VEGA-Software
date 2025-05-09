@@ -27,23 +27,23 @@ void BALL::read() {
             max_ballNUM = i;
         }
     }
-    ballNUMstart = max_ballNUM - 3;
-    if (ballNumstart < 0) {
-        ballNumstart += 16;
+    int ballNUMstart = max_ballNUM - 3;
+    if (ballNUMstart < 0) {
+        ballNUMstart += 16;
     }
-    for (int i = ballNumstart; i < ballNumstart + 6; i++) {
+    for (int i = ballNUMstart; i < ballNUMstart + 6; i++) {
         if (i >= NUMball) {
             i -= 16;
         }
-        myvector.get_cordinate(balldirs[i], ball.get_value(i));
+        myvector.get_cord(balldirs[i], ball.get_value(i));
         total_x += myvector.get_x();
         total_y += myvector.get_y();
     }
 }
 
 int BALL::get_value(short ballNUM) { 
-    balldist =  ballvalues[ballNUM] * balldistance_offset
-    return balldist;
+    ballvalue =  ballvalues[ballNUM] * ballvalue_offset;
+    return ballvalue;
 }
 
 int BALL::get_magnitude() {

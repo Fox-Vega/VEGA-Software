@@ -2,11 +2,11 @@
 
 #include <Arduino.h>
 
-class MOTOR {
+class MyMOTOR {
     public:
         void setup();
-        void move(int Movement_Azimuth, int Power_, int Direction_Azimuth);//進む方向、力（最大Powerは255）、向く方向（姿勢制御用）を引数にいれる
-        double difix(double setpoint);//PID姿勢制御用
+        void run(float Movement_Azimuth, int Power_, int Direction_Azimuth);//進む方向、力（最大Powerは255）、向く方向（姿勢制御用）を引数にいれる
+        int difix(int setpoint);//PID姿勢制御用
         void free();//自由回転
         void brake();//ブレーキ
 

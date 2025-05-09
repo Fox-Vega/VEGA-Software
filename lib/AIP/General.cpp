@@ -6,7 +6,7 @@ void General::setup() {
     ball.setup();
     gyro.setup();
     line.setup();
-    motor.setup();
+    mymotor.setup();
     mypixel.setup();
     mybuzzer.setup();
     myswitch.setup();
@@ -16,7 +16,7 @@ void General::setup() {
 int General::startup() {
     phase = 1;
     while(phase != 4){
-        gyro.get_position();
+        gyro.get_cord();
         switch_pressed = myswitch.check_tact();
         toggle_stat = myswitch.check_toggle();
         switch (phase) {
@@ -53,7 +53,7 @@ int General::startup() {
                     gyro.dir_reset();
                     break;
                 } else if (switch_pressed == 3) {
-                    gyro.pos_reset();
+                    gyro.cord_reset();
                     break;
                 } else if (toggle_stat == 1) {
                     Run_p = true;
@@ -77,5 +77,5 @@ int General::check_mode() {
 }
 
 void General::update() {
-    gyro.get_position();
+    gyro.get_cord();
 }
