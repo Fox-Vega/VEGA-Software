@@ -1,19 +1,19 @@
 #include <MyVECTOR.h>
 
-void MyVECTOR::get_cord(float azimuth, float magnitude) {
+void MyVECTOR::get_cord(int azimuth, int magnitude) {
     theta = 90 - azimuth;
     if (theta < -180) {
         theta += 360;
     } else if (theta > 180) {
         theta -= 360;
     }
-    x = float(cos(radians(theta)) * magnitude);
-    y = float(sin(radians(theta)) * magnitude);
+    x = int(cos(radians(theta)) * magnitude);
+    y = int(sin(radians(theta)) * magnitude);
 }
 
-void MyVECTOR::get_ppcord(float pl_x, float pl_y, float po_x, float po_y) {
-    ps_x = float(abs(po_x - pl_x));
-    ps_y = float(abs(po_y - po_y));
+void MyVECTOR::get_ppcord(int pl_x, int pl_y, int po_x, int po_y) {
+    ps_x = int(abs(po_x - pl_x));
+    ps_y = int(abs(po_y - po_y));
     if (po_x < pl_x) {
         ps_x = ps_x - (ps_x * 2);
     } else if (po_y < pl_y) {
@@ -21,9 +21,9 @@ void MyVECTOR::get_ppcord(float pl_x, float pl_y, float po_x, float po_y) {
     }
 }
 
-int MyVECTOR::get_azimuth(float x, float y) {
+int MyVECTOR::get_azimuth(int x, int y) {
     theta = atan2(y, x);
-    azimuth = float(90 - degrees(theta));
+    azimuth = int(90 - degrees(theta));
     if (azimuth < 0) { 
         azimuth += 360;
     } else if (azimuth > 360) {
@@ -32,8 +32,8 @@ int MyVECTOR::get_azimuth(float x, float y) {
     return azimuth;
 }
 
-int MyVECTOR::get_magnitude(float x, float y) {
-    return float(sqrt(x * x + y * y));
+int MyVECTOR::get_magnitude(int x, int y) {
+    return int(sqrt(x * x + y * y));
 }
 
 int MyVECTOR::get_x() {

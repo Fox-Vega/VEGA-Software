@@ -17,13 +17,12 @@ void Gyro::read() {
 
 int Gyro::get_azimuth() {
     gyro.read();
-    int int_heading = (int)heading;
-    return int_heading;
+    return heading;
 }
 
 void Gyro::get_cord() {
     current_time = millis();
-    dt = (current_time - lastupdatetime) / 1000.0;
+    dt = (current_time - lastupdatetime) / 1000; //単位を1/1000秒に変更
     lastupdatetime = current_time;
     sensors_event_t accelEvent, gyroEvent;
     bno.getEvent(&accelEvent, Adafruit_BNO055::VECTOR_ACCELEROMETER);
@@ -33,21 +32,25 @@ void Gyro::get_cord() {
     gyro_z = gyroEvent.gyro.z;
     theta += gyro_z * dt; //角度更新
 
-    //回転座標に変換してコート視点の座標に調整
-    accel_x_rot = accel_x * cos(theta) - accel_y * sin(theta);
-    accel_y_rot = accel_x * sin(theta) + accel_y * cos(theta);
+    bool collision_stat = (abs(accel_x) > collision_border); //衝突検知
 
-    tweak_kalman(); // カルマンフィルタを調整
+    if (!collision_stat) {
+        //回転座標に変換してコート視点の座標に調整
+        accel_x_rot = accel_x * cos(theta) - accel_y * sin(theta);
+        accel_y_rot = accel_x * sin(theta) + accel_y * cos(theta);
 
-    //UKF予測
-    vel_x += accel_x_rot * dt + process_noise;
-    vel_y += accel_y_rot * dt + process_noise;
-    pos_x += vel_x * dt;
-    pos_y += vel_y * dt;
+        tweak_kalman(); //カルマンフィルタを調整
 
-    //EKF校正
-    pos_x = (pos_x + measurement_noise) * postweak ;
-    pos_y = (pos_x + measurement_noise) * postweak ;
+        //UKF予測
+        vel_x += accel_x_rot * dt + process_noise;
+        vel_y += accel_y_rot * dt + process_noise;
+        pos_x += vel_x * dt;
+        pos_y += vel_y * dt;
+
+        //EKF校正
+        pos_x = (pos_x + measurement_noise) * postweak ;
+        pos_y = (pos_x + measurement_noise) * postweak ;
+    }
 }
 
 void Gyro::tweak_kalman() {
@@ -61,17 +64,17 @@ void Gyro::tweak_kalman() {
     }
 }
 
-void Gyro::dir_reset() {
+void Gyro::dir_reset() { //方向キャリブレーション
     gyro.read();
     dir_offset = gyro.get_azimuth();
 }
 
-void Gyro::cord_reset() {
+void Gyro::cord_reset() { //座標リセット
     pos_x = 0;
     pos_y = 0; 
 }
 
-void Gyro::restart() {
+void Gyro::restart() { //瞬間的にモードを変えることで初期化
     bno.setMode(OPERATION_MODE_CONFIG);
     delay(25);
     bno.setMode(OPERATION_MODE_IMUPLUS);
