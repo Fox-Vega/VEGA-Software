@@ -5,7 +5,8 @@ void Attack::attack() {
        
     } else {
         ball.read();
-        if (ball.get_direction() < 10 || ball.get_direction() > 350) {
+        ball_dir = ball.get_direction();
+        if (ball_dir < 10 || ball_dir > 350) {
             attack.b_p1();
         } else if (ball.get_distance > wrap_rad) {
             attack.b_p2();
