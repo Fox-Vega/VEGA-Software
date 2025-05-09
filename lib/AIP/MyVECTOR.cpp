@@ -12,12 +12,12 @@ void MyVECTOR::get_cordinate(float Azimuth, float Magnitude) {
 }
 
 void MyVECTOR::get_ppcordinate(Pl_X, Pl_Y, Po_X, Po_Y) {
-    Pl_X = abs(Po_X - Pl_X);
-    Pl_Y = abs(Po_Y - Po_Y);
+    Ps_X = abs(Po_X - Pl_X);
+    Ps_Y = abs(Po_Y - Po_Y);
     if (Po_X < Pl_X) {
-        Pl_X = Pl_X - (Pl_X * 2);
+        Ps_X = Ps_X - (Ps_X * 2);
     } else if (Po_Y < Pl_Y) {
-        Pl_Y = Pl_Y - (Pl_Y * 2);
+        Ps_Y = Ps_Y - (Ps_Y * 2);
     }
 }
 
@@ -42,4 +42,12 @@ int MyVECTOR::get_x() {
 
 int MyVECTOR::get_y() {
     return y;
+}
+
+int MyVECTOR::get_psX() {
+    return Ps_X;
+}
+
+int MyVECTOR::get_psY() {
+    return Ps_Y;
 }
