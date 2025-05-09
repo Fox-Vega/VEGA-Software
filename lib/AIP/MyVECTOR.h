@@ -10,8 +10,8 @@ class MyVECTOR {
         int get_magnitude(float X, float Y);//距離を取得する関数
         int get_x();//取得したX座標を返す関数
         int get_y();//取得したY座標を返す関数
-        int get_psX();//plから見たpoの座標を返す関数
-        int get_psY();//plから見たpoの座標を返す関数
+        int get_psx();//plから見たpoの座標を返す関数
+        int get_psy();//plから見たpoの座標を返す関数
 
     private:
         float x;
