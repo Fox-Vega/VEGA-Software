@@ -16,6 +16,7 @@ void General::setup() {
 int General::startup() {
     phase = 1;
     while(phase != 4){
+        gyro.get_position();
         switch_pressed = myswitch.check_tact();
         toggle_stat = myswitch.check_toggle();
         switch (phase) {
