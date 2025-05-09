@@ -40,6 +40,11 @@ int General::startup() {
                     phase = 1;
                     break;
                 } else if (switch_pressed == 2) {
+                    if (startcord < 4) {
+                        startcord += 1;
+                    }
+                    gyro.cord_custom(startcords_x[startcord], startcords_y[startcord]);
+                    mypixel.uni(startPIXELs[startcord], 255, 0, 0);
                     break;
                 } else if (switch_pressed == 3) {
                     phase = 3;

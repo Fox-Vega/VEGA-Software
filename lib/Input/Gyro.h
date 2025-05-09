@@ -16,6 +16,7 @@ class Gyro {
         void tweak_kalman(); //カルマンフィルタ調整
         void dir_reset(); //方向初期化
         void cord_reset(); //位置情報初期化
+        void cord_custom(int x, int y); //自由位置に設定可能
         void restart(); //センサーを初期化
         
     private:

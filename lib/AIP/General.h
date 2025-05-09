@@ -12,9 +12,14 @@ class General {
         void update(); //値を更新
 
     private:
-        short mode = 0; //機体モード
-        short phase = 0; //設定フェーズ
-        short switch_pressed; //押されたスイッチ
+        byte startcord = 0;
         bool toggle_stat; //トグルスイッチの状態
         bool Run = false; //実行するかどうか
+        short mode = 0; //機体モード
+        short phase = 0; //設定フェーズ
+        //スタート座標　通常　右奥　左奥　右前　左前　
+        short startcords_x[5] = {0, 0, 0, 0, 0}; //スタート位置のx座標
+        short startcords_y[5] = {0, 0, 0, 0, 0}; //スタート位置のy座標
+        short startPIXELs[5] = {1, 3, 15, 7, 11};
+        short switch_pressed; //押されたスイッチ
 };

@@ -85,6 +85,11 @@ void Gyro::cord_reset() { //座標リセット
     pos_y = 0; 
 }
 
+void Gyro::cord_custom(int x, int y) {
+    pos_x = x;
+    pos_y = y;
+}
+
 void Gyro::restart() { //瞬間的にモードを変えることで初期化
     bno.setMode(OPERATION_MODE_CONFIG);
     delay(25);
