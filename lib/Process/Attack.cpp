@@ -19,8 +19,9 @@ void Attack::attack() {
 void Attack::b_p1() {
     botapproachdir = 0;
     approachdir = ball.get_direction() * appraoch_value;
-    motor.move(approachdir, approach_speed, 0);
     if (ball.get_distance() < ball_catchdistance) {
-        botapproachdir = 
+        myvector.get_ppcordinate();
+        botapproachdir = myvector.get_azimuth(myvector.get_psx(), myvector.get_psy());
     }
+    motor.move(approachdir, approach_speed, botapproachdir);
 }
