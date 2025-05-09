@@ -10,4 +10,7 @@ class Attack {
     private:
         // Adjustments
         const int BallApproach_radius = 100;//回り込み半径
+        float approachdir;
+        float appraoch_value = 1.5;//ボールの回り込みパターン１の際の角度増加値
+        int b_p1approach_speed = 255;//ボールの回り込みパターン１の速度
 };
