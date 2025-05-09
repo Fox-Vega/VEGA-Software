@@ -10,12 +10,15 @@ void setup() {
 }
 
 void loop() {
-    const int mode = general.check_mode();
+    int mode = general.check_mode();
     if (general.check_run() == true) {
         switch (mode) {
             case 1:
                 
 
         }
+    } else {
+        motor.brake();
+        return 0;
     }
 }
