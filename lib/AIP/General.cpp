@@ -66,6 +66,8 @@ int General::startup() {
 int General::check_run() {
     if (myswitch.check_toggle() == 0) {
         Run_p = false;
+    } else {
+       Run_p = true; 
     }
     return Run_p;
 }
