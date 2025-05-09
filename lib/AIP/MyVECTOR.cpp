@@ -11,6 +11,10 @@ void MyVECTOR::get_cordinate(float Azimuth, float Magnitude) {
     y = sin(radians(Theta)) * Magnitude;
 }
 
+void MyVECTOR::get_ppcordinate(Pl_X, Pl_Y, Po_X, Po_Y) {
+    
+}
+
 int MyVECTOR::get_azimuth(float x, float y) {
     Theta = atan2(y, x);
     Azimuth = 90 - degrees(Theta);
