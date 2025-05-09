@@ -17,6 +17,6 @@ void Attack::attack() {
 }
 
 void Attack::b_p1() {
-    approachdir = ball.get_direction();
-    motor.move()
+    approachdir = ball.get_direction() * appraoch_value;
+    motor.move(approachdir, approach_speed, 0);
 }
