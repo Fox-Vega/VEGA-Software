@@ -11,7 +11,7 @@ class BALL {
         int get_magnitude();//ボールの距離を計算する関数
         int get_azimuth();//ボールの方向を取得する関数
 
-        int ball_values[16];//ボールの値を格納する配列
+        int ballvalues[16];//ボールの値を格納する配列
 
     private:
         //調整用
@@ -22,8 +22,8 @@ class BALL {
         byte ballNUMstart;
         byte max_ballNUM = 0;
         byte max_ballvalue = 0;
-        int ball_value = 0;
+        int ballvalue = 0;
         const int NUMball = 16;
-        const int ball_PINs[16] = {31, 29, 27, 25, 23, 19, 17, 15, 32, 34, 36, 38, 40, 42, 44, 46};
-        const float ball_Dirs[16] = {0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5}; // Direction of the ball 
+        const int ballPINs[16] = {31, 29, 27, 25, 23, 19, 17, 15, 32, 34, 36, 38, 40, 42, 44, 46};
+        const float balldirs[16] = {0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5}; // Direction of the ball 
 };
