@@ -24,44 +24,69 @@ int General::startup() {
                 if (switch_pressed == 1){
                     mode = 1;
                     phase = 2;
+                    mypixel.clear();
+                    mypixel.multis(1, 16, 255, 0, 0);
+                    mybuzzer.start(200, 4);
                     break;
                 } else if (switch_pressed == 2) {
                     mode = 2;
                     phase = 2;
+                    mypixel.clear();
+                    mypixel.multis(1, 16, 0, 0, 255);
+                    mybuzzer.start(200, 4);
                     break;
                 } else if (switch_pressed == 3) {
                     mode = 3;
                     phase = 2;
+                    mypixel.clear();
+                    mypixel.multis(1, 16, 255, 0, 255);
+                    mybuzzer.start(200, 4);
                     break;
                 }
             
             case 2:
                 if (switch_pressed == 1){
                     phase = 1;
+                    mybuzzer.start(100, 4);
                     break;
                 } else if (switch_pressed == 2) {
                     if (startcord < 4) {
                         startcord += 1;
                     }
+                    mypixel.clear();
                     gyro.cord_custom(startcords_x[startcord], startcords_y[startcord]);
-                    mypixel.uni(startPIXELs[startcord], 255, 0, 0);
+                    mypixel.unis(startPIXELs[startcord], 255, 0, 0);
+                    mybuzzer.start(300, 4);
+                    delay(100);
+                    mybuzzer.start(300, 4);
                     break;
                 } else if (switch_pressed == 3) {
                     phase = 3;
+                    mybuzzer.start(200, 4);
                     break;
                 }
             case 3:
                 if (switch_pressed == 1){
                     phase = 2;
+                    mybuzzer.start(100, 4);
                     break;
                 } else if (switch_pressed == 2) {
                     gyro.dir_reset();
+                    mybuzzer.start(200, 2);
+                    delay(100);
+                    mybuzzer.start(100, 4);
                     break;
                 } else if (switch_pressed == 3) {
-                    gyro.cord_reset();
+                    gyro.cord_custom(startcords_x[startcord], startcords_y[startcord]);
+                    mybuzzer.start(300, 4);
+                    delay(100);
+                    mybuzzer.start(300, 4);
                     break;
                 } else if (toggle_stat == 1) {
                     Run = true;
+                } else {
+                    mybuzzer.start(300, 8);
+                    delay(100);
                 }
         }
     }

@@ -19,6 +19,8 @@ class MyPIXEL {
         void setup(); //初期設定
         void uni(int PIXELNUM, int red, int green, int blue); //単ピクセル点灯
         void multi(int PIXELNUMstart, int PIXELNUMend, int red, int green, int blue); //連続ピクセル点灯
+        void unis(int PIXELNUM, int red, int green, int blue); //試合前用単ピクセル点灯
+        void multis(int PIXELNUMstart, int PIXELNUMend, int red, int green, int blue); //試合前用連続ピクセル点灯
         void closest(int azimuth, int red, int green, int blue); //入力角度に最も近いピクセル点灯
         void clear(); //全消灯
         

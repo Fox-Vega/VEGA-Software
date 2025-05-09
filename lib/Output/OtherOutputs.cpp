@@ -22,6 +22,17 @@ void MyPIXEL::multi(int PIXELNUMstart, int PIXELNUMend, int red, int green, int 
     }
 }
 
+void MyPIXEL::unis(int PIXELNUM, int red, int green, int blue) {
+    PIXEL.setPixelColor(PIXELNUM, PIXEL.Color(red, green, blue));
+    PIXEL.show();
+}
+
+void MyPIXEL::multis(int PIXELNUMstart, int PIXELNUMend, int red, int green, int blue) {
+    for (int i = PIXELNUMstart; i <= PIXELNUMend; i++) {
+        mypixel.uni(i, red, green, blue);
+    }
+}
+
 void MyPIXEL::closest(int azimuth, int red, int green, int blue) {
     if (usePIXEL == true) {
         int ClosestPIXEL = NUMPIXEL + (azimuth / 360.0 * NUMPIXEL);
