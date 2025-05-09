@@ -1,6 +1,6 @@
 #include <MyVECTOR.h>
 
-void MyVECTOR::get_cor(float Azimuth, float Magnitude) {
+void MyVECTOR::get_cord(float Azimuth, float Magnitude) {
     Theta = 90 - Azimuth;
     if (Theta < -180) {
         Theta += 360;
