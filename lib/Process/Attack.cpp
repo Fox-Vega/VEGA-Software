@@ -6,7 +6,7 @@ void Attack::attack() {
     } else {
         ball.read();
         ball_dir = ball.get_direction();
-        if (ball_dir < 10 || ball_dir > 350) {
+        if (ball_dir < b_p1_deg || ball_dir > 360 - b_p1_deg) {
             attack.b_p1();
         } else if (ball.get_distance > BallApproach_radius) {
             attack.b_p2();
