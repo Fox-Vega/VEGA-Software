@@ -11,6 +11,7 @@ void setup() {
 
 void loop() {
     int mode = general.check_mode();
+    gyro.get_cordinate();
     if (general.check_run() == true) {
         switch (mode) {
             case 1:
