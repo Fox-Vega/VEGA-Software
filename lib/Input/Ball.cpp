@@ -3,7 +3,7 @@
 
 void BALL::setup() {
     for (int i = 0; i < NUMball; i++) {
-        pinMode(ball_PINs[i], INPUT);
+        pinMode(ballPINs[i], INPUT);
     }
 }
 
@@ -12,44 +12,44 @@ void BALL::read() {
     total_x = 0;
     total_y = 0;
     for (int i = 0; i < 16; i++) {
-        ball_values[i] = 0;
+        ballvalues[i] = 0;
     }
     for (int j = 0; j < 60; j++) {
-        for (int i = 0; i < NUMBall; i++) {
-            if (digitalRead(ball_PINs[i]) == HIGH) {
-                ball_values[i] = ball_values[i] + 1;
+        for (int i = 0; i < NUMball; i++) {
+            if (digitalRead(ballPINs[i]) == HIGH) {
+                ballvalues[i] = ballvalues[i] + 1;
             }
         }
     }
-    for (int i = 0; i < NUMBalls; i++) {
-        if (Ball_Values[i] > Max_BallValue) {
-            Max_BallValue = Ball_Values[i];
-            Max_BallNum = i;
+    for (int i = 0; i < NUMball; i++) {
+        if (ballvalues[i] > max_ballvalue) {
+            max_ballvalue = ballvalues[i];
+            max_ballNUM = i;
         }
     }
-    BallNumStart = Max_BallNum - 3;
-    if (BallNumStart < 0) {
-        BallNumStart += 16;
+    ballNUMstart = max_ballNUM - 3;
+    if (ballNumstart < 0) {
+        ballNumstart += 16;
     }
-    for (int i = BallNumStart; i < BallNumStart + 6; i++) {
-        if (i >= NUMBalls) {
+    for (int i = ballNumstart; i < ballNumstart + 6; i++) {
+        if (i >= NUMball) {
             i -= 16;
         }
-        myvector.get_cordinate(Ball_Directions[i], ball.get_value(i));
-        Total_X += myvector.get_x();
-        Total_Y += myvector.get_y();
+        myvector.get_cordinate(balldirs[i], ball.get_value(i));
+        total_x += myvector.get_x();
+        total_y += myvector.get_y();
     }
 }
 
-int BALL::get_value(short BallNum) { 
-    Ball_Distance =  Ball_Values[BallNum] * BallDistance_offset;
-    return Ball_Distance;
+int BALL::get_value(short ballNUM) { 
+    balldist =  ballvalues[ballNUM] * balldistance_offset
+    return balldist;
 }
 
 int BALL::get_magnitude() {
-    return myvector.get_magnitude(Total_X, Total_Y);
+    return myvector.get_magnitude(total_x, total_y);
 }
 
 int BALL::get_azimuth() {
-    return myvector.get_azimuth(Total_X, Total_Y);
+    return myvector.get_azimuth(total_x, total_y);
 }
