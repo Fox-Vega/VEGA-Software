@@ -15,5 +15,8 @@ class Attack {
         int b_p1approach_speed = 255;//ボールの回り込みパターン１の速度
         const short goal_cordinate[2] = {0, 3000};
 
+        short botapproachdir;
+        short approachdir;
+        short botapproachdir;
         float approachdir;
 };
