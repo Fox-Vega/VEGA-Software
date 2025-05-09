@@ -46,10 +46,10 @@ int BALL::get_value(short BallNum) {
     return Ball_Distance;
 }
 
-int BALL::get_distance() {
+int BALL::get_magnitude() {
     return myvector.get_magnitude(Total_X, Total_Y);
 }
 
-int BALL::get_direction() {
+int BALL::get_azimuth() {
     return myvector.get_azimuth(Total_X, Total_Y);
 }
