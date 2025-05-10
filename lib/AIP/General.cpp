@@ -113,7 +113,7 @@ void General::update() {
 }
 
 
-int General::calculate_deg(char mode, int num1, int num2) {//角度計算(ライン関係ない)
+int General::calculate_deg(char mode, int num1, int num2) {//角度計算
     int r=999;//リターン（初期値はエラー用）
     if(mode == 'A') {//加算（slow）
         for(int i=0;i<num2;i++){//num2の数だけ１を足していって３６１のときに０に戻る
