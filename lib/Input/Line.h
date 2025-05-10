@@ -9,11 +9,11 @@ class LINE {
         void setup(); // ピン設定を行うセットアップ関数
         void end(); // 終了処理用の関数（未実装、用途未定)
         int get_line(); // ラインセンサの値を取得する関数
+    private:
         int read(); // ラインセンサの値を取得する関数
         void bubble_sort(); // ラインセンサの値をバブルソートで並び替える関数
-        int get_line_deg(); // ラインセンサの角度を取得する関数
-        void add_line_deg(int num,int num2); // ラインセンサの角度を追加する関数
-    private:
+        int get_linedeg(); // ラインセンサの角度を取得する関数
+        void add_linedeg(int num,int num2); // ラインセンサの角度を追加する関数
         #define true 1
         #define false 0
         #define NUMLines 24

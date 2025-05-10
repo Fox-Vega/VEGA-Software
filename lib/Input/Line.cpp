@@ -3,14 +3,14 @@
 
 
 #define lineDetect 5
-//AI学習用↓　　　（これで学習できるのかはわからん）
 /*
+AI学習用↓　　　（これで学習できるのかはわからん）
+
 RCJJのロボットのラインセンサ（エンジェルリング（円型））の角度を出したりするプログラム
 センサの数は24個
 基本時計回りで処理
 https://note.com/shiokara_rcj/n/n44bbd2454c07　←参考
 999はエラー用
-
 */
 
 // TODO
@@ -32,12 +32,12 @@ void LINE::setup() {
 
 int LINE::get_line() {
     line.read();
-    line.get_line_deg();
+
 }
 
 int LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
     int line_value [24]={0};
-    for(int i=0 i<3; i++){
+    for(int i=0; i<3; i++){
     for(int i = 0; i < 8; i++){//i8
         digitalWrite(selectA, BinaryNum[i][0]);
         digitalWrite(selectB, BinaryNum[i][1]);
@@ -63,6 +63,14 @@ int LINE::read(){ //読み取りを24かいを三回繰り返して当たって�
         delay(1);
         if(analogRead(readPin3) > lineDetect){
             line_value[i]++;
+        }
+    }
+    for(int i = 0; i < 24; i++){
+        if(line_value[i] >= 2){
+            linebool[i] = true;
+        }
+        else{
+            linebool[i] = false;
         }
     }
 }
@@ -91,10 +99,10 @@ int LINE::get_linedeg() {
         if (linebool[i] == true) {
             if(linebool[i+1] == true) {
                 i++;
-                add_line_deg(i,i+1);
+                add_linedeg(i,i+1);
             }
             else {
-                add_line_deg(i,999);
+                add_linedeg(i,999);
             }
         }
     }
@@ -117,10 +125,10 @@ int LINE::get_linedeg() {
 
 void LINE::add_linedeg(int num,int num2) {
     if(num2 == 999){//999はエラー用
-        line_detect[count] = line_deg_list_24[num];
+        line_detect[count] = Line_deg_list_24[num];
     }
     else{
-        line_detect[count] =  (line_deg_list_24[num]+line_deg_list_24[num2])/2;
+        line_detect[count] =  (Line_deg_list_24[num]+Line_deg_list_24[num2])/2;
     }
     count++;
 }
