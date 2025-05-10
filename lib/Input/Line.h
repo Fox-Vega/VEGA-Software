@@ -9,6 +9,7 @@ class LINE {
         int get_line(); // ラインセンサの値を取得する関数
         int read(); // ラインセンサの値を取得する関数
         void bubble_sort(); // ラインセンサの値をバブルソートで並び替える関数
+        int get_line_deg(); // ラインセンサの角度を取得する関数
 
     private:
         #define true 1
@@ -49,4 +50,5 @@ class LINE {
             {1, 1, 0},
             {1, 1, 1},
         };
+        bool linebooooool [24]={}; // ラインセンサの値が900以上かどうかを格納する配列
 };

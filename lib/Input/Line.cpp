@@ -2,6 +2,9 @@
 #include <Input.h>
 
 
+#define lineDetect 5
+
+
 // TODO
 // 
 //2つの反応が強いラインセンサの位置関係から角度と距離を計算し、戻り値として返す（ベクトル使うかも）
@@ -23,25 +26,29 @@ void LINE::setup() {
 
 int LINE::get_line() {
     line.read();
-    line.bubble_sort();
-    return 0;
+    line.get_line_deg();
 }
 
-int LINE::read() {
-    for (int i = 0; i < 8; i++) {
-        Line_memory[i][0] = i;
-        Line_memory[i + 8][0] = i + 8;
-        Line_memory[i + 16][0] = i + 16;
+int LINE::read(){ 
+    for(int i = 0; i<NUMLines;i++){
         digitalWrite(selectA, BinaryNum[i][0]);
         digitalWrite(selectB, BinaryNum[i][1]);
         digitalWrite(selectC, BinaryNum[i][2]);
         delay(1);
-        Line_memory[i][1] = analogRead(readPin1) * (100 / 1024);
-        Line_memory[i + 8][1] = analogRead(readPin2) * (100 / 1024);
-        Line_memory[i + 16][1] = analogRead(readPin3) * (100 / 1024);
+        int line_Averge =0;
+        for(int j=0;j<10;j++){
+            line_Averge += analogRead(readPin1);
+        }
+        line_Averge /= 10;
     }
-    return 0; 
+    Line_memory[i][1] = line_Averge;
+    linebooooool[i] = false;
+    if (Line_memory[i][1] > lineDetect) {
+        linebooooool[i] = true;
+    }
 }
+
+
 
 void LINE::bubble_sort() {
     for (int i = 0; i < NUMLines - 1; i++) {
@@ -55,4 +62,8 @@ void LINE::bubble_sort() {
             }
         }
     }
+}
+
+int get_line_deg() {
+    int 
 }
