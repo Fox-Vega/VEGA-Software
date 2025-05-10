@@ -65,5 +65,22 @@ void LINE::bubble_sort() {
 }
 
 int get_line_deg() {
-    int 
+    for(int i = 0; i < NUMLines; i++) {
+        if (linebooooool[i] == true) {
+            if(linebooooool[i+1] == true) {
+            }
+            else {
+            }
+        }
+    }
+}
+
+void add_line_deg(int num,int num2) {
+    if(num2 == 999){
+        line_detect[count] = line_deg_list_24[num];
+    }
+    else{
+        line_detect[count] = num2;
+    }
+    count++;
 }

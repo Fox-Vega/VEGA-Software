@@ -1,6 +1,8 @@
 #pragma once
-
 #include <Arduino.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 class LINE {
     public:
@@ -10,7 +12,7 @@ class LINE {
         int read(); // ラインセンサの値を取得する関数
         void bubble_sort(); // ラインセンサの値をバブルソートで並び替える関数
         int get_line_deg(); // ラインセンサの角度を取得する関数
-
+        void add_line_deg(int num,int num2); // ラインセンサの角度を追加する関数
     private:
         #define true 1
         #define false 0
@@ -31,7 +33,7 @@ class LINE {
         int Line_dis; // ラインセンサの距離（戻り値用に使用する可能性あり）
 
         // ラインセンサの角度（センサ番号と角度の対応）
-        int Line_deg_list_24[24] = {0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345};
+        const int Line_deg_list_24[24] = {0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345};
 
         // ラインセンサの値を格納する2次元配列（センサ番号と値を保持）
         int Line_memory[24][2] = {
@@ -50,5 +52,7 @@ class LINE {
             {1, 1, 0},
             {1, 1, 1},
         };
-        bool linebooooool [24]={}; // ラインセンサの値が900以上かどうかを格納する配列
+        bool linebooooool[NUMLines]; // ラインセンサの状態を保持する配列
+        int line_detect[4];
+        int count = 0; // ラインセンサの状態を保持する配列のインデックス
 };
