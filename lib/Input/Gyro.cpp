@@ -10,14 +10,12 @@ void Gyro::setup() {
 void Gyro::read() {
     sensors_event_t event;
     bno.getEvent(&event);
-    heading = int(event.orientation.x + dir_offset);
-    //roll = int(event.orientation.y);
-    //pitch = int(event.orientation.z);
+    heading = (int)event.orientation.x + dir_offset;
 }
 
 int Gyro::get_azimuth() {
     gyro.read();
-    azimuth = heading + 180;
+    azimuth = (int)heading + 180;
     if (azimuth > 360) {
         azimuth -= 360;
     } else if (azimuth < 0) {
@@ -59,8 +57,8 @@ void Gyro::get_cord() {
         pos_y += vel_y * dt;
 
         //EKF校正
-        pos_x = (pos_x + measurement_noise) * postweak ;
-        pos_y = (pos_x + measurement_noise) * postweak ;
+        pos_x = (int)(pos_x + measurement_noise) * postweak ;
+        pos_y = (int)(pos_x + measurement_noise) * postweak ;
     }
 }
 

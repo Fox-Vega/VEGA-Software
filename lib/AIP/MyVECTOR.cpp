@@ -12,8 +12,8 @@ void MyVECTOR::get_cord(int azimuth, int magnitude) {
     }
 
     //座標を計算
-    x = int(cos(radians(theta)) * magnitude);
-    y = int(sin(radians(theta)) * magnitude);
+    x = (int)cos(radians(theta)) * magnitude;
+    y = (int)sin(radians(theta)) * magnitude;
 }
 
 void MyVECTOR::get_plpocord(int po_x, int po_y) {
@@ -22,8 +22,8 @@ void MyVECTOR::get_plpocord(int po_x, int po_y) {
     int plpo_y = gyro.get_y();
 
     //絶対値を取得
-    plpo_x = int(abs(po_x - plpo_x));
-    plpo_y = int(abs(po_y - plpo_y));
+    plpo_x = (int)abs(po_x - plpo_x);
+    plpo_y = (int)abs(po_y - plpo_y);
 
     //距離の正・負を適用
     if (po_x < plpo_x) {
@@ -35,12 +35,12 @@ void MyVECTOR::get_plpocord(int po_x, int po_y) {
 
 void MyVECTOR::get_tarcord(int tar_azimuth, int tar_magnitude) {
     gyro.get_cord();
-    int plpo_x = gyro.get_x();
-    int plpo_y = gyro.get_y();
+    int pl_x = gyro.get_x();
+    int pl_y = gyro.get_y();
 
     myvector.get_cord(tar_azimuth, tar_magnitude);
-    tarcord_x = myvector.get_x() + plpo_x;
-    tarcord_y = myvector.get_y() + plpo_y;
+    tarcord_x = (int)myvector.get_x() + pl_x;
+    tarcord_y = (int)myvector.get_y() + pl_y;
 }
 
 void MyVECTOR::get_svec(int tar_azimuth, int tar_magnitude) {
@@ -71,7 +71,7 @@ void MyVECTOR::get_svec(int tar_azimuth, int tar_magnitude) {
 
 int MyVECTOR::get_azimuth(int x, int y) {
     theta = atan2(y, x); //座標をy軸基準の角度に変換(+-180度)
-    azimuth = int(90 - degrees(theta)); //y軸基準の角度を方位角に変換
+    azimuth = (int)90 - degrees(theta); //y軸基準の角度を方位角に変換
 
     //値を調整
     if (azimuth < 0) { 
@@ -84,7 +84,7 @@ int MyVECTOR::get_azimuth(int x, int y) {
 }
 
 int MyVECTOR::get_magnitude(int x, int y) {
-    return int(sqrt(x * x + y * y)); //マグニチュードを計算、送信
+    return (int)sqrt(x * x + y * y); //マグニチュードを計算、送信
 }
 
 //値取得ゾーン

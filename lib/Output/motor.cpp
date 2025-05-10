@@ -33,11 +33,11 @@ void MyMOTOR::run(int movement_azimuth, int power_, int dir_azimuth) {
             power -= (power * 2);
         }
         if (PoMi == true) {
-            analogWrite(motor_PIN1[i], int(power -= difixPWM));
+            analogWrite(motor_PIN1[i], (int)(power - difixPWM));
             analogWrite(motor_PIN2[i], 0);
         } else {
             analogWrite(motor_PIN1[i], 0);
-            analogWrite(motor_PIN2[i], int(power += difixPWM));
+            analogWrite(motor_PIN2[i], (int)(power + difixPWM));
         }
     }
 }
@@ -53,7 +53,7 @@ int MyMOTOR::difix(int setpoint) {
     } else {
         difix_PoMi = false;
     }
-    return motorPWM = int(constrain(abs(angularVelocity) * pwmscale, 0, 255));
+    return motorPWM = (int)constrain(abs(angularVelocity) * pwmscale, 0, 255);
 }
 
 void MyMOTOR::free() {
