@@ -150,7 +150,7 @@ int General::calculate_deg(char mode, int num1, int num2) {//角度計算
     return r;
 }
 
-int General::cal_d(char mode, int num1, int num2)
+int General::get_deg(char mode, int num1, int num2)
 {
     return calculate_deg(mode, num1, num2);
 }

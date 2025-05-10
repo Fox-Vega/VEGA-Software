@@ -17,7 +17,7 @@ class General {
         S:減算（slow）
         s:減算（fast）＜＜＜むずい、先に乗算やって後で頑張る！
         */
-        int cal_d(char mode, int num1, int num2);//上の略
+        int get_deg(char mode, int num1, int num2);//上の略
         /*
         関数の中で関数呼び出してるから速度が必要なときにはわざわざ上を入力した方が良いかも
         */
