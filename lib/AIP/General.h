@@ -10,7 +10,17 @@ class General {
         int check_run(); //タクトスイッチを確認し、実行していいかを確認
         int check_mode(); //モードを確認
         void update(); //値を更新
-
+        int calculate_deg(char mode, int num1, int num2);//角度計算
+        /*
+        A:加算（slow）
+        a:加算（fast）
+        S:減算（slow）
+        s:減算（fast）
+        */
+        int cal_d(char mode, int num1, int num2);//上の略
+        /*
+        関数の中で関数呼び出してるから速度が必要なときにはわざわざ上を入力した方が良いかも
+        */
     private:
         byte startcord = 0;
         bool toggle_stat; //トグルスイッチの状態
