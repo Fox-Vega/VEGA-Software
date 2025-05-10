@@ -10,8 +10,6 @@ class LINE {
         void setup(); // ピン設定を行うセットアップ関数
         void end(); // 終了処理用の関数（未実装、用途未定)
         int get_line(); // ラインセンサの値を取得する関数＞＞＞呼び出し＜＜＜
-        int calculate_deg(char mode, int num1, int num2);//角度計算
-        int calc_d(char mode, int num1, int num2);//上の略
         //不可能（多分バグる）
         int read(); // ラインセンサの値を取得する関数
         int get_linedeg(); // ラインセンサの角度を取得する関数
