@@ -7,24 +7,24 @@
 class LINE {
     public:
         //呼び出し可能
-        void setup(); // ピン設定を行うセットアップ関数
-        void end(); // 終了処理用の関数（未実装、用途未定)
-        int get_line(); // ラインセンサの値を取得する関数＞＞＞呼び出し＜＜＜
+        void setup(); // ピン設定を行うセットアップ関数（制御の初めにやっといてー）
+        int get_azimuth(); // ラインセンサの値を取得する関数＞＞＞呼び出し＜＜＜
         //不可能（多分バグる）
         int read(); // ラインセンサの値を取得する関数
         int get_linedeg(); // ラインセンサの角度を取得する関数
         void add_linedeg(int num,int num2); // ラインセンサの角度を追加する関数
+        void print_pizel();
     private:
         #define true 1
         #define false 0
         #define NUMLines 24
-        int temp[2]; // バブルソートの一時保存用変数
 
         // マルチプレクサのアナログ入力ピン
         #define readPin1 A13
         #define readPin2 A11
         #define readPin3 A9
-        
+
+
         // マルチプレクサのセレクトピン
         const int selectA = 22;
         const int selectB = 24;
