@@ -5,7 +5,7 @@
 class MyVECTOR {
     public:
         void get_cord(int azimuth, int magnitude);//座標を計算する関数
-        void get_ppcord(int po_x, int po_y); //player to positionの座標を計算する関数　コート基準座標を入力
+        void get_plpocord(int po_x, int po_y); //player to positionの座標を計算する関数　positionコート基準座標を入力
         void get_tarcord(int tar_azimuth, int tar_magnitude); //targetのコート座標を計算する関数　
         void get_svec(int tar_azimuth, int tar_magnitude); //targetの速度ベクトルを計算する関数　コート基準座標を入力
         int get_azimuth(int x, int y); //方位角を計算する関数

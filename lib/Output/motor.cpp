@@ -15,6 +15,12 @@ void MyMOTOR::setup() {
 }
 
 void MyMOTOR::run(int movement_azimuth, int power_, int dir_azimuth) {
+    if (movement_azimuth >= 360) {
+        movement_azimuth -= 360;
+    }
+    if (dir_azimuth >= 360) {
+        dir_azimuth -= 360;
+    }
     difixPWM = mymotor.difix(dir_azimuth); //姿勢制御の値
     for (int i = 0; i < 4; i++) {
         azimuth_motor = movement_azimuth - motor_degrees[i]; //オムニの軸がy軸になるようにする
