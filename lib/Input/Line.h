@@ -6,14 +6,17 @@
 
 class LINE {
     public:
+        //呼び出し可能
         void setup(); // ピン設定を行うセットアップ関数
         void end(); // 終了処理用の関数（未実装、用途未定)
-        int get_line(); // ラインセンサの値を取得する関数
-    private:
+        int get_line(); // ラインセンサの値を取得する関数＞＞＞呼び出し＜＜＜
+        int calculate_deg(char mode, int num1, int num2);//角度計算
+        int calc_d(char mode, int num1, int num2);//上の略
+        //不可能（多分バグる）
         int read(); // ラインセンサの値を取得する関数
-        void bubble_sort(); // ラインセンサの値をバブルソートで並び替える関数
         int get_linedeg(); // ラインセンサの角度を取得する関数
         void add_linedeg(int num,int num2); // ラインセンサの角度を追加する関数
+    private:
         #define true 1
         #define false 0
         #define NUMLines 24

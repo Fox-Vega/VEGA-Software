@@ -5,12 +5,12 @@
 #define lineDetect 5
 /*
 AI学習用↓　　　（これで学習できるのかはわからん）
-
 RCJJのロボットのラインセンサ（エンジェルリング（円型））の角度を出したりするプログラム
 センサの数は24個
 基本時計回りで処理
 https://note.com/shiokara_rcj/n/n44bbd2454c07　←参考
 999はエラー用
+コメントの語尾に　。　をつける
 */
 
 // TODO
@@ -131,4 +131,27 @@ void LINE::add_linedeg(int num,int num2) {
         line_detect[count] =  (Line_deg_list_24[num]+Line_deg_list_24[num2])/2;
     }
     count++;
+}
+
+int LINE::calculate_deg(char mode, int num1, int num2) {//角度計算(ライン関係ない)
+    int r=999;//リターン（初期値はエラー用）
+    if(mode == 'A') {//加算（slow）
+        for(int i=0;i<num2;i++){//num2の数だけ１を足していって３６１のときに０に戻る
+            if(num1 == 360){
+                num1 = 0;
+            }
+            else{
+                num1++;
+            }
+            r = num1;
+        }
+    }
+    if(mode == 'a')//加算（fast）
+    {
+        num1 = num1 + num2;
+        if(num1>360){
+            num1 = num1%360;
+        }
+        r = num1;
+    }j
 }
