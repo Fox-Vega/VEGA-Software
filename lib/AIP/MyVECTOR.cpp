@@ -51,20 +51,22 @@ void MyVECTOR::get_svec(int tar_azimuth, int tar_magnitude) {
     tarcord_x = myvector.get_tar_x();
     tarcord_y = myvector.get_tar_y();
     dt = millis() - lastupdatetime;
-    lastupdatetime = millis();
-    svec_x = cord_x - lastcord_x;
-    svec_y = cord_y - lastcord_y;
-    tarsvec_x = tarcord_x - lasttar_x - svec_x;
-    tarsvec_y = tarcord_y - lasttar_y - svec_y;
+
+    //ズレを計算して秒間速度ベクトルに変換
+    svec_x = ((cord_x - lastcord_x) / dt) * 1000;
+    svec_y = ((cord_y - lastcord_y) / dt) * 1000;
+    tarsvec_x = (((tarcord_x - lasttar_x) / dt) * 1000) - svec_x;
+    tarsvec_y = (((tarcord_y - lasttar_y) / dt) * 1000) - svec_y;
+
+    //ターゲットのベクトルから進行角(°)とマグニチュードを計算
+    tarsvec_magnitude = myvector.get_magnitude(tarsvec_x, tarsvec_y);
+    tarsvec_azimuth = myvector.get_azimuth(tarsvec_x, tarsvec_y);
 
     //最終値の更新
     lasttar_x = tarcord_x;
     lasttar_y = tarcord_y;
     lastcord_x = cord_x;
     lastcord_y = cord_y;
-
-    tarsvec_magnitude = (myvector.get_magnitude(tarsvec_x, tarsvec_y) / dt) * 1000;
-    tarsvec_azimuth = myvector.get_azimuth(tarsvec_x, tarsvec_y);
 }
 
 int MyVECTOR::get_azimuth(int x, int y) {
