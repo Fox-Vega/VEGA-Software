@@ -16,9 +16,11 @@ class Gyro {
         void tweak_kalman(); //カルマンフィルタ調整
         void dir_reset(); //方向初期化
         void cord_reset(); //位置情報初期化
-        void cord_custom(int x, int y); //自由位置に設定可能
+        void cord_custom(int x, int y); //自由位置に座標を設定可能
         void restart(); //センサーを初期化
-        
+        int get_x();
+        int get_y();
+
     private:
         //調整用
         const float postweak = 1;//自己位置推定の値調整
@@ -36,7 +38,6 @@ class Gyro {
 
         //自己位置推定用
         bool collision_stat;
-        float dt; //時間間隔
         float pos_x = 0.0, pos_y = 0.0;
         float vel_x = 0.0, vel_y = 0.0;
         float theta = 0.0;
@@ -44,9 +45,9 @@ class Gyro {
         float gyro_z = 0.0;
         float process_noise = 0.01; 
         float measurement_noise = 0.1;
-        float accel_x_rot;
-        float accel_y_rot;
+        float accel_x_rot, accel_y_rot;
         float accelmagnitude;
+        unsigned long dt; //時間間隔
         unsigned long lastupdatetime = 0;
         unsigned long current_time;
 };

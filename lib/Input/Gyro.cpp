@@ -96,3 +96,11 @@ void Gyro::restart() { //瞬間的にモードを変えることで初期化
     bno.setMode(OPERATION_MODE_IMUPLUS);
     delay(25);
 }
+
+int Gyro::get_x() {
+    return pos_x;
+}
+
+int Gyro::get_y() {
+    return pos_y;
+}
