@@ -7,6 +7,14 @@ void MyPIXEL::setup() {
         PIXEL.setBrightness(PIXELbrightness);
 }
 
+void MyPIXEL::brightness(int brightness) {
+    if (brightness == 999) {
+        PIXEL.setBrightness(PIXELbrightness);
+    } else {
+        PIXEL.setBrightness(brightness);
+    }
+}
+
 void MyPIXEL::uni(int PIXELNUM, int red, int green, int blue) {
     if (usePIXEL == true) {
         PIXEL.setPixelColor(PIXELNUM, PIXEL.Color(red, green, blue));

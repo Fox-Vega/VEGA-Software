@@ -19,6 +19,7 @@ int General::startup() {
         gyro.get_cord();
         switch_pressed = myswitch.check_tact();
         toggle_stat = myswitch.check_toggle();
+        mypixel.brightness(100);
         switch (phase) {
             case 1:
                 if (switch_pressed == 1){
@@ -90,6 +91,7 @@ int General::startup() {
                 }
         }
     }
+    mypixel.brightness(999);
     return Run;
 }
 
