@@ -18,15 +18,15 @@ void MyVECTOR::get_cord(int azimuth, int magnitude) {
 
 void MyVECTOR::get_plpocord(int po_x, int po_y) {
     gyro.get_cord();
-    int plpo_x = gyro.get_x();
-    int plpo_y = gyro.get_y();
+    int pl_x = gyro.get_x();
+    int pl_y = gyro.get_y();
 
-    //絶対値を取得
-    plpo_x = (int)abs(po_x - plpo_x);
-    plpo_y = (int)abs(po_y - plpo_y);
+    //差の絶対値を取得
+    plpo_x = abs(po_x - pl_x);
+    plpo_y = abs(po_y - pl_y);
 
     //距離の正・負を適用
-    if (po_x < plpo_x) {
+    if (po_x < pl_x) {
         plpo_x = plpo_x - (plpo_x * 2);
     } else if (po_y < plpo_y) {
         plpo_y = plpo_y - (plpo_y * 2);
@@ -45,24 +45,24 @@ void MyVECTOR::get_tarcord(int tar_azimuth, int tar_magnitude) {
 
 void MyVECTOR::get_svec(int tar_azimuth, int tar_magnitude) {
     gyro.get_cord();
-    myvector.get_tarcord(tar_azimuth, tar_magnitude);
     cord_x = gyro.get_x();
     cord_y = gyro.get_y();
+    myvector.get_tarcord(tar_azimuth, tar_magnitude);
     tarcord_x = myvector.get_tar_x();
     tarcord_y = myvector.get_tar_y();
     dt = millis() - lastupdatetime;
 
     //ズレを計算して秒間速度ベクトルに変換
-    svec_x = ((cord_x - lastcord_x) / dt) * 1000;
-    svec_y = ((cord_y - lastcord_y) / dt) * 1000;
-    tarsvec_x = (((tarcord_x - lasttar_x) / dt) * 1000) - svec_x;
-    tarsvec_y = (((tarcord_y - lasttar_y) / dt) * 1000) - svec_y;
+    svec_x = (int)((cord_x - lastcord_x) / dt) * 1000; //自機の速度ベクトル
+    svec_y = (int)((cord_y - lastcord_y) / dt) * 1000; //自機の速度ベクトル
+    tarsvec_x = (int)(((tarcord_x - lasttar_x) / dt) * 1000) - svec_x; //ターゲットの速度ベクトル
+    tarsvec_y = (int)(((tarcord_y - lasttar_y) / dt) * 1000) - svec_y; //ターゲットの速度ベクトル
 
     //ターゲットのベクトルから進行角(°)とマグニチュードを計算
     tarsvec_magnitude = myvector.get_magnitude(tarsvec_x, tarsvec_y);
     tarsvec_azimuth = myvector.get_azimuth(tarsvec_x, tarsvec_y);
 
-    //最終値の更新
+    //値の更新
     lasttar_x = tarcord_x;
     lasttar_y = tarcord_y;
     lastcord_x = cord_x;
