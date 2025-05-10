@@ -135,7 +135,7 @@ int General::calculate_deg(char mode, int num1, int num2) {//角度計算
         }
         r = num1;
     }
-    else if(mode='S')//減算（slow）
+    else if(mode == 's')//減算（slow）
     {//1度ずつ減算してそのたびに0以下になってないか確認
         for(int i=0;i<num2;i++){
             if(num1 == 0){
