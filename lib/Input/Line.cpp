@@ -1,21 +1,22 @@
 #include <Line.h>
 #include <Input.h>
+#include <Output.h>
 
 
 #define lineDetect 5
 /*
-AI学習用↓　　　（これで学習できるのかはわからん）
+AI学習用↓　　　（一部はちゃんと学習できてるそう　でもリンクから内容取得はできないみたい）
 RCJJのロボットのラインセンサ（エンジェルリング（円型））の角度を出したりするプログラム
 センサの数は24個
 基本時計回りで処理
 https://note.com/shiokara_rcj/n/n44bbd2454c07　←参考
 999はエラー用
-コメントの語尾に　。　をつける
+neopixel 24個円型
 */
 
 // TODO
-//2つの反応が強いラインセンサの位置関係から角度と距離を計算し、戻り値として返す（ベクトル使うかも）
-// ディフェンス用にライントレースの状態をchar型で返す
+// 
+//距離を返す
 
 //伝言
 //りくはTODO書くな　邪魔だし紛らわしい　
@@ -30,13 +31,14 @@ void LINE::setup() {
     pinMode(readPin3, INPUT);
 }
 
-int LINE::get_line() {
+int LINE::get_azimuth() {
     line.read();
-
+    return get_linedeg();
 }
 
-int LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
+bool LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
     int line_value [24]={0};
+    progress = 0;
     for(int i=0; i<3; i++){
     for(int i = 0; i < 8; i++){//i8
         digitalWrite(selectA, BinaryNum[i][0]);
@@ -46,6 +48,7 @@ int LINE::read(){ //読み取りを24かいを三回繰り返して当たって�
         if(analogRead(readPin1) > lineDetect){
             line_value[i]++;
         }
+        progress++;
     }
     for(int i = 8; i < 16; i++){
         digitalWrite(selectA, BinaryNum[i][0]);
@@ -55,6 +58,7 @@ int LINE::read(){ //読み取りを24かいを三回繰り返して当たって�
         if(analogRead(readPin2) > lineDetect){
             line_value[i]++;
         }
+        progress++;
     }
     for(int i = 16; i < 24; i++){
         digitalWrite(selectA, BinaryNum[i][0]);
@@ -64,35 +68,33 @@ int LINE::read(){ //読み取りを24かいを三回繰り返して当たって�
         if(analogRead(readPin3) > lineDetect){
             line_value[i]++;
         }
+            progress++;
     }
+    bool line_bool =0;
     for(int i = 0; i < 24; i++){
         if(line_value[i] >= 2){
             line_status[i] = true;
+            line_bool = 1;
         }
         else{
             line_status[i] = false;
         }
+        progress++;
+    }
+    if(line_bool == 1){
+        return true;
+    }
+    else{
+        return false;
     }
 }
 }
 
-
-
-// void LINE::bubble_sort() {
-//     for (int i = 0; i < NUMLines - 1; i++) {
-//         for (int j = 0; j < NUMLines - i - 1; j++) {
-//             if (Line_memory[j][1] > Line_memory[j + 1][1]) {
-//                 for (int k = 0; k < 2; k++) {
-//                     temp[k] = Line_memory[j][k];
-//                     Line_memory[j][k] = Line_memory[j + 1][k];
-//                     Line_memory[j + 1][k] = temp[k];
-//                 }
-//             }
-//         }
-//     }
-// }
-
 int LINE::get_linedeg() {
+    for(int i = 0; i < NUMLines; i++) {//初期化
+        line_status[i] = false;
+        line_detect[i] = 999;
+    }
     count =0;
     for(int i = 0; i < NUMLines; i++) {
         if (line_status[i] == true) {
@@ -130,5 +132,16 @@ void LINE::add_linedeg(int num,int num2) {
         line_detect[count] =  (Line_deg_list_24[num]+Line_deg_list_24[num2])/2;
     }
     count++;
+}
+
+void LINE::print_pizel() {//neopixelの表示　　AIへ、「モニターではない！！」
+    mypixel.clear();
+    mypixel.brightness(999);
+    for(int i=0; i<5; i++){
+        if(line_detect[i] == 999){
+            mypixel.closest(line_detect[i], 0, 255, 225);
+        }
+    }
+    mypixel.closest(get_linedeg(), 255, 130, 0);
 }
 

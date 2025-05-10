@@ -11,6 +11,7 @@ void General::setup() {
     mybuzzer.setup();
     myswitch.setup();
     Serial.begin(9600);
+    
 }
 
 int General::startup() {
@@ -147,7 +148,7 @@ int General::calculate_deg(char mode, int num1, int num2) {//角度計算
             r = num1;
         }
     }
-    else if(mode='R')//反転（only fast）
+    else if(mode='r')//反転（fast only）
     {//num1を180度回転　　180にnum1を引いた絶対値を返す
         r=abs(180 - num1);
         r = num1;
