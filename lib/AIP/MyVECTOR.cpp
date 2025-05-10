@@ -16,7 +16,7 @@ void MyVECTOR::get_cord(int azimuth, int magnitude) {
     y = int(sin(radians(theta)) * magnitude);
 }
 
-void MyVECTOR::get_ppcord(int po_x, int po_y) {
+void MyVECTOR::get_plpocord(int po_x, int po_y) {
     gyro.get_cord();
     int plpo_x = gyro.get_x();
     int plpo_y = gyro.get_y();
