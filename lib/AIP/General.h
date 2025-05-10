@@ -15,7 +15,7 @@ class General {
         A:加算（slow）
         a:加算（fast）
         S:減算（slow）
-        s:減算（fast）
+        s:減算（fast）＜＜＜むずい、先に乗算やって後で頑張る！
         */
         int cal_d(char mode, int num1, int num2);//上の略
         /*

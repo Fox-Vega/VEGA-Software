@@ -115,8 +115,9 @@ void General::update() {
 
 int General::calculate_deg(char mode, int num1, int num2) {//角度計算
     int r=999;//リターン（初期値はエラー用）
-    if(mode == 'A') {//加算（slow）
-        for(int i=0;i<num2;i++){//num2の数だけ１を足していって３６１のときに０に戻る
+    if(mode == 'A')//加算（slow）
+    {//1度ずつ加算してそのたびに360以上になってないか確認
+        for(int i=0;i<num2;i++){
             if(num1 == 360){
                 num1 = 0;
             }
@@ -127,7 +128,7 @@ int General::calculate_deg(char mode, int num1, int num2) {//角度計算
         }
     }
     else if(mode == 'a')//加算（fast）
-    {
+    {//一気に加算して360以上になってたら360で割った余りを返す
         num1 = num1 + num2;
         if(num1>360){
             num1 = num1%360;
@@ -135,7 +136,7 @@ int General::calculate_deg(char mode, int num1, int num2) {//角度計算
         r = num1;
     }
     else if(mode='S')//減算（slow）
-    {
+    {//1度ずつ減算してそのたびに0以下になってないか確認
         for(int i=0;i<num2;i++){
             if(num1 == 0){
                 num1 = 360;
@@ -146,14 +147,6 @@ int General::calculate_deg(char mode, int num1, int num2) {//角度計算
             r = num1;
         }
     }
-    else if(mode='s')//減算（fast）
-    {
-        num1 = num1 - num2;
-        if(num1<0){
-            num1 = 360 + num1;
-        }
-        r = num1;
-    };
     return r;
 }
 
