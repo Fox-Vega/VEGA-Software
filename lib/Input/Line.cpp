@@ -15,7 +15,7 @@ neopixel 24個円型
 */
 
 // TODO
-// 
+// twitter（旧X）の垢復活させる
 //距離を返す
 
 //伝言
@@ -36,7 +36,7 @@ int LINE::get_azimuth() {
     return get_linedeg();
 }
 
-bool LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
+int LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
     int line_value [24]={0};
     progress = 0;
     for(int i=0; i<3; i++){
@@ -145,3 +145,8 @@ void LINE::print_pizel() {//neopixelの表示　　AIへ、「モニターでは
     mypixel.closest(get_linedeg(), 255, 130, 0);
 }
 
+int get_dist(int linedeg ,int linedeg2)
+{
+    int dist = 0;
+    general.calculate_deg('s',linedeg2, linedeg);
+}
