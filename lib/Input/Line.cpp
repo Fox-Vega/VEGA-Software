@@ -67,14 +67,13 @@ int LINE::read(){ //読み取りを24かいを三回繰り返して当たって�
     }
     for(int i = 0; i < 24; i++){
         if(line_value[i] >= 2){
-            linebool[i] = true;
+            line_status[i] = true;
         }
         else{
-            linebool[i] = false;
+            line_status[i] = false;
         }
     }
 }
-
 }
 
 
@@ -96,8 +95,8 @@ int LINE::read(){ //読み取りを24かいを三回繰り返して当たって�
 int LINE::get_linedeg() {
     count =0;
     for(int i = 0; i < NUMLines; i++) {
-        if (linebool[i] == true) {
-            if(linebool[i+1] == true) {
+        if (line_status[i] == true) {
+            if(line_status[i+1] == true) {
                 i++;
                 add_linedeg(i,i+1);
             }

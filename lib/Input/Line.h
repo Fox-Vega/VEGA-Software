@@ -69,7 +69,7 @@ class LINE {
             {1, 1, 0},
             {1, 1, 1},
         };
-        bool linebool[NUMLines]; // ラインセンサの状態を保持する配列
+        bool line_status[NUMLines]; // ラインセンサの状態を保持する配列
         int line_detect[4];
         int count = 0; // センサの状態を保存する時の場所の参照
 };

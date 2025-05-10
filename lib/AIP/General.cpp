@@ -128,7 +128,7 @@ int General::calculate_deg(char mode, int num1, int num2) {//角度計算
         }
     }
     else if(mode == 'a')//加算（fast）
-    {//一気に加算して360以上になってたら360で割った余りを返す
+    {//一気に加算して360以上になってたら360で割った余りを返す（間違ってたら勝手に書いといていいよ）
         num1 = num1 + num2;
         if(num1>360){
             num1 = num1%360;
@@ -146,6 +146,19 @@ int General::calculate_deg(char mode, int num1, int num2) {//角度計算
             }
             r = num1;
         }
+    }
+    else if(mode='R')//反転（only fast）
+    {//num1を180度回転　　180にnum1を引いた絶対値を返す
+        r=abs(180 - num1);
+        r = num1;
+    }
+    else if(mode='s')//減算（fast）
+    {//一気に減算して0以下になってたら360で割った余りを返す（間違ってたら勝手に書いといていいよ）
+        num1 = num1 - num2;
+        if(num1<0){
+            num1 = (num1+360)%360;
+        }
+        r = num1;
     }
     return r;
 }
