@@ -14,15 +14,11 @@ void Gyro::setup() {
     yawlastupdatetime = millis();
 }
 
-void Gyro::read() {
+int Gyro::get_azimuth() {
     sensors_event_t event;
     bno.getEvent(&event);
     heading = (int)event.orientation.x + dir_offset;
-}
-
-int Gyro::get_azimuth() {
-    gyro.read();
-    azimuth = (int)heading + 180;
+    azimuth = heading + 180;
     if (azimuth > 360) {
         azimuth -= 360;
     } else if (azimuth < 0) {
@@ -73,24 +69,20 @@ int Gyro::get_yaw() {
     yawdt = (yawcurrenttime - yawlastupdatetime) / 1000.0;
     yawlastupdatetime = yawcurrenttime;
 
-    // ジャイロZ軸の角速度を取得（rad/s）
+    // Z軸の角速度取得
     imu::Vector<3> gyrodata = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
     float angularvelocity_z = gyrodata.z();
 
-    // 積分して現在のYawを更新（加算）
-    yaw += angularvelocity_z * yawdt;
-
-    // センサー内部の方向推定（クォータニオン）から得られるYawを参照値として取得
-    float referenceYaw = gyro.get_yawfromquat(bno.getQuat());
+    yaw += angularvelocity_z * yawdt;// 積分して現在のYawを更新
+    float referenceYaw = gyro.get_yawfromquat(bno.getQuat());// センサー内部の方向推定から得られるYawを取得
 
     // Yawの誤差を -180〜180 度に補正（360度ラップを回避）
     float yawerorr = referenceYaw - yaw;
     if (yawerorr > 180) yawerorr -= 360;
     if (yawerorr < -180) yawerorr += 360;
-    
-    // 相補フィルタを用いてYawを補正（地磁気参照の揺れを滑らかに）
-    yaw += (1.0f - filterCoefficient) * yawerorr;
-    
+
+    yaw += (1.0f - filterCoefficient) * yawerorr;// 相補フィルタでYawを補正
+    yaw += dir_offset;
     if (yaw < 0) yaw += 360;
     if (yaw >= 360) yaw -= 360;
     return (int)yaw;
@@ -99,8 +91,6 @@ int Gyro::get_yaw() {
 int Gyro::get_yawfromquat(const imu::Quaternion& quat) {
     float sinyawcospitch = 2.0f * (quat.w() * quat.z() + quat.x() * quat.y());
     float cosyawcospitch = 1.0f - 2.0f * (quat.y() * quat.y() + quat.z() * quat.z());
-
-    // ラジアン角を取得
     float yawradians = atan2(sinyawcospitch, cosyawcospitch);
 
     float yawdegrees = degrees(yawradians);
@@ -120,8 +110,7 @@ void Gyro::tweak_kalman() {
 }
 
 void Gyro::dir_reset() { //方向キャリブレーション
-    gyro.read();
-    dir_offset = float(gyro.get_azimuth());
+    dir_offset = gyro.get_yaw();
 }
 
 void Gyro::cord_reset() { //座標リセット

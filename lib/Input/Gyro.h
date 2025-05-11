@@ -10,18 +10,17 @@
 class Gyro {
     public:
         void setup(); //初期設定
-        void read(); //センサーデータ取得
-        int get_azimuth(); //方位角取得
+        int get_azimuth(); //方位角取得（ドリフト対策無）
         void get_cord(); //自己位置取得
-        int get_yaw();
+        int get_yaw(); //方位角取得（ドリフト対策有）
         int get_yawfromquat(const imu::Quaternion& quat); //ヨー取得
         void tweak_kalman(); //カルマンフィルタ調整
         void dir_reset(); //方向初期化
         void cord_reset(); //位置情報初期化
         void cord_custom(int x, int y); //自由位置に座標を設定可能
         void restart(); //センサーを初期化
-        int get_x();
-        int get_y();
+        int get_x(); //座標のxを取得
+        int get_y(); //座標のyを取得
 
     private:
         //調整用
