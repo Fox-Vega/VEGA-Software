@@ -48,7 +48,7 @@ void Gyro::get_cord() {
         accel_x_rot = accel_x * cos(theta) - accel_y * sin(theta);
         accel_y_rot = accel_x * sin(theta) + accel_y * cos(theta);
 
-        tweak_kalman(); //カルマンフィルタを調整
+        tweak_kalman(); //カルマンフィルタ調整
 
         //UKF予測
         vel_x += accel_x_rot * dt + process_noise;

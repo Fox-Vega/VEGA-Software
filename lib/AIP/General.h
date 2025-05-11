@@ -11,17 +11,15 @@ class General {
         int check_mode(); //モードを確認
         void update(); //値を更新
         int calculate_deg(char mode, int num1, int num2);//角度計算
+        int get_deg(char mode, int num1, int num2);
         /*
         A:加算（slow）[num1+num2] ex) 240+230=10
         a:加算（fast）[num1+num2] ex) 240+230=10
         S:減算（slow）[num1-num2] ex) 30-45=345
-        s:減算（fast）[num1-num2] ex) 30-45=345                        ＜＜＜むずい、先に反転やって後で頑張る！
+        s:減算（fast）[num1-num2] ex) 30-45=345
         r:反転（fast only）[reverse num1] ex)30→150  [-180]
         */
-        int get_deg(char mode, int num1, int num2);//上の略、結果や引数は同じ
-        /*
-        関数の中で関数呼び出してるから速度が必要なときにはわざわざ上を入力した方が良いかも
-        */
+
     private:
         byte startcord = 0;
         bool toggle_stat; //トグルスイッチの状態
