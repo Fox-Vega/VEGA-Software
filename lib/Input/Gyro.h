@@ -13,6 +13,8 @@ class Gyro {
         void read(); //センサーデータ取得
         int get_azimuth(); //方位角取得
         void get_cord(); //自己位置取得
+        int get_yaw();
+        int get_yawfromquat(const imu::Quaternion& quat); //ヨー取得
         void tweak_kalman(); //カルマンフィルタ調整
         void dir_reset(); //方向初期化
         void cord_reset(); //位置情報初期化
@@ -37,6 +39,8 @@ class Gyro {
         Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);
 
         //自己位置推定用
+        int quatyaw;
+        float yaw;
         bool collision_stat;
         float pos_x = 0.0, pos_y = 0.0;
         float vel_x = 0.0, vel_y = 0.0;
@@ -47,7 +51,11 @@ class Gyro {
         float measurement_noise = 0.1;
         float accel_x_rot, accel_y_rot;
         float accelmagnitude;
-        unsigned long dt; //時間間隔
-        unsigned long lastupdatetime = 0;
-        unsigned long current_time;
+        unsigned long corddt; //時間間隔
+        unsigned long yawdt;
+        unsigned long cordlastupdatetime = 0;
+        unsigned long yawlastupdatetime = 0;
+        unsigned long cordcurrenttime;
+        unsigned long yawcurrenttime;
+        const float filterCoefficient = 0.98f; // 相補フィルタ係数（高いほどジャイロを優先）
 };
