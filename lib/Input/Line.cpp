@@ -40,7 +40,7 @@ void LINE::setup() {
 
 int LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
     for (int i = 0; i < NUMLines; i++) {
-        int line_values[i] = {0};
+        line_values[i] = {0};
     }
     progress = 0;
     for(int i=0; i<3; i++){
@@ -127,7 +127,7 @@ int LINE::get_azimuth() {
     return ラインの方位角;
 }
 
-void LINE::adddeg(int num,int num2) {
+void LINE::add_linedeg(int num,int num2) {
     if(num2 == 999){ //999はエラー用
         line_detect[count] = Line_deg_list_24[num];
     }
