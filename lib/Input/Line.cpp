@@ -4,9 +4,34 @@
 
 
 #define lineDetect 5
+/*
+AI学習用↓　　　（一部はちゃんと学習できてるそう　でもリンクから内容取得はできないみたい）
+RCJJのロボットのラインセンサ（エンジェルリング（円型））の角度を出したりするプログラム
+センサの数は24個
+基本時計回りで処理
+https://note.com/shiokara_rcj/n/n44bbd2454c07　←参考
+999はエラー用
+neopixel 24個円型
+*/
 
+// TODO
+// twitter（旧X）の垢復活させる
+//距離を返す
+// linedist完成させるlinedist完成させるlinedist完成させるlinedist完成させるlinedist完成させるlinedist完成させるlinedist完成させる
+// 
+// 
+// 
+// 
+// 
+
+
+//伝言
+//りくはTODO書くな　邪魔だし紛らわしい　
+//ARDUINOに入れるときに消すから勝手に消さないで　めっちゃ困る
 //勝手に変えたところ全部戻して
-//ふざけんな
+//ふざけんな　迷惑
+//
+//これから「無駄に」関与しないで
 
 
 void LINE::setup() {
