@@ -12,18 +12,26 @@ class LINE {
         void setup(); // ピン設定を行うセットアップ関数（制御の初めにやっといてー）
         int get_azimuth(); // ラインセンサの値を取得する関数＞＞＞呼び出し＜＜＜
         int read(); // ラインセンサの値を取得する関数>>>呼び出し（boolを返す）<<<　　ex)if(line.read()) 
+        int get_dist(int linedeg ,int linedeg2);//使うかも
+        //呼び出し不可（バグる）
         int get_linedeg(); // ラインセンサの角度を取得する関数
         void add_linedeg(int num,int num2); // ラインセンサの角度を追加する関数
         void print_pizel();
     private:
-        #define true 1
-        #define false 0
+        //調整
+        const int sensordist=10;
+
+        //line
         #define NUMLines 24
 
         // マルチプレクサのアナログ入力ピン
         #define readPin1 A13
         #define readPin2 A11
         #define readPin3 A9
+
+        //T & F
+        #define true 1
+        #define false 0
 
 
         // マルチプレクサのセレクトピン
@@ -33,6 +41,7 @@ class LINE {
 
         int Line_deg; // ラインセンサの角度（戻り値用に使用する可能性あり）
         int Line_dis; // ラインセンサの距離（戻り値用に使用する可能性あり）
+        
 
         // ラインセンサの角度（センサ番号と角度の対応）
         const int Line_deg_list_24[24] = {0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345};
