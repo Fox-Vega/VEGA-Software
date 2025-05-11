@@ -27,6 +27,30 @@ int Gyro::get_azimuth() {
     return azimuth;
 }
 
+int Gyro::get_yaw() {
+    yawcurrenttime = millis();
+    yawdt = (yawcurrenttime - yawlastupdatetime) / 1000;
+    yawlastupdatetime = yawcurrenttime;
+
+    // Z軸の角速度取得
+    imu::Vector<3> gyrodata = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+    float angularvelocity_z = gyrodata.z();
+
+    yaw += angularvelocity_z * yawdt;// 積分して現在のYawを更新
+    float referenceYaw = gyro.get_yawfromquat(bno.getQuat());// センサー内部の方向推定から得られるYawを取得
+
+    // Yawの誤差を -180〜180 度に補正（360度ラップを回避）
+    float yawerorr = referenceYaw - yaw;
+    if (yawerorr > 180) yawerorr -= 360;
+    if (yawerorr < -180) yawerorr += 360;
+
+    yaw += (1.0f - filterCoefficient) * yawerorr;// 相補フィルタでYawを補正
+    yaw += dir_offset;
+    if (yaw < 0) yaw += 360;
+    if (yaw >= 360) yaw -= 360;
+    return (int)yaw;
+}
+
 void Gyro::get_cord() {
     cordcurrenttime = millis();
     corddt = (cordcurrenttime - cordlastupdatetime) / 1000;
@@ -62,30 +86,6 @@ void Gyro::get_cord() {
         pos_x = (int)(pos_x + measurement_noise) * postweak ;
         pos_y = (int)(pos_x + measurement_noise) * postweak ;
     }
-}
-
-int Gyro::get_yaw() {
-    yawcurrenttime = millis();
-    yawdt = (yawcurrenttime - yawlastupdatetime) / 1000.0;
-    yawlastupdatetime = yawcurrenttime;
-
-    // Z軸の角速度取得
-    imu::Vector<3> gyrodata = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-    float angularvelocity_z = gyrodata.z();
-
-    yaw += angularvelocity_z * yawdt;// 積分して現在のYawを更新
-    float referenceYaw = gyro.get_yawfromquat(bno.getQuat());// センサー内部の方向推定から得られるYawを取得
-
-    // Yawの誤差を -180〜180 度に補正（360度ラップを回避）
-    float yawerorr = referenceYaw - yaw;
-    if (yawerorr > 180) yawerorr -= 360;
-    if (yawerorr < -180) yawerorr += 360;
-
-    yaw += (1.0f - filterCoefficient) * yawerorr;// 相補フィルタでYawを補正
-    yaw += dir_offset;
-    if (yaw < 0) yaw += 360;
-    if (yaw >= 360) yaw -= 360;
-    return (int)yaw;
 }
 
 int Gyro::get_yawfromquat(const imu::Quaternion& quat) {

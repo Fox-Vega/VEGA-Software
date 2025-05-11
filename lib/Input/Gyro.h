@@ -11,8 +11,8 @@ class Gyro {
     public:
         void setup(); //初期設定
         int get_azimuth(); //方位角取得（ドリフト対策無）
-        void get_cord(); //自己位置取得
         int get_yaw(); //方位角取得（ドリフト対策有）
+        void get_cord(); //自己位置取得
         int get_yawfromquat(const imu::Quaternion& quat); //ヨー取得
         void tweak_kalman(); //カルマンフィルタ調整
         void dir_reset(); //方向初期化
