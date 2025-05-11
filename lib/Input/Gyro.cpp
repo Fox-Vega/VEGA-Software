@@ -4,7 +4,7 @@
 void Gyro::setup() {
     if (!bno.begin()) {
         Serial.println("BNO055 not detected.");
-        while (1);  // センサー未検出時は停止
+        while (1);  //センサー未検出時は停止
     }
     bno.setExtCrystalUse(true);
     bno.setMode(OPERATION_MODE_IMUPLUS);
@@ -32,19 +32,25 @@ int Gyro::get_yaw() {
     yawdt = (yawcurrenttime - yawlastupdatetime) / 1000;
     yawlastupdatetime = yawcurrenttime;
 
-    // Z軸の角速度取得
+    //Z軸の角速度取得
     imu::Vector<3> gyrodata = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-    float angularvelocity_z = gyrodata.z();
+    if (abs(gyrodata.z()) < 0.1f) { //静止してるなら補正
+        gyro.tweak_gyro();//
+    }    
+    float velocity_z = gyrodata.z() - gyro_offset; //オフセット補正
+    static float velocity_z_filtered = velocity_z; //LPF用変数
+    velocity_z_filtered = alpha * velocity_z_filtered + (1 - alpha) * velocity_z; //LPF適用
 
-    yaw += angularvelocity_z * yawdt;// 積分して現在のYawを更新
-    float referenceYaw = gyro.get_yawfromquat(bno.getQuat());// センサー内部の方向推定から得られるYawを取得
 
-    // Yawの誤差を -180〜180 度に補正（360度ラップを回避）
-    float yawerorr = referenceYaw - yaw;
+    yaw += velocity_z * yawdt; //積分して現在のYawを更新
+    float bnoyaw = gyro.get_yawfromquat(bno.getQuat()); //センサー内部の方向推定から得られるYawを取得
+    float yawerorr = bnoyaw - yaw;
     if (yawerorr > 180) yawerorr -= 360;
     if (yawerorr < -180) yawerorr += 360;
 
-    yaw += (1.0f - filterCoefficient) * yawerorr;// 相補フィルタでYawを補正
+    float dynamic_filter = (abs(velocity_z) > stop_border) ? 0.85f : 0.95f; //リンゴ社が好きそうなフィルターを調整
+
+    yaw += (1.0f - dynamic_filter) * yawerorr; //相補フィルタでYawを補正
     yaw += dir_offset;
     if (yaw < 0) yaw += 360;
     if (yaw >= 360) yaw -= 360;
@@ -107,6 +113,17 @@ void Gyro::tweak_kalman() {
         process_noise = 0.01;
         measurement_noise = 0.1;
     }
+}
+
+void Gyro::tweak_gyro() {
+    float sum = 0;
+    int samples = 100;
+    for (int i = 0; i < samples; i++) {
+        imu::Vector<3> gyrodata = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+        sum += gyrodata.z();
+        delay(10);
+    }
+    gyro_offset = sum / samples; //平均値をオフセットとして保存
 }
 
 void Gyro::dir_reset() { //方向キャリブレーション
