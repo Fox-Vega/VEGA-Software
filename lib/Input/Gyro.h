@@ -6,16 +6,6 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
-#include <Eigen/Dense>
-
-
-Eigen::VectorXd state_vector(2); // 状態ベクトル (yaw角, 角速度)
-Eigen::MatrixXd error_covariance(2, 2); // 誤差共分散行列
-Eigen::MatrixXd transition_matrix(2, 2); // 状態遷移行列
-Eigen::MatrixXd observation_matrix(1, 2); // 観測行列
-Eigen::MatrixXd process_noise(2, 2); // プロセスノイズ
-Eigen::MatrixXd observation_noise(1, 1); // 観測ノイズ
-Eigen::VectorXd measurement(1); // 観測データ（Yaw角の観測値）
 
 class Gyro {
     public:
@@ -23,6 +13,8 @@ class Gyro {
         int get_azimuth(); //方位角取得（ドリフト対策無）
         int get_yaw(); //方位角取得（ドリフト対策有）
         void get_cord(); //自己位置取得
+        int get_yawfromquat(const imu::Quaternion& quat); //ヨー取得
+        void tweak_kalman(); //カルマンフィルタ調整
         void tweak_gyro(); //ジャイロオフセット補正
         void dir_reset(); //方向初期化
         void cord_reset(); //位置情報初期化
@@ -38,7 +30,6 @@ class Gyro {
         const float collision_border = 15.0f; //衝突判断
         const float yawfilter = 0.98f; // 相補フィルタ係数(高いほどジャイロを優先)
         const float alpha = 0.8f; // LPF係数(積分ドリフト抑制) 0.6 ~ 0.95　ジャイロノイズ大なら数値を上げる　低くすると応答性向上
-        const unsigned long gyro_update_interval = 5000; // 5秒ごとに更新
         
         int heading;
         int offset;
@@ -64,7 +55,6 @@ class Gyro {
         float accel_x_rot, accel_y_rot;
         float accelmagnitude;
         float gyro_offset = 0; // ジャイロオフセット補正用
-        unsigned long last_gyro_offset_update = 0; // 最後にオフセットを更新した時間
         unsigned long corddt; //時間間隔
         unsigned long yawdt;
         unsigned long cordlastupdatetime = 0;
