@@ -66,7 +66,7 @@ int Gyro::get_yaw() {
                                   (observation_matrix * error_covariance * observation_matrix.transpose() + observation_noise).inverse();
     state_vector += kalman_gain * (measurement - observation_matrix * state_vector);
     error_covariance = (Eigen::MatrixXd::Identity(4, 4) - kalman_gain * observation_matrix) * error_covariance;
-
+    Serial.printf(">Yaw:%f\n", (int)state_vector(0));
     return (int)state_vector(0);
 }
 
@@ -87,6 +87,8 @@ void Gyro::get_cord() {
 
     pos_x = state_vector(2);
     pos_y = state_vector(3);
+    Serial.printf(">PositionX:%f\n", pos_x);
+    Serial.printf(">PositionY:%f\n", pos_y);
 }
 
 void Gyro::tweak_gyro() {
