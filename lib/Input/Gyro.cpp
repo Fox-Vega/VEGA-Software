@@ -91,6 +91,8 @@ void Gyro::get_cord() {
         //EKF校正
         pos_x = (int)(pos_x + measurement_noise) * postweak ;
         pos_y = (int)(pos_x + measurement_noise) * postweak ;
+        Serial.printf(">PosX:%f\n", pos_x);
+        Serial.printf(">PosY:%f\n", pos_y);
     }
 }
 
