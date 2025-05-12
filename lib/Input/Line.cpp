@@ -14,21 +14,16 @@ https://note.com/shiokara_rcj/n/n44bbd2454c07　←参考
 neopixel 24個円型
 */
 
-// TODO
-// twitter（旧X）の垢復活させる
-//距離を返す
-// linedist完成させるlinedist完成させるlinedist完成させるlinedist完成させるlinedist完成させるlinedist完成させるlinedist完成させる
-// 
-// 
-// 
-// 
-// 
+//りくは「勝手に」書くな！！！消すな！！！　迷惑！！！
+//なんかあるなら言ってよ！やるから！
+//とにかく勝手に書いたりしないで！作業遅れる！！！
 
-
-//伝言
-//りくはTODO書くな　邪魔だし紛らわしい　
-//ARDUINOに入れるときに消すから勝手に消さないで　めっちゃ困る
-
+//TODO
+//LiNE復元作業(1.2時間ぐらい)
+//りくの要件満たし(1時間ぐらい)
+//角度出す　get azimuth   ok
+//距離(xy) get
+//
 void LINE::setup() {
     pinMode(selectA, OUTPUT);
     pinMode(selectB, OUTPUT);
@@ -38,53 +33,56 @@ void LINE::setup() {
     pinMode(readPin3, INPUT);
 }
 
-int LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
-    for (int i = 0; i < NUMLines; i++) {
-        line_values[i] = {0};
-    }
+int LINE::get_azimuth() {
+    line.read();
+    return get_linedeg();
+}
+
+int LINE::read() { //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
+    int line_value [24]={0};
     progress = 0;
-    for(int i=0; i<3; i++){
-        for(int i = 0; i < 8; i++){//i8
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 8; j++) {//i8
             digitalWrite(selectA, BinaryNum[i][0]);
             digitalWrite(selectB, BinaryNum[i][1]);
             digitalWrite(selectC, BinaryNum[i][2]);
             delay(1);
             if(analogRead(readPin1) > lineDetect){
-                line_values[i]++;
+                line_value[i]++;
             }
             progress++;
         }
-        for(int i = 8; i < 16; i++) {
+        for(int j = 8; j < 16; j++) {
             digitalWrite(selectA, BinaryNum[i][0]);
             digitalWrite(selectB, BinaryNum[i][1]);
             digitalWrite(selectC, BinaryNum[i][2]);
             delay(1);
             if(analogRead(readPin2) > lineDetect){
-                line_values[i]++;
+                line_value[i]++;
             }
             progress++;
         }
-        for(int i = 16; i < 24; i++){
+        for(int j = 16; j < 24; j++) {
             digitalWrite(selectA, BinaryNum[i][0]);
             digitalWrite(selectB, BinaryNum[i][1]);
             digitalWrite(selectC, BinaryNum[i][2]);
             delay(1);
-            if(analogRead(readPin3) > lineDetect){
-                line_values[i]++;
+            if(analogRead(readPin3) > lineDetect) {
+                line_value[i]++;
             }
                 progress++;
         }
-        bool line_bool =0;
-        for(int i = 0; i < 24; i++){
-            if(line_values[i] >= 2){
-                line_stats[i] = true;
+        bool line_bool = 0;
+        for(int i = 0; i < 24; i++) {
+            if(line_value[i] >= 2) {
+                line_status[i] = true;
                 line_bool = 1;
             } else {
-                line_stats[i] = false;
+                line_status[i] = false;
             }
             progress++;
         }
-        if(line_bool == 1){
+        if(line_bool == 1) {
             return true;
         } else {
             return false;
@@ -92,20 +90,20 @@ int LINE::read(){ //読み取りを24かいを三回繰り返して当たって�
     }
 }
 
-int LINE::get_azimuth() {
+int LINE::get_linedeg() {
     for(int i = 0; i < NUMLines; i++) {//初期化
-        line_stats[i] = false;
+        line_status[i] = false;
         line_detect[i] = 999;
     }
-    count =0;
+    count = 0;
     for(int i = 0; i < NUMLines; i++) {
-        if (line_stats[i] == true) {
-            if(line_stats[i+1] == true) {
+        if (line_status[i] == true) {
+            if(line_status[i + 1] == true) {
                 i++;
-                line.adddeg(i,i+1);
+                add_linedeg(i, i + 1);
             }
             else {
-                line.adddeg(i,999);
+                add_linedeg(i, 999);
             }
         }
     }
@@ -124,11 +122,10 @@ int LINE::get_azimuth() {
     else if(count == 4) {
         return (line_detect[0] + line_detect[1] + line_detect[2] + line_detect[3]) / 4;
     }
-    return ラインの方位角;
 }
 
-void LINE::add_linedeg(int num,int num2) {
-    if(num2 == 999){ //999はエラー用
+void LINE::add_linedeg(int num, int num2) {
+    if(num2 == 999){//999はエラー用
         line_detect[count] = Line_deg_list_24[num];
     }
     else{
@@ -137,22 +134,21 @@ void LINE::add_linedeg(int num,int num2) {
     count++;
 }
 
-int LINE::get_magnitude(int linedeg ,int linedeg2) {
-    int dist = 0;
+void LINE::print_pizel() {//neopixelの表示　　AIへ、「モニターではない！！」
+    mypixel.clear();
+    mypixel.brightness(999);
+    for(int i = 0; i < 5; i++){
+        if(line_detect[i] == 999){
+            mypixel.closest(line_detect[i], 0, 255, 225);
+        }
+    }
+    mypixel.closest(get_linedeg(), 255, 130, 0);
 }
-int LINE::get_dist(int linedeg ,int linedeg2)
+
+int LINE::get_dist(int linedeg, int linedeg2)
 {
     int linedist = 0;
-    int theata=general.calculate_deg('s',linedeg2, linedeg);
-    linedist=cos(radians(theata))*sensordist;
+    int theata = general.calculate_deg('s', linedeg2, linedeg);
+    linedist = cos(radians(theata)) * sensordist;
     return linedist;
 }
-
-
- for(int i = 0; i < 5; i++){
-  if(line_detect[i] == 999){
-         mypixel.closest(line_detect[i], 0, 255, 225);
-     }
- }
- mypixel.closest(get_linedeg(), 255, 130, 0);
-
