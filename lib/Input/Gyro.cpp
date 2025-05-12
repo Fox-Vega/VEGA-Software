@@ -1,6 +1,7 @@
 #include <Input.h>
 #include <Gyro.h>
 
+
 void Gyro::setup() {
     if (!bno.begin()) {
         Serial.println("BNO055 not detected.");
@@ -12,6 +13,32 @@ void Gyro::setup() {
     quatyaw = gyro.get_yawfromquat(bno.getQuat());
     cordlastupdatetime = millis();
     yawlastupdatetime = millis();
+
+    // カルマンフィルタ初期化
+    transition_matrix(0,0) = 1;
+    transition_matrix(0,1) = 0.01;
+    transition_matrix(1,0) = 0;
+    transition_matrix(1,1) = 1;
+
+    observation_matrix(0,0) = 1;
+    observation_matrix(0,1) = 0;
+
+    process_noise(0,0) = 0.0001;
+    process_noise(0,1) = 0;
+    process_noise(1,0) = 0;
+    process_noise(1,1) = 0.0001;
+
+    observation_noise(0,0) = 0.01;
+
+    state_vector(0) = 0;
+    state_vector(1) = 0;
+
+    error_covariance(0,0) = 1;
+    error_covariance(0,1) = 0;
+    error_covariance(1,0) = 0;
+    error_covariance(1,1) = 1;
+
+    tweak_gyro(); // 初回のジャイロオフセット補正
 }
 
 int Gyro::get_azimuth() {
@@ -32,29 +59,26 @@ int Gyro::get_yaw() {
     yawdt = (yawcurrenttime - yawlastupdatetime) / 1000;
     yawlastupdatetime = yawcurrenttime;
 
-    //Z軸の角速度取得
-    imu::Vector<3> gyrodata = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-    if (abs(gyrodata.z()) < 0.1f) { //静止してるなら補正
-        gyro.tweak_gyro();//
-    }    
-    float velocity_z = gyrodata.z() - gyro_offset; //オフセット補正
-    static float velocity_z_filtered = velocity_z; //LPF用変数
-    velocity_z_filtered = alpha * velocity_z_filtered + (1 - alpha) * velocity_z; //LPF適用
+    imu::Vector<3> gyro_data = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+    float velocity_z = gyro_data.z() - gyro_offset;
 
+    // **定期的にオフセット補正**
+    if (millis() - last_gyro_offset_update > gyro_update_interval && abs(velocity_z) < 0.1f) {
+        tweak_gyro();
+        last_gyro_offset_update = millis(); // 更新タイミングを記録
+    }
 
-    yaw += velocity_z * yawdt; //積分して現在のYawを更新
-    float bnoyaw = gyro.get_yawfromquat(bno.getQuat()); //センサー内部の方向推定から得られるYawを取得
-    float yawerorr = bnoyaw - yaw;
-    if (yawerorr > 180) yawerorr -= 360;
-    if (yawerorr < -180) yawerorr += 360;
+    // カルマンフィルタ予測ステップ
+    state_vector = transition_matrix * state_vector;
+    error_covariance = transition_matrix * error_covariance * transition_matrix.transpose() + process_noise;
 
-    float dynamic_filter = (abs(velocity_z) > stop_border) ? 0.85f : 0.95f; //リンゴ社が好きそうなフィルターを調整
+    // 観測更新
+    measurement(0) = gyro.get_yawfromquat(bno.getQuat());
+    Eigen::MatrixXd kalman_gain = error_covariance * observation_matrix.transpose() * (observation_matrix * error_covariance * observation_matrix.transpose() + observation_noise).inverse();
+    state_vector = state_vector + kalman_gain * (measurement - observation_matrix * state_vector);
+    error_covariance = (Eigen::MatrixXd::Identity(2, 2) - kalman_gain * observation_matrix) * error_covariance;
 
-    yaw += (1.0f - dynamic_filter) * yawerorr; //相補フィルタでYawを補正
-    yaw += dir_offset;
-    if (yaw < 0) yaw += 360;
-    if (yaw >= 360) yaw -= 360;
-    return (int)yaw;
+    return (int)state_vector(0);
 }
 
 void Gyro::get_cord() {
@@ -117,13 +141,15 @@ void Gyro::tweak_kalman() {
 
 void Gyro::tweak_gyro() {
     float sum = 0;
-    int samples = 100;
+    int samples = 50; // サンプル数を少なくして頻繁に実行可能に
+
     for (int i = 0; i < samples; i++) {
-        imu::Vector<3> gyrodata = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-        sum += gyrodata.z();
-        delay(10);
+        imu::Vector<3> gyro_data = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+        sum += gyro_data.z();
+        delay(5);
     }
-    gyro_offset = sum / samples; //平均値をオフセットとして保存
+
+    gyro_offset = sum / samples; // 平均値をオフセットとして保存
 }
 
 void Gyro::dir_reset() { //方向キャリブレーション
