@@ -29,12 +29,12 @@ void Gyro::setup() {
     observation_matrix(1, 2) = 1; // 加速度観測
 
     process_noise.setZero();
-    process_noise(1, 1) = 0.0001; // 角速度ノイズ
-    process_noise(3, 3) = 0.0001; // 座標ノイズ
+    process_noise(1, 1) = 0.0001; // 角速度ノイズ　信頼性が低ければ数値を大きく
+    process_noise(3, 3) = 0.0001; // 座標ノイズ　信頼性が低ければ数値を大きく
 
     observation_noise.setIdentity();
-    observation_noise(0, 0) = 0.01; // Yawの観測誤差
-    observation_noise(1, 1) = 0.02; // 加速度の観測誤差
+    observation_noise(0, 0) = 0.01; // Yawの観測誤差　信頼性が低ければ数値を大きく
+    observation_noise(1, 1) = 0.02; // 加速度の観測誤差　信頼性が低ければ数値を大きく
 
     state_vector.setZero(); // 初期状態
     error_covariance.setIdentity(); // 誤差共分散
