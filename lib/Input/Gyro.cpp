@@ -66,6 +66,10 @@ void Gyro::get_cord() {
             pos[i] = (int)(states[i] * 100.0);
         }
     }
+    Serial.print(">PosX:");
+    Serial.println(states[0]);
+    Serial.print(">PosY:");
+    Serial.println(states[1]);
 }
 
 void Gyro::restart() { //瞬間的にモードを変えることで初期化
