@@ -36,58 +36,56 @@ int LINE::get_azimuth() {
     return get_linedeg();
 }
 
-int LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
+int LINE::read() { //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
     int line_value [24]={0};
     progress = 0;
-    for(int i = 0; i < 3; i++){
-    for(int i = 0; i < 8; i++){//i8
-        digitalWrite(selectA, BinaryNum[i][0]);
-        digitalWrite(selectB, BinaryNum[i][1]);
-        digitalWrite(selectC, BinaryNum[i][2]);
-        delay(1);
-        if(analogRead(readPin1) > lineDetect){
-            line_value[i]++;
-        }
-        progress++;
-    }
-    for(int i = 8; i < 16; i++){
-        digitalWrite(selectA, BinaryNum[i][0]);
-        digitalWrite(selectB, BinaryNum[i][1]);
-        digitalWrite(selectC, BinaryNum[i][2]);
-        delay(1);
-        if(analogRead(readPin2) > lineDetect){
-            line_value[i]++;
-        }
-        progress++;
-    }
-    for(int i = 16; i < 24; i++){
-        digitalWrite(selectA, BinaryNum[i][0]);
-        digitalWrite(selectB, BinaryNum[i][1]);
-        digitalWrite(selectC, BinaryNum[i][2]);
-        delay(1);
-        if(analogRead(readPin3) > lineDetect){
-            line_value[i]++;
-        }
+    for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 8; i++) {//i8
+            digitalWrite(selectA, BinaryNum[i][0]);
+            digitalWrite(selectB, BinaryNum[i][1]);
+            digitalWrite(selectC, BinaryNum[i][2]);
+            delay(1);
+            if(analogRead(readPin1) > lineDetect){
+                line_value[i]++;
+            }
             progress++;
-    }
-    bool line_bool = 0;
-    for(int i = 0; i < 24; i++){
-        if(line_value[i] >= 2){
-            line_status[i] = true;
-            line_bool = 1;
         }
-        else{
-            line_status[i] = false;
+        for(int i = 8; i < 16; i++) {
+            digitalWrite(selectA, BinaryNum[i][0]);
+            digitalWrite(selectB, BinaryNum[i][1]);
+            digitalWrite(selectC, BinaryNum[i][2]);
+            delay(1);
+            if(analogRead(readPin2) > lineDetect){
+                line_value[i]++;
+            }
+            progress++;
         }
-        progress++;
+        for(int i = 16; i < 24; i++) {
+            digitalWrite(selectA, BinaryNum[i][0]);
+            digitalWrite(selectB, BinaryNum[i][1]);
+            digitalWrite(selectC, BinaryNum[i][2]);
+            delay(1);
+            if(analogRead(readPin3) > lineDetect) {
+                line_value[i]++;
+            }
+                progress++;
+        }
+        bool line_bool = 0;
+        for(int i = 0; i < 24; i++) {
+            if(line_value[i] >= 2) {
+                line_status[i] = true;
+                line_bool = 1;
+            } else {
+                line_status[i] = false;
+            }
+            progress++;
+        }
+        if(line_bool == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    if(line_bool == 1){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
 }
 
 int LINE::get_linedeg() {
