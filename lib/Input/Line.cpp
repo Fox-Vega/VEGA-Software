@@ -15,10 +15,15 @@ neopixel 24個円型
 */
 
 //りくは「勝手に」書くな！！！消すな！！！　迷惑！！！
+//なんかあるなら言ってよ！やるから！
+//とにかく勝手に書いたりしないで！作業遅れる！！！
 
 //TODO
 //LiNE復元作業(1.2時間ぐらい)
 //りくの要件満たし(1時間ぐらい)
+//角度出す　get azimuth   ok
+//距離(xy) get
+//
 void LINE::setup() {
     pinMode(selectA, OUTPUT);
     pinMode(selectB, OUTPUT);
@@ -37,7 +42,7 @@ int LINE::read() { //読み取りを24かいを三回繰り返して当たって
     int line_value [24]={0};
     progress = 0;
     for(int i = 0; i < 3; i++) {
-        for(int i = 0; i < 8; i++) {//i8
+        for(int j = 0; j < 8; j++) {//i8
             digitalWrite(selectA, BinaryNum[i][0]);
             digitalWrite(selectB, BinaryNum[i][1]);
             digitalWrite(selectC, BinaryNum[i][2]);
@@ -47,7 +52,7 @@ int LINE::read() { //読み取りを24かいを三回繰り返して当たって
             }
             progress++;
         }
-        for(int i = 8; i < 16; i++) {
+        for(int j = 8; j < 16; j++) {
             digitalWrite(selectA, BinaryNum[i][0]);
             digitalWrite(selectB, BinaryNum[i][1]);
             digitalWrite(selectC, BinaryNum[i][2]);
@@ -57,7 +62,7 @@ int LINE::read() { //読み取りを24かいを三回繰り返して当たって
             }
             progress++;
         }
-        for(int i = 16; i < 24; i++) {
+        for(int j = 16; j < 24; j++) {
             digitalWrite(selectA, BinaryNum[i][0]);
             digitalWrite(selectB, BinaryNum[i][1]);
             digitalWrite(selectC, BinaryNum[i][2]);
