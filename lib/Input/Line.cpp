@@ -14,11 +14,11 @@ https://note.com/shiokara_rcj/n/n44bbd2454c07　←参考
 neopixel 24個円型
 */
 
-// TODO
-// twitter（旧X）の垢復活させる
-//距離を返す
-//forを重ねるのはいいんだけど、全部iにするとおかしくなるよ i j kとかを使ってね
+//りくは「勝手に」書くな！！！消すな！！！　迷惑！！！
 
+//TODO
+//LiNE復元作業(1.2時間ぐらい)
+//りくの要件満たし(1時間ぐらい)
 void LINE::setup() {
     pinMode(selectA, OUTPUT);
     pinMode(selectB, OUTPUT);
