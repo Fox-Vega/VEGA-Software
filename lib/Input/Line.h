@@ -14,8 +14,10 @@ class LINE {
         int read(); // ラインセンサの値を取得する関数>>>呼び出し（boolを返す）<<<　　ex)if(line.read()) 
         int get_linedeg(); // ラインセンサの角度を取得する関数
         void add_linedeg(int num,int num2); // ラインセンサの角度を追加する関数
+        int get_dist(int linedeg ,int linedeg2);
         void print_pizel();
     private:
+        const int sensordist = 10; 
         #define true 1
         #define false 0
         #define NUMLines 24
@@ -73,7 +75,7 @@ class LINE {
         bool line_status[NUMLines]; // ラインセンサの状態を保持する配列
         int line_detect[4];
         int count = 0; // センサの状態を保存する時の場所の参照
-        int progress=0;// 進捗を保存する変数
+        int progress = 0;// 進捗を保存する変数
 };
 
 
