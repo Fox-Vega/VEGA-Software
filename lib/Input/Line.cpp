@@ -17,10 +17,7 @@ neopixel 24個円型
 // TODO
 // twitter（旧X）の垢復活させる
 //距離を返す
-
-//伝言
-//りくはTODO書くな　邪魔だし紛らわしい　
-//ARDUINOに入れるときに消すから勝手に消さないで　めっちゃ困る
+//forを重ねるのはいいんだけど、全部iにするとおかしくなるよ i j kとかを使ってね
 
 void LINE::setup() {
     pinMode(selectA, OUTPUT);
