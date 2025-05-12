@@ -5,19 +5,17 @@
 void General::setup() {
     ball.setup();
     gyro.setup();
-    line.setup();
+    // line.setup();
     mymotor.setup();
     mypixel.setup();
     mybuzzer.setup();
     myswitch.setup();
     Serial.begin(9600);
-    
 }
 
 int General::startup() {
     phase = 1;
     while(phase != 4){
-        gyro.get_cord();
         switch_pressed = myswitch.check_tact();
         toggle_stat = myswitch.check_toggle();
         mypixel.brightness(100);
@@ -109,60 +107,55 @@ int General::check_mode() {
     return mode;
 }
 
-void General::update() {
-    gyro.get_cord();
-}
-
-
-int General::calculate_deg(char mode, int num1, int num2) {//角度計算
-    int r=999;//リターン（初期値はエラー用）
-    if(mode == 'A')//加算（slow）
-    {//1度ずつ加算してそのたびに360以上になってないか確認
-        for(int i=0;i<num2;i++){
-            if(num1 == 360){
-                num1 = 0;
-            }
-            else{
-                num1++;
-            }
-            r = num1;
-        }
-    }
-    else if(mode == 'a')//加算（fast）
-    {//一気に加算して360以上になってたら360で割った余りを返す（間違ってたら勝手に書いといていいよ）
-        num1 = num1 + num2;
-        if(num1>360){
-            num1 = num1%360;
-        }
-        r = num1;
-    }
-    else if(mode == 's')//減算（slow）
-    {//1度ずつ減算してそのたびに0以下になってないか確認
-        for(int i=0;i<num2;i++){
-            if(num1 == 0){
-                num1 = 360;
-            }
-            else{
-                num1--;
-            }
-            r = num1;
-        }
-    }
-    else if(mode='r')//反転（fast only）
-    {//num1を180度回転　　180にnum1を引いた絶対値を返す
-        r=abs(180 - num1);
-        r = num1;
-    }
-    else if(mode='s')//減算（fast）
-    {//一気に減算して0以下になってたら360で割った余りを返す（間違ってたら勝手に書いといていいよ）
-        num1 = num1 - num2;
-        if(num1<0){
-            num1 = (num1+360)%360;
-        }
-        r = num1;
-    }
-    return r;
-}
+// int General::calculate_deg(char mode, int num1, int num2) {//角度計算
+//     int r=999;//リターン（初期値はエラー用）
+//     if(mode == 'A')//加算（slow）
+//     {//1度ずつ加算してそのたびに360以上になってないか確認
+//         for(int i=0;i<num2;i++){
+//             if(num1 == 360){
+//                 num1 = 0;
+//             }
+//             else{
+//                 num1++;
+//             }
+//             r = num1;
+//         }
+//     }
+//     else if(mode == 'a')//加算（fast）
+//     {//一気に加算して360以上になってたら360で割った余りを返す（間違ってたら勝手に書いといていいよ）
+//         num1 = num1 + num2;
+//         if(num1>360){
+//             num1 = num1%360;
+//         }
+//         r = num1;
+//     }
+//     else if(mode == 's')//減算（slow）
+//     {//1度ずつ減算してそのたびに0以下になってないか確認
+//         for(int i=0;i<num2;i++){
+//             if(num1 == 0){
+//                 num1 = 360;
+//             }
+//             else{
+//                 num1--;
+//             }
+//             r = num1;
+//         }
+//     }
+//     else if(mode='r')//反転（fast only）
+//     {//num1を180度回転　　180にnum1を引いた絶対値を返す
+//         r=abs(180 - num1);
+//         r = num1;
+//     }
+//     else if(mode='s')//減算（fast）
+//     {//一気に減算して0以下になってたら360で割った余りを返す（間違ってたら勝手に書いといていいよ）
+//         num1 = num1 - num2;
+//         if(num1<0){
+//             num1 = (num1+360)%360;
+//         }
+//         r = num1;
+//     }
+//     return r;
+// }
 
 int General::get_deg(char mode, int num1, int num2)
 {

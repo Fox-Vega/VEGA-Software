@@ -1,5 +1,7 @@
 #include <Input.h>
+#include <AIP.h>
 #include <Gyro.h>
+#include <math.h>
 
 void Gyro::setup() {
     if (!bno.begin()) {
@@ -9,135 +11,61 @@ void Gyro::setup() {
     bno.setExtCrystalUse(true);
     bno.setMode(OPERATION_MODE_IMUPLUS);
     delay(1000);
-    quatyaw = gyro.get_yawfromquat(bno.getQuat());
-    cordlastupdatetime = millis();
-    yawlastupdatetime = millis();
-}
-
-int Gyro::get_azimuth() {
+    azimuth = 0;
     sensors_event_t event;
-    bno.getEvent(&event);
-    heading = (int)event.orientation.x + dir_offset;
-    azimuth = heading + 180;
-    if (azimuth > 360) {
-        azimuth -= 360;
-    } else if (azimuth < 0) {
-        azimuth += 360;
+    bno.getEvent(&event, Adafruit_BNO055::VECTOR_ACCELEROMETER);
+    float a[3] = { event.acceleration.x, event.acceleration.y, event.acceleration.z };
+    while (millis() < 5000) {
+        for (int i = 0; i < 3; i++) {
+            accel_bias[i] = (accel_bias[i] + a[i]) * 0.5; //平均値を計算
+        }
     }
-    return azimuth;
-}
-
-int Gyro::get_yaw() {
-    yawcurrenttime = millis();
-    yawdt = (yawcurrenttime - yawlastupdatetime) / 1000;
-    yawlastupdatetime = yawcurrenttime;
-
-    //Z軸の角速度取得
-    imu::Vector<3> gyrodata = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-    if (abs(gyrodata.z()) < 0.1f) { //静止してるなら補正
-        gyro.tweak_gyro();//
-    }    
-    float velocity_z = gyrodata.z() - gyro_offset; //オフセット補正
-    static float velocity_z_filtered = velocity_z; //LPF用変数
-    velocity_z_filtered = alpha * velocity_z_filtered + (1 - alpha) * velocity_z; //LPF適用
-
-
-    yaw += velocity_z * yawdt; //積分して現在のYawを更新
-    float bnoyaw = gyro.get_yawfromquat(bno.getQuat()); //センサー内部の方向推定から得られるYawを取得
-    float yawerorr = bnoyaw - yaw;
-    if (yawerorr > 180) yawerorr -= 360;
-    if (yawerorr < -180) yawerorr += 360;
-
-    float dynamic_filter = (abs(velocity_z) > stop_border) ? 0.85f : 0.95f; //リンゴ社が好きそうなフィルターを調整
-
-    yaw += (1.0f - dynamic_filter) * yawerorr; //相補フィルタでYawを補正
-    yaw += dir_offset;
-    if (yaw < 0) yaw += 360;
-    if (yaw >= 360) yaw -= 360;
-    return (int)yaw;
 }
 
 void Gyro::get_cord() {
-    cordcurrenttime = millis();
-    corddt = (cordcurrenttime - cordlastupdatetime) / 1000;
-    cordlastupdatetime = cordcurrenttime;
-    sensors_event_t accelEvent;
-    bno.getEvent(&accelEvent, Adafruit_BNO055::VECTOR_ACCELEROMETER);
-    accel_x = float(accelEvent.acceleration.x);
-    accel_y = float(accelEvent.acceleration.y);
-    gyro_z = gyro.get_yaw();
-    if (gyro_z < -180) {
-        gyro_z += 360;
-    } else if (gyro_z > 180) {
-        gyro_z -= 360;
+    //BNO055から加速度データを取得（単位：m/s^2）
+    unsigned long delaytime = millis() - lastupdate;
+    if (delaytime> (dt * 1000)) {
+        sensors_event_t event;
+        bno.getEvent(&event, Adafruit_BNO055::VECTOR_ACCELEROMETER);
+        float a[3] = { event.acceleration.x, event.acceleration.y, event.acceleration.z };
+        for (int i = 0; i < 3; i++) {
+            a[i] -= accel_bias[i]; //バイアスを補正
+        } 
+        for (int i = 0; i < 3; i++) {
+            if (a[i] < 0.1) {
+                a[i] = 0;
+            }
+        } 
+
+        const float shock_threshold = 15.0;
+        if (vector_norm(a) > shock_threshold) {
+            a[0] = a[1] = a[2] = 0.0;
+        }
+
+        for (int i = 3; i < 6; i++) {
+            if (states[i] < 0.2) {
+                states[i] = 0;
+            }
+        }
+        //状態予測：位置と速度を積分
+        for (int i = 0; i < 3; i++) {
+            states[i] += states[i + 3] * dt;  //位置更新
+            states[i + 3] += a[i] * dt;      //速度更新
+        }
+
+        //簡易補正（定数ゲイン補正）
+        const float gain = 0.0909;
+        for (int i = 0; i < 3; i++) {
+            states[i] += gain * (a[i] * dt);  //位置補正
+            states[i + 3] += gain * (a[i] * dt);  //速度補正
+        }
+
+        //出力の単位変換（m → cm）
+        for (int i = 0; i < 3; i++) {
+            pos[i] = (int)(states[i] * 100.0);
+        }
     }
-    theta += gyro_z * corddt; //角度更新
-
-    bool collision_stat = (abs(accel_x) > collision_border); //衝突検知
-
-    if (!collision_stat) {
-        //回転座標に変換してコート視点の座標に調整
-        accel_x_rot = accel_x * cos(theta) - accel_y * sin(theta);
-        accel_y_rot = accel_x * sin(theta) + accel_y * cos(theta);
-
-        gyro.tweak_kalman(); //カルマンフィルタ調整
-
-        //UKF予測
-        vel_x += accel_x_rot * corddt + process_noise;
-        vel_y += accel_y_rot * corddt + process_noise;
-        pos_x += vel_x * corddt;
-        pos_y += vel_y * corddt;
-
-        //EKF校正
-        pos_x = (int)(pos_x + measurement_noise) * postweak ;
-        pos_y = (int)(pos_x + measurement_noise) * postweak ;
-    }
-}
-
-int Gyro::get_yawfromquat(const imu::Quaternion& quat) {
-    float sinyawcospitch = 2.0f * (quat.w() * quat.z() + quat.x() * quat.y());
-    float cosyawcospitch = 1.0f - 2.0f * (quat.y() * quat.y() + quat.z() * quat.z());
-    float yawradians = atan2(sinyawcospitch, cosyawcospitch);
-
-    float yawdegrees = degrees(yawradians);
-    if (yawdegrees < 0) yawdegrees += 360;
-    return (int)yawdegrees;
-}
-
-void Gyro::tweak_kalman() {
-    accelmagnitude = sqrt(accel_x * accel_x + accel_y * accel_y);
-    if (accelmagnitude > 2.0) {  
-        process_noise = 0.05;
-        measurement_noise = 0.2;
-    } else {
-        process_noise = 0.01;
-        measurement_noise = 0.1;
-    }
-}
-
-void Gyro::tweak_gyro() {
-    float sum = 0;
-    int samples = 100;
-    for (int i = 0; i < samples; i++) {
-        imu::Vector<3> gyrodata = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-        sum += gyrodata.z();
-        delay(10);
-    }
-    gyro_offset = sum / samples; //平均値をオフセットとして保存
-}
-
-void Gyro::dir_reset() { //方向キャリブレーション
-    dir_offset = gyro.get_yaw();
-}
-
-void Gyro::cord_reset() { //座標リセット
-    pos_x = 0;
-    pos_y = 0; 
-}
-
-void Gyro::cord_custom(int x, int y) {
-    pos_x = x;
-    pos_y = y;
 }
 
 void Gyro::restart() { //瞬間的にモードを変えることで初期化
@@ -148,9 +76,9 @@ void Gyro::restart() { //瞬間的にモードを変えることで初期化
 }
 
 int Gyro::get_x() {
-    return pos_x;
+    return states[0];
 }
 
 int Gyro::get_y() {
-    return pos_y;
+    return states[1];
 }

@@ -1,5 +1,6 @@
 #include <MyVECTOR.h>
 #include <Input.h>
+#include <main.cpp>
 
 void MyVECTOR::get_cord(int azimuth, int magnitude) {
     theta = 90 - azimuth; //方位角をy軸基準の角度に変換(+-180度)
@@ -17,7 +18,6 @@ void MyVECTOR::get_cord(int azimuth, int magnitude) {
 }
 
 void MyVECTOR::get_plpocord(int po_x, int po_y) {
-    gyro.get_cord();
     int pl_x = gyro.get_x();
     int pl_y = gyro.get_y();
 
@@ -34,7 +34,6 @@ void MyVECTOR::get_plpocord(int po_x, int po_y) {
 }
 
 void MyVECTOR::get_tarcord(int tar_azimuth, int tar_magnitude) {
-    gyro.get_cord();
     int pl_x = gyro.get_x();
     int pl_y = gyro.get_y();
 
@@ -44,7 +43,6 @@ void MyVECTOR::get_tarcord(int tar_azimuth, int tar_magnitude) {
 }
 
 void MyVECTOR::get_svec(int tar_azimuth, int tar_magnitude) {
-    gyro.get_cord();
     cord_x = gyro.get_x();
     cord_y = gyro.get_y();
     myvector.get_tarcord(tar_azimuth, tar_magnitude);
