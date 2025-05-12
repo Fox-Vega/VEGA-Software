@@ -145,8 +145,10 @@ void LINE::print_pizel() {//neopixelの表示　　AIへ、「モニターでは
     mypixel.closest(get_linedeg(), 255, 130, 0);
 }
 
-int get_dist(int linedeg ,int linedeg2)
+int LINE::get_dist(int linedeg ,int linedeg2)
 {
-    int dist = 0;
-    general.calculate_deg('s',linedeg2, linedeg);
+    int linedist = 0;
+    int theata=general.calculate_deg('s',linedeg2, linedeg);
+    linedist=cos(radians(theata))*sensordist;
+    return linedist;
 }
