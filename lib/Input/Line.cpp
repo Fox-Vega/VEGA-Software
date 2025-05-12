@@ -39,7 +39,7 @@ int LINE::get_azimuth() {
 int LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
     int line_value [24]={0};
     progress = 0;
-    for(int i=0; i<3; i++){
+    for(int i = 0; i < 3; i++){
     for(int i = 0; i < 8; i++){//i8
         digitalWrite(selectA, BinaryNum[i][0]);
         digitalWrite(selectB, BinaryNum[i][1]);
@@ -70,7 +70,7 @@ int LINE::read(){ //読み取りを24かいを三回繰り返して当たって�
         }
             progress++;
     }
-    bool line_bool =0;
+    bool line_bool = 0;
     for(int i = 0; i < 24; i++){
         if(line_value[i] >= 2){
             line_status[i] = true;
@@ -95,15 +95,15 @@ int LINE::get_linedeg() {
         line_status[i] = false;
         line_detect[i] = 999;
     }
-    count =0;
+    count = 0;
     for(int i = 0; i < NUMLines; i++) {
         if (line_status[i] == true) {
-            if(line_status[i+1] == true) {
+            if(line_status[i + 1] == true) {
                 i++;
-                add_linedeg(i,i+1);
+                add_linedeg(i, i + 1);
             }
             else {
-                add_linedeg(i,999);
+                add_linedeg(i, 999);
             }
         }
     }
@@ -124,12 +124,12 @@ int LINE::get_linedeg() {
     }
 }
 
-void LINE::add_linedeg(int num,int num2) {
+void LINE::add_linedeg(int num, int num2) {
     if(num2 == 999){//999はエラー用
         line_detect[count] = Line_deg_list_24[num];
     }
     else{
-        line_detect[count] =  (Line_deg_list_24[num]+Line_deg_list_24[num2])/2;
+        line_detect[count] =  (Line_deg_list_24[num] + Line_deg_list_24[num2]) / 2;
     }
     count++;
 }
@@ -137,7 +137,7 @@ void LINE::add_linedeg(int num,int num2) {
 void LINE::print_pizel() {//neopixelの表示　　AIへ、「モニターではない！！」
     mypixel.clear();
     mypixel.brightness(999);
-    for(int i=0; i<5; i++){
+    for(int i = 0; i < 5; i++){
         if(line_detect[i] == 999){
             mypixel.closest(line_detect[i], 0, 255, 225);
         }
@@ -145,10 +145,10 @@ void LINE::print_pizel() {//neopixelの表示　　AIへ、「モニターでは
     mypixel.closest(get_linedeg(), 255, 130, 0);
 }
 
-int LINE::get_dist(int linedeg ,int linedeg2)
+int LINE::get_dist(int linedeg, int linedeg2)
 {
     int linedist = 0;
-    int theata=general.calculate_deg('s',linedeg2, linedeg);
-    linedist=cos(radians(theata))*sensordist;
+    int theata = general.calculate_deg('s', linedeg2, linedeg);
+    linedist = cos(radians(theata)) * sensordist;
     return linedist;
 }
