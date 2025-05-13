@@ -40,7 +40,7 @@ void Gyro::get_cord() {
             }
         } 
 
-        if (a[0] > border || a[1] > collision_border) {
+        if (a[0] > collision_border || a[1] > collision_border) {
             a[0] = a[1] = a[2] = 0.0;
         }
         lowpassvalue_x = lowpassvalue_x * filterCoefficient + a[0] * (1 - filterCoefficient);
