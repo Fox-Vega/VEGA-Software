@@ -24,13 +24,31 @@ void Gyro::setup() {
 }
 
 int Gyro::get_azimuth() {
-    
+    sensors_event_t gyro_event, mag_event;
+    bno.getEvent(&gyro_event, Adafruit_BNO055::VECTOR_GYROSCOPE);
+    bno.getEvent(&mag_event, Adafruit_BNO055::VECTOR_MAGNETOMETER);
+
+    float dt = (float)(millis()- old_azimuthtime);
+    old_azimuthtime = millis();
+
+    // **ジャイロデータから角度を積分**
+    float gyroYawRate = gyro_event.gyro.z; // 角速度 [°/s]
+    float gyroAzimuth = azimuth + gyroYawRate * dt; // 積分で推定
+
+    // **磁気センサーから絶対方位を取得**
+    float magAzimuth = degrees(atan2(mag_event.magnetic.y, mag_event.magnetic.x));
+    if (magAzimuth < 0) magAzimuth += 360; // 0~360°に調整
+
+    // **相補フィルタを適用**
+    azimuth = alpha * gyroAzimuth + (1 - alpha) * magAzimuth;
+
+    return azimuth;
 }
 
 void Gyro::get_cord() {
     //BNO055から加速度データを取得（単位：m/s^2）
     for (i = 0; i < 2; i++) {
-        float dt = millis() - old_cordtime;
+        float dt = (float)(millis() - old_cordtime);
         dt2 += dt;
         sensors_event_t acccel_event;
         sensors_event_t euler_event;
