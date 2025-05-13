@@ -69,7 +69,7 @@ void Gyro::get_cord() {
 void Gyro::restart() { //瞬間的にモードを変えることで初期化
     bno.setMode(OPERATION_MODE_CONFIG);
     delay(25);
-    bno.setMode(OPERATION_MODE_IMUPLUS);
+    bno.setMode(OPERATION_MODE_AMG);
     delay(25);
 }
 
