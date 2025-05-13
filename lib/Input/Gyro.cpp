@@ -23,10 +23,14 @@ void Gyro::setup() {
     }
 }
 
+int Gyro::get_azimuth() {
+    
+}
+
 void Gyro::get_cord() {
     //BNO055から加速度データを取得（単位：m/s^2）
     for (i = 0; i < 2; i++) {
-        float dt = millis() - old_time;
+        float dt = millis() - old_cordtime;
         dt2 += dt;
         sensors_event_t acccel_event;
         bno.getEvent(&accel_event, Adafruit_BNO055::VECTOR_LINEARACCELEROMETER);
@@ -54,6 +58,7 @@ void Gyro::get_cord() {
         old_accel_y = highpassvalue_y;
         old_speed_x = speed_x;
         old_speed_y = speed_y;
+        old_cordtime = millis()
     }
     states[0] += speed_x / 2 * dt2;
     states[1] += speed_y / 2 * dt2;
