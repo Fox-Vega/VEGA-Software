@@ -33,8 +33,13 @@ void Gyro::get_cord() {
         float dt = millis() - old_cordtime;
         dt2 += dt;
         sensors_event_t acccel_event;
+        sensors_event_t euler_event;
         bno.getEvent(&accel_event, Adafruit_BNO055::VECTOR_LINEARACCELEROMETER);
         float a[3] = {accel_event.acceleration.x, accel_event.acceleration.y, accel_event.acceleration.z };
+        
+        bno.getEvent(&euler_event, Adafruit_BNO055::VECTOR_EULER);
+        float yaw_rad = radians(euler_event.orientation.x + yawtweak); // Yawをラジアンに変換
+        
         for (int i = 0; i < 3; i++) {
             a[i] -= accel_bias[i]; //バイアスを補正
         } 
@@ -62,6 +67,9 @@ void Gyro::get_cord() {
     }
     states[0] += speed_x / 2 * dt2;
     states[1] += speed_y / 2 * dt2;
+    float world_x = states[0] * cos(-yaw_rad) - states[1] * sin(-yaw_rad);
+    float world_y = states[0] * sin(-yaw_rad) - states[1] * cos(-yaw_rad);
+
     speed_x = 0;
     speed_y = 0;
         
@@ -87,9 +95,9 @@ void Gyro::restart() { //瞬間的にモードを変えることで初期化
 }
 
 int Gyro::get_x() {
-    return states[0];
+    return world_x;
 }
 
 int Gyro::get_y() {
-    return states[1];
+    return world_y;
 }
