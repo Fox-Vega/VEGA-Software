@@ -70,7 +70,15 @@ void Gyro::restart() { //瞬間的にモードを変えることで初期化
     bno.setMode(OPERATION_MODE_CONFIG);
     delay(25);
     bno.setMode(OPERATION_MODE_AMG);
-    delay(25);
+    delay(1000);
+    while (millis() < 5000) {
+        sensors_event_t event;
+        bno.getEvent(&event, Adafruit_BNO055::VECTOR_LINEARACCELEROMETER);  
+        float a[3] = { event.acceleration.x, event.acceleration.y, event.acceleration.z };
+        for (int i = 0; i < 3; i++) {
+            accel_bias[i] = (accel_bias[i] + a[i]) * 0.5; //平均値を計算
+        }
+    }
 }
 
 int Gyro::get_x() {
