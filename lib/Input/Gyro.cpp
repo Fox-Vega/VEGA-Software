@@ -4,18 +4,19 @@
 #include <math.h>
 
 void Gyro::setup() {
+    Wire.begin();
     if (!bno.begin()) {
         Serial.println("BNO055 not detected.");
         while (1);  //センサー未検出時は停止
     }
     bno.setExtCrystalUse(true);
-    bno.setMode(OPERATION_MODE_IMUPLUS);
+    bno.setMode(OPERATION_MODE_AMG);
     delay(1000);
     azimuth = 0;
-    sensors_event_t event;
-    bno.getEvent(&event, Adafruit_BNO055::VECTOR_ACCELEROMETER);
-    float a[3] = { event.acceleration.x, event.acceleration.y, event.acceleration.z };
     while (millis() < 5000) {
+        sensors_event_t event;
+        bno.getEvent(&event, Adafruit_BNO055::VECTOR_LINEARACCELEROMETER);  
+        float a[3] = { event.acceleration.x, event.acceleration.y, event.acceleration.z };
         for (int i = 0; i < 3; i++) {
             accel_bias[i] = (accel_bias[i] + a[i]) * 0.5; //平均値を計算
         }
@@ -24,48 +25,41 @@ void Gyro::setup() {
 
 void Gyro::get_cord() {
     //BNO055から加速度データを取得（単位：m/s^2）
-    unsigned long delaytime = millis() - lastupdate;
-    if (delaytime> (dt * 1000)) {
-        sensors_event_t event;
-        bno.getEvent(&event, Adafruit_BNO055::VECTOR_ACCELEROMETER);
-        float a[3] = { event.acceleration.x, event.acceleration.y, event.acceleration.z };
+    for (i = 0; i < 2; i++) {
+        float dt = millis() - old_time;
+        dt2 += dt;
+        sensors_event_t acccel_event;
+        bno.getEvent(&accel_event, Adafruit_BNO055::VECTOR_LINEARACCELEROMETER);
+        float a[3] = {accel_event.acceleration.x, accel_event.acceleration.y, accel_event.acceleration.z };
         for (int i = 0; i < 3; i++) {
             a[i] -= accel_bias[i]; //バイアスを補正
         } 
         for (int i = 0; i < 3; i++) {
-            if (a[i] < 0.1) {
+            if (a[i] < accel_noise) {
                 a[i] = 0;
             }
         } 
 
-        const float shock_threshold = 15.0;
-        if (vector_norm(a) > shock_threshold) {
+        if (a[0] > border || a[1] > collision_border) {
             a[0] = a[1] = a[2] = 0.0;
         }
-
-        for (int i = 3; i < 6; i++) {
-            if (states[i] < 0.2) {
-                states[i] = 0;
-            }
-        }
-        //状態予測：位置と速度を積分
-        for (int i = 0; i < 3; i++) {
-            states[i] += states[i + 3] * dt;  //位置更新
-            states[i + 3] += a[i] * dt;      //速度更新
-        }
-
-        //簡易補正（定数ゲイン補正）
-        const float gain = 0.0909;
-        for (int i = 0; i < 3; i++) {
-            states[i] += gain * (a[i] * dt);  //位置補正
-            states[i + 3] += gain * (a[i] * dt);  //速度補正
-        }
-
-        //出力の単位変換（m → cm）
-        for (int i = 0; i < 3; i++) {
-            pos[i] = (int)(states[i] * 100.0);
-        }
+        lowpassvalue_x = lowpassvalue_x * filterCoefficient + a[0] * (1 - filterCoefficient);
+        lowpassvalue_y = lowpassvalue_y * filterCoefficient + a[1] * (1 - filterCoefficient);
+        highpassvalue_x = a[0] - lowpassvalue_x;
+        highpassvalue_y = a[1] - lowpassvalue_y;
+        
+        speed_x += ((highpassvalue_x + old_accel_x) * dt) / 2 + speed_x;
+        speed_y += ((highpassvalue_y + old_accel_y) * dt) / 2 + speed_y;
+        old_accel_x = highpassvalue_x;
+        old_accel_y = highpassvalue_y;
+        old_speed_x = speed_x;
+        old_speed_y = speed_y;
     }
+    states[0] += speed_x / 2 * dt2;
+    states[1] += speed_y / 2 * dt2;
+    speed_x = 0;
+    speed_y = 0;
+        
     Serial.print(">PosX:");
     Serial.println(states[0]);
     Serial.print(">PosY:");
