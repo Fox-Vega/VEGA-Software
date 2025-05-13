@@ -1,8 +1,9 @@
 #pragma once
 
 #include <Arduino.h> 
-#include <SPI.h>
 #include <Wire.h>
+
+
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
@@ -24,10 +25,30 @@ class Gyro {
 
     private:
         //調整用
-        const float shock_threshold = 15.0; //衝撃判定
         const float dt = 0.1;
+        const float accel_noise = 0.1f;
+        const float collision_border = 15.0f;
+        const float alpha = 0.98;
+        const float filterCoefficient = 0.98; //高くするとジャイロの優先度も高くなる（高速な動きに強い）
         
         int azimuth;
+        int world_x;
+        int world_y;
+        int yawtweak;
+        float dt2;
+        float yaw_rad;
+        float speed_x;
+        float speed_y;
+        float old_speed_x;
+        float old_speed_y;
+        float old_accel_x;
+        float old_accel_y;
+        float old_cordtime;
+        float old_azimuthtime;
+        float lowpassvalue_x;
+        float lowpassvalue_y;
+        float highpassvalue_x;
+        float highpassvalue_y;
         float accel_bias[3] = {0.0, 0.0, 0.0};
         unsigned long lastupdate;
         Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);

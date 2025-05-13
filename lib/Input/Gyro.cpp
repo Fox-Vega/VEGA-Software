@@ -1,7 +1,6 @@
 #include <Input.h>
 #include <AIP.h>
 #include <Gyro.h>
-#include <math.h>
 
 void Gyro::setup() {
     Wire.begin();
@@ -15,7 +14,7 @@ void Gyro::setup() {
     azimuth = 0;
     while (millis() < 5000) {
         sensors_event_t event;
-        bno.getEvent(&event, Adafruit_BNO055::VECTOR_LINEARACCELEROMETER);  
+        bno.getEvent(&event, Adafruit_BNO055::VECTOR_LINEARACCEL);  
         float a[3] = { event.acceleration.x, event.acceleration.y, event.acceleration.z };
         for (int i = 0; i < 3; i++) {
             accel_bias[i] = (accel_bias[i] + a[i]) * 0.5; //平均値を計算
@@ -42,55 +41,67 @@ int Gyro::get_azimuth() {
     // **相補フィルタを適用**
     azimuth = alpha * gyroAzimuth + (1 - alpha) * magAzimuth;
 
-    return azimuth;
+    return (int)azimuth;
 }
 
 void Gyro::get_cord() {
-    //BNO055から加速度データを取得（単位：m/s^2）
-    for (i = 0; i < 2; i++) {
-        float dt = (float)(millis() - old_cordtime);
+    // BNO055から加速度データを取得（単位：m/s^2）
+    for (int i = 0; i < 2; i++) {
+        float dt = (millis() - old_cordtime) / 1000.0; // 秒単位に変換
         dt2 += dt;
-        sensors_event_t acccel_event;
+        
+        sensors_event_t event;
         sensors_event_t euler_event;
-        bno.getEvent(&accel_event, Adafruit_BNO055::VECTOR_LINEARACCELEROMETER);
-        float a[3] = {accel_event.acceleration.x, accel_event.acceleration.y, accel_event.acceleration.z };
         
+        bno.getEvent(&event, Adafruit_BNO055::VECTOR_LINEARACCEL);
+        float a[3] = {event.acceleration.x, event.acceleration.y, event.acceleration.z };
+
         bno.getEvent(&euler_event, Adafruit_BNO055::VECTOR_EULER);
-        float yaw_rad = radians(euler_event.orientation.x + yawtweak); // Yawをラジアンに変換
-        
+        yaw_rad = radians(euler_event.orientation.x + yawtweak); // Yawをラジアンに変換
+
+        // バイアス補正
         for (int i = 0; i < 3; i++) {
-            a[i] -= accel_bias[i]; //バイアスを補正
-        } 
+            a[i] -= accel_bias[i];
+        }
+
+        // ノイズフィルタリング
         for (int i = 0; i < 3; i++) {
-            if (a[i] < accel_noise) {
+            if (fabs(a[i]) < accel_noise) { // 絶対値で判定
                 a[i] = 0;
             }
-        } 
+        }
 
-        if (a[0] > collision_border || a[1] > collision_border) {
+        // 衝突時の加速度を無効化
+        if (fabs(a[0]) > collision_border || fabs(a[1]) > collision_border) {
             a[0] = a[1] = a[2] = 0.0;
         }
+
+        // フィルター適用
         lowpassvalue_x = lowpassvalue_x * filterCoefficient + a[0] * (1 - filterCoefficient);
         lowpassvalue_y = lowpassvalue_y * filterCoefficient + a[1] * (1 - filterCoefficient);
         highpassvalue_x = a[0] - lowpassvalue_x;
         highpassvalue_y = a[1] - lowpassvalue_y;
-        
-        speed_x += ((highpassvalue_x + old_accel_x) * dt) / 2 + speed_x;
-        speed_y += ((highpassvalue_y + old_accel_y) * dt) / 2 + speed_y;
+
+        // 速度計算（修正）
+        speed_x += ((highpassvalue_x + old_accel_x) * dt) / 2;
+        speed_y += ((highpassvalue_y + old_accel_y) * dt) / 2;
         old_accel_x = highpassvalue_x;
         old_accel_y = highpassvalue_y;
-        old_speed_x = speed_x;
-        old_speed_y = speed_y;
-        old_cordtime = millis()
+        
+        old_cordtime = millis();
     }
+
+    // 座標更新（修正）
     states[0] += speed_x / 2 * dt2;
     states[1] += speed_y / 2 * dt2;
-    float world_x = states[0] * cos(-yaw_rad) - states[1] * sin(-yaw_rad);
-    float world_y = states[0] * sin(-yaw_rad) - states[1] * cos(-yaw_rad);
+    world_x = states[0] * cos(-yaw_rad) - states[1] * sin(-yaw_rad);
+    world_y = states[0] * sin(-yaw_rad) + states[1] * cos(-yaw_rad);
 
+    // 速度リセット
     speed_x = 0;
     speed_y = 0;
-        
+
+    // デバッグ出力
     Serial.print(">PosX:");
     Serial.println(states[0]);
     Serial.print(">PosY:");
@@ -104,7 +115,7 @@ void Gyro::restart() { //瞬間的にモードを変えることで初期化
     delay(1000);
     while (millis() < 5000) {
         sensors_event_t event;
-        bno.getEvent(&event, Adafruit_BNO055::VECTOR_LINEARACCELEROMETER);  
+        bno.getEvent(&event, Adafruit_BNO055::VECTOR_LINEARACCEL);  
         float a[3] = { event.acceleration.x, event.acceleration.y, event.acceleration.z };
         for (int i = 0; i < 3; i++) {
             accel_bias[i] = (accel_bias[i] + a[i]) * 0.5; //平均値を計算
@@ -112,6 +123,9 @@ void Gyro::restart() { //瞬間的にモードを変えることで初期化
     }
 }
 
+void Gyro::dir_reset() {
+    yawtweak = gyro.get_azimuth();
+}
 int Gyro::get_x() {
     return world_x;
 }
