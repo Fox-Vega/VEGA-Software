@@ -85,6 +85,6 @@ void MyBUZZER::preset(int BUZZERpresetNUM) {
                     noTone(BUZZER_PIN);
             }
             delay(100);
-            break;       
+            break;
     }
 }

@@ -41,7 +41,7 @@ void BALL::read() {
     }
 }
 
-int BALL::get_value(short ballNUM) { 
+int BALL::get_value(short ballNUM) {
     return ballvalues[ballNUM] * ballvalue_offset;
 }
 

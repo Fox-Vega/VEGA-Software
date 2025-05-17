@@ -26,7 +26,7 @@ void MyMOTOR::run(int movement_azimuth, int power_, int dir_azimuth) {
         azimuth_motor = movement_azimuth - motor_degrees[i]; //オムニの軸がy軸になるようにする
         myvector.get_cord(azimuth_motor, power_ - abs(difixPWM)); //座標計算
         power = myvector.get_x(); //x座標を取得(モーターの回転速度)
-        if (power >= 0) {   
+        if (power >= 0) {
             PoMi = true;
         } else {
             PoMi = false;

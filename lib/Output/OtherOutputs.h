@@ -24,12 +24,12 @@ class MyPIXEL {
         void multis(int PIXELNUMstart, int PIXELNUMend, int red, int green, int blue); //試合前用連続ピクセル点灯
         void closest(int azimuth, int red, int green, int blue); //入力角度に最も近いピクセル点灯
         void clear(); //全消灯
-        
+
     private:
         //調整用
         const bool usePIXEL = true; //ネオピクセルの使用有無
         const int PIXELbrightness = 255; //最大で255
-        
+
         const byte PIXELPIN = 45; // Pin where the NeoPixel ring is connected
         const byte NUMPIXEL = 16; // NUMber of pixels in the strip
         Adafruit_NeoPixel PIXEL = Adafruit_NeoPixel(NUMPIXEL, PIXELPIN, NEO_GRB + NEO_KHZ800);

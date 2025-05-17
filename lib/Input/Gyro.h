@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Arduino.h> 
+#include <Arduino.h>
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -25,7 +25,7 @@ class Gyro {
         //調整用
         const float postweak = 1;//自己位置推定の値調整
         const float collision_border = 15.0;
-        
+
         int heading;
         int offset;
         int roll;
@@ -41,9 +41,9 @@ class Gyro {
         float pos_x = 0.0, pos_y = 0.0;
         float vel_x = 0.0, vel_y = 0.0;
         float theta = 0.0;
-        float accel_x = 0.0, accel_y = 0.0; 
+        float accel_x = 0.0, accel_y = 0.0;
         float gyro_z = 0.0;
-        float process_noise = 0.01; 
+        float process_noise = 0.01;
         float measurement_noise = 0.1;
         float accel_x_rot, accel_y_rot;
         float accelmagnitude;

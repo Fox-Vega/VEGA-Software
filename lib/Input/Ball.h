@@ -14,7 +14,6 @@ class BALL {
     private:
         //調整用
         const int ballvalue_offset = 200;
-        
         int total_x = 0;
         int total_y = 0;
         int ballvalue;
