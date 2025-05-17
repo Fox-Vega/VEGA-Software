@@ -61,8 +61,6 @@ int LINE::get_dist() {
     }
 }
 
-// ...existing code...
-
 int LINE::read(){ //読み取りを24かいを三回繰り返して当たっていたら配列に１足して　２以上でboolをtrue
     int line_value [24]={0};
     int progress = 0;
@@ -166,7 +164,62 @@ int LINE::get_linedeg() {
 int LINE::get_line_dist(int linedeg ,int linedeg2){
     int dist = 0;
     int linedist = 0;
-    int theata=general.calculate_deg('s',linedeg2, linedeg);
+    int theata=line.calculate_deg('s',linedeg2, linedeg);
     linedist=cos(radians(theata))*sensordist;
     return linedist;
+}
+
+int LINE::calculate_deg(char mode, int num1, int num2) {//角度計算
+    int r=999;//リターン（初期値はエラー用）
+    if(mode == 'A')//加算（slow）
+    {//1度ずつ加算してそのたびに360以上になってないか確認
+        for(int i=0;i<num2;i++){
+            if(num1 == 360){
+                num1 = 0;
+            }
+            else{
+                num1++;
+            }
+            r = num1;
+        }
+    }
+    else if(mode == 'a')//加算（fast）
+    {//一気に加算して360以上になってたら360で割った余りを返す（間違ってたら勝手に書いといていいよ）
+        num1 = num1 + num2;
+        if(num1>360){
+            num1 = num1%360;
+        }
+        r = num1;
+    }
+    else if(mode == 's')//減算（slow）
+    {//1度ずつ減算してそのたびに0以下になってないか確認
+        for(int i=0;i<num2;i++){
+            if(num1 == 0){
+                num1 = 360;
+            }
+            else{
+                num1--;
+            }
+            r = num1;
+        }
+    }
+    else if(mode='r')//反転（fast only）
+    {//num1を180度回転　　180にnum1を引いた絶対値を返す
+        r=abs(180 - num1);
+        r = num1;
+    }
+    else if(mode='s')//減算（fast）
+    {//一気に減算して0以下になってたら360で割った余りを返す（間違ってたら勝手に書いといていいよ）
+        num1 = num1 - num2;
+        if(num1<0){
+            num1 = (num1+360)%360;
+        }
+        r = num1;
+    }
+    return r;
+}
+
+int LINE::cal_deg(char mode, int num1, int num2)
+{
+    return calculate_deg(mode, num1, num2);
 }
