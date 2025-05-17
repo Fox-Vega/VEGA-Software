@@ -1,77 +1,57 @@
 #pragma once
-#include <Arduino.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <AIP.h>
 #include <Output.h>
 
+// --- 注意 ---
+// りくさんへ：このファイルは勝手に編集しないでください。
+// 変更が必要な場合は必ず作成者に相談してください。
+
+#define NUMLines 24
+#define sensordist 10
+#define LINEDETECT 5
+
 class LINE {
-    public:
-        //呼び出し可能
-        void setup(); // ピン設定を行うセットアップ関数（制御の初めにやっといてー）
-        int get_azimuth(); // ラインセンサの値を取得する関数＞＞＞呼び出し＜＜＜
-        int read(); // ラインセンサの値を取得する関数>>>呼び出し（boolを返す）<<<　　ex)if(line.read()) 
-        int get_linedeg(); // ラインセンサの角度を取得する関数
-        void add_linedeg(int num,int num2); // ラインセンサの角度を追加する関数
-        void print_pizel();
-    private:
-        #define true 1
-        #define false 0
-        #define NUMLines 24
+public:
+    // 呼び出し関数のみ
+    void setup();
+    int get_azimuth();
+    int get_dist();
 
-        // マルチプレクサのアナログ入力ピン
-        #define readPin1 A13
-        #define readPin2 A11
-        #define readPin3 A9
-
-
-        // マルチプレクサのセレクトピン
+private:
+    // --- ピン定義 ---
+    struct Pins {
+        // セレクトピン
         const int selectA = 22;
         const int selectB = 24;
         const int selectC = 26;
+        // リードピン
+        const int readPin1 = A13;
+        const int readPin2 = A11;
+        const int readPin3 = A9;
+    } pins;
 
-        int Line_deg; // ラインセンサの角度（戻り値用に使用する可能性あり）
-        int Line_dis; // ラインセンサの距離（戻り値用に使用する可能性あり）
+    // バイナリ配列（縦3列）
+    const int BinaryNum[24][3] = {
+        {0,0,0},{0,0,1},{0,1,0},{0,1,1},{1,0,0},{1,0,1},{1,1,0},{1,1,1},
+        {0,0,0},{0,0,1},{0,1,0},{0,1,1},{1,0,0},{1,0,1},{1,1,0},{1,1,1},
+        {0,0,0},{0,0,1},{0,1,0},{0,1,1},{1,0,0},{1,0,1},{1,1,0},{1,1,1}
+    };
 
-        // ラインセンサの角度（センサ番号と角度の対応）
-        const int Line_deg_list_24[24] = {0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345};
+    // センサ角度リスト
+    const int Line_deg_list_24[NUMLines] = {
+        0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165,
+        180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345
+    };
 
-        // ラインセンサの値を格納する2次元配列（センサ番号と値を保持）
-        int Line_memory[24][2] = {
-            {0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 10}, {5, 20}, {6, 30}, {7, 50},
-            {8, 30}, {9, 20}, {10, 10}, {11, 0}, {12, 0}, {13, 0}, {14, 0}, {15, 0},
-            {16, 0}, {17, 0}, {18, 0}, {19, 0}, {20, 0}, {21, 0}, {22, 0}, {23, 0}};
+    // 内部変数
+    int Line_memory[NUMLines][2] = {0};
+    bool line_status[NUMLines] = {0};
+    int line_detect[NUMLines] = {0};
+    int count = 0;
+    int progress = 0;
 
-        // マルチプレクサの設定値（二進数のリスト）
-        int BinaryNum[24][3] = {
-            {0, 0, 0},
-            {0, 0, 1},
-            {0, 1, 0},
-            {0, 1, 1},
-            {1, 0, 0},
-            {1, 0, 1},
-            {1, 1, 0},
-            {1, 1, 1},
-            {0, 0, 0},
-            {0, 0, 1},
-            {0, 1, 0},
-            {0, 1, 1},
-            {1, 0, 0},
-            {1, 0, 1},
-            {1, 1, 0},
-            {1, 1, 1},
-            {0, 0, 0},
-            {0, 0, 1},
-            {0, 1, 0},
-            {0, 1, 1},
-            {1, 0, 0},
-            {1, 0, 1},
-            {1, 1, 0},
-            {1, 1, 1},
-        };
-        bool line_status[NUMLines]; // ラインセンサの状態を保持する配列
-        int line_detect[4];
-        int count = 0; // センサの状態を保存する時の場所の参照
-        int progress=0;// 進捗を保存する変数
+    // 内部処理関数
+    int read();
+    int get_linedeg();
+    int get_line_dist(int deg1, int deg2);
+    void print_pizel();
 };
